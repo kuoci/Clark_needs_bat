@@ -1,0 +1,2092 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>超蝙的温馨日常（？）</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --w:#ffffff;--f:#f8f7f5;--l:#eeebe5;--bd:#e2ddd6;--md:#b8b4ac;
+  --dm:#888480;--dk:#2e2c28;--bk:#1a1816;--go:#a07828;--re:#b83030;
+  --gr:#347850;--sh:rgba(26,24,22,.07);--or:#e8820a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-height:100vh;}
+
+/* ── header ── */
+.hd{position:sticky;top:0;z-index:100;background:var(--w);border-bottom:1px solid var(--bd);height:52px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.hd-title{font-family:'DM Serif Display',serif;font-size:1.05rem;letter-spacing:.02em;white-space:nowrap;}
+.hd-right{display:flex;align-items:center;gap:8px;}
+.aff-chip{display:flex;align-items:center;gap:6px;background:var(--f);border:1px solid var(--bd);border-radius:99px;padding:4px 10px;font-size:.7rem;color:var(--dm);}
+.aff-track{width:46px;height:2px;background:var(--bd);border-radius:2px;overflow:hidden;}
+.aff-fill{height:100%;background:var(--bk);border-radius:2px;transition:width .5s ease;}
+.aff-n{font-weight:500;color:var(--bk);min-width:22px;text-align:right;font-size:.7rem;}
+.money-chip{display:flex;align-items:center;gap:4px;background:var(--f);border:1px solid var(--bd);border-radius:99px;padding:4px 10px;font-size:.7rem;font-weight:500;color:var(--go);}
+
+/* ── nav ── */
+.nav{background:var(--w);border-bottom:1px solid var(--bd);display:flex;overflow-x:auto;scrollbar-width:none;padding:0 16px;}
+.nav::-webkit-scrollbar{display:none;}
+.nt{padding:12px 14px;font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--dm);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:all .18s;user-select:none;}
+.nt:hover{color:var(--dk);}
+.nt.on{color:var(--bk);border-bottom-color:var(--bk);}
+
+/* ── pages ── */
+.pg{display:none;padding:20px 16px;max-width:620px;margin:0 auto;}
+.pg.on{display:block;}
+#p-cook{display:none;max-width:620px;margin:0 auto;}
+#p-cook.on{display:block;}
+.sl{font-size:.63rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--dm);margin-bottom:11px;}
+
+/* ── recipe grid ── */
+.rg{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px;}
+@media(min-width:460px){.rg{grid-template-columns:repeat(3,1fr);}}
+.rc{background:var(--w);border:1px solid var(--bd);border-radius:2px;padding:13px 11px;cursor:pointer;transition:all .18s;}
+.rc:hover{border-color:var(--dk);box-shadow:0 3px 14px var(--sh);transform:translateY(-1px);}
+.rc-ic{font-size:1.4rem;margin-bottom:6px;}
+.rc-nm{font-size:.78rem;font-weight:500;line-height:1.3;margin-bottom:2px;}
+.rc-mt{font-size:.6rem;color:var(--dm);line-height:1.5;}
+.rc-tg{display:inline-block;font-size:.53rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--bd);color:var(--dm);padding:2px 5px;margin-top:4px;}
+
+/* ── cooking page ── */
+.ck-hero{background:var(--w);border-bottom:1px solid var(--bd);padding:18px 16px 16px;}
+.ck-back{font-size:.7rem;color:var(--dm);cursor:pointer;letter-spacing:.05em;margin-bottom:12px;display:inline-flex;align-items:center;gap:3px;transition:color .15s;}
+.ck-back:hover{color:var(--bk);}
+.ck-img{width:100%;height:160px;background:var(--l);border:1px dashed var(--md);border-radius:2px;margin-bottom:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:.63rem;color:var(--md);letter-spacing:.1em;}
+.ck-img span {
+  font-size: 1.2rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#ck-hero-ic {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#ck-hero-ic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.ck-nm{font-family:'DM Serif Display',serif;font-size:1.25rem;margin-bottom:2px;}
+.ck-sub{font-size:.68rem;color:var(--dm);margin-bottom:10px;}
+.s-dots{display:flex;gap:4px;flex-wrap:wrap;}
+.sd{width:18px;height:3px;background:var(--bd);border-radius:2px;transition:background .4s;}
+.sd.done{background:var(--gr);} .sd.cur{background:var(--bk);}
+.ck-body{padding:18px 16px;}
+
+/* ── grid game ── */
+.game-info{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.game-label{font-size:.63rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--dm);}
+.game-prog{font-size:.63rem;color:var(--dm);}
+.game-desc{font-size:.8rem;font-weight:300;color:var(--dk);line-height:1.7;margin-bottom:14px;padding:9px 12px;background:var(--l);border-left:2px solid var(--md);}
+.timer-wrap{height:3px;background:var(--bd);border-radius:2px;margin-bottom:14px;overflow:hidden;}
+.timer-bar{height:100%;background:var(--go);border-radius:2px;transition:width linear;}
+.timer-bar.danger{background:var(--re);}
+.grid-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:14px;}
+.cell{aspect-ratio:1;background:var(--w);border:1px solid var(--bd);border-radius:4px;cursor:pointer;transition:background .1s,border-color .1s,transform .1s;user-select:none;}
+.cell:active{transform:scale(.92);}
+.cell.lit{background:#fff3e0;border-color:var(--or);box-shadow:0 0 0 2px rgba(232,130,10,.2);animation:glow .2s ease;}
+@keyframes glow{0%{transform:scale(1)}50%{transform:scale(1.07)}100%{transform:scale(1)}}
+.cell.hit{background:rgba(52,120,80,.1);border-color:var(--gr);}
+.cell.miss{background:rgba(184,48,48,.07);border-color:var(--re);animation:shk .25s ease;}
+@keyframes shk{0%,100%{transform:translateX(0)}30%{transform:translateX(-4px)}70%{transform:translateX(4px)}}
+.cell.locked{pointer-events:none;}
+.round-msg{min-height:20px;font-size:.7rem;text-align:center;color:var(--dm);margin-bottom:4px;letter-spacing:.05em;}
+.round-msg.ok{color:var(--gr);} .round-msg.ng{color:var(--re);font-weight:500;}
+
+/* ── done panel ── */
+.done-panel{display:none;padding:28px 16px;text-align:center;}
+.done-panel.on{display:block;}
+.done-ic{font-size:2.6rem;margin-bottom:9px;animation:pop .45s cubic-bezier(.4,0,.2,1);}
+@keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.done-nm{font-family:'DM Serif Display',serif;font-size:1.35rem;margin-bottom:3px;}
+.done-mt{font-size:.68rem;color:var(--dm);margin-bottom:7px;letter-spacing:.08em;}
+.done-ds{font-size:.78rem;color:var(--dm);line-height:1.8;font-weight:300;margin-bottom:20px;max-width:300px;margin-left:auto;margin-right:auto;}
+.btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.btn{font-family:'DM Sans',sans-serif;font-size:.73rem;font-weight:500;letter-spacing:.08em;padding:9px 18px;border-radius:2px;cursor:pointer;transition:all .17s;}
+.btn-o{background:transparent;border:1px solid var(--bd);color:var(--dk);}
+.btn-o:hover{border-color:var(--bk);color:var(--bk);}
+.btn-s{background:var(--bk);border:1px solid var(--bk);color:var(--w);}
+.btn-s:hover{background:var(--dk);}
+
+/* ── inventory grid ── */
+.ig{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+@media(min-width:460px){.ig{grid-template-columns:repeat(5,1fr);}}
+.is{aspect-ratio:1;background:var(--w);border:1px solid var(--bd);border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative;transition:all .17s;}
+.is.emp{background:var(--l);border-style:dashed;}
+.is.itm{cursor:pointer;}
+.is.itm:hover{border-color:var(--bk);box-shadow:0 2px 10px var(--sh);}
+.is.exp-item{border-color:rgba(184,48,48,.25);}
+.i-ic{font-size:1.25rem;}
+.i-nm{font-size:.5rem;font-weight:500;color:var(--dm);text-align:center;padding:0 3px;line-height:1.3;}
+.eb{position:absolute;bottom:3px;right:3px;font-size:.46rem;font-weight:500;letter-spacing:.04em;padding:1px 3px;border-radius:2px;}
+.eb.fr{background:rgba(52,120,80,.1);color:var(--gr);}
+.eb.so{background:rgba(160,120,40,.1);color:var(--go);}
+.eb.ex{background:rgba(184,48,48,.1);color:var(--re);}
+.exp-mask{position:absolute;inset:0;background:rgba(248,247,245,.72);display:flex;align-items:center;justify-content:center;font-size:.52rem;font-weight:500;color:var(--re);letter-spacing:.08em;border-radius:2px;}
+.inv-note{font-size:.68rem;color:var(--dm);line-height:1.8;padding:10px 12px;background:var(--w);border:1px solid var(--bd);border-radius:2px;}
+
+/* ── item popup modal ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(26,24,22,.45);z-index:200;align-items:flex-end;justify-content:center;}
+.modal-bg.on{display:flex;}
+.modal{background:var(--w);border-radius:8px 8px 0 0;padding:20px 16px 32px;width:100%;max-width:480px;animation:slideUp .22s ease;}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-item-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--bd);}
+.modal-ic{font-size:2rem;}
+.modal-item-name{font-weight:500;font-size:.9rem;margin-bottom:3px;}
+.modal-item-meta{font-size:.68rem;color:var(--dm);}
+.modal-actions{display:flex;flex-direction:column;gap:8px;}
+.modal-btn{background:var(--f);border:1px solid var(--bd);border-radius:2px;padding:12px 16px;font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--dk);text-align:left;cursor:pointer;transition:all .17s;display:flex;align-items:center;justify-content:space-between;}
+.modal-btn:hover{border-color:var(--bk);background:var(--w);}
+.modal-btn .modal-btn-hint{font-size:.65rem;color:var(--dm);}
+.modal-btn.danger{color:var(--re);}
+.modal-btn.danger:hover{border-color:var(--re);background:rgba(184,48,48,.04);}
+.modal-cancel{margin-top:10px;width:100%;padding:10px;font-family:'DM Sans',sans-serif;font-size:.75rem;color:var(--dm);background:transparent;border:none;cursor:pointer;letter-spacing:.1em;}
+
+/* ── story page ── */
+.st-card{background:var(--w);border:1px solid var(--bd);border-radius:2px;overflow:hidden;margin-bottom:16px;}
+.st-img{width:100%;height:150px;background:var(--l);border-bottom:1px dashed var(--md);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:.63rem;color:var(--md);letter-spacing:.1em;}
+.st-img span{font-size:1.7rem;}
+.st-info{padding:13px 16px 16px;}
+.pool-tag{display:inline-block;font-size:.56rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;padding:2px 6px;border:1px solid var(--bd);color:var(--dm);border-radius:2px;margin-bottom:7px;}
+.pool-tag.p1{border-color:rgba(160,120,40,.3);color:var(--go);background:rgba(160,120,40,.04);}
+.pool-tag.p2{border-color:rgba(46,44,40,.25);color:var(--dk);background:rgba(46,44,40,.04);}
+.pool-tag.p3{border-color:var(--bk);color:var(--bk);background:rgba(26,24,22,.05);}
+.st-title{font-family:'DM Serif Display',serif;font-size:1.15rem;margin-bottom:4px;line-height:1.3;}
+.st-desc{font-size:.73rem;color:var(--dm);line-height:1.8;font-weight:300;}
+.dlg-box{display:none;background:var(--w);border:1px solid var(--bd);border-radius:2px;padding:16px 18px;margin-bottom:12px;}
+.dlg-box.on{display:block;}
+.dlg-spk{font-size:.63rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--dm);margin-bottom:6px;}
+.dlg-txt{font-size:.86rem;line-height:1.9;font-weight:300;color:var(--dk);min-height:48px;}
+.dlg-cur{display:inline-block;width:2px;height:.85em;background:var(--bk);margin-left:1px;vertical-align:middle;animation:bl .7s step-end infinite;}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:0}}
+.choices{display:flex;flex-direction:column;gap:7px;margin-bottom:12px;}
+.ch{background:var(--w);border:1px solid var(--bd);border-radius:2px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:300;color:var(--dk);text-align:left;cursor:pointer;transition:all .17s;}
+.ch:hover{border-color:var(--bk);background:var(--f);}
+.pool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:16px;}
+.pg-card{background:var(--w);border:1px solid var(--bd);border-radius:2px;padding:12px;}
+.pg-range{font-size:.62rem;font-weight:500;letter-spacing:.1em;color:var(--dm);margin-bottom:2px;}
+.pg-name{font-size:.78rem;font-weight:500;color:var(--dk);margin-bottom:2px;}
+.pg-cnt{font-size:.6rem;color:var(--md);}
+
+/* ── explore page ── */
+.explore-hero{background:var(--w);border:1px solid var(--bd);border-radius:2px;padding:32px 16px;text-align:center;margin-bottom:16px;cursor:pointer;transition:all .2s;}
+.explore-hero:hover{border-color:var(--dk);box-shadow:0 4px 16px var(--sh);}
+.explore-icon{font-size:3rem;margin-bottom:10px;}
+.explore-title{font-family:'DM Serif Display',serif;font-size:1.2rem;margin-bottom:5px;}
+.explore-sub{font-size:.72rem;color:var(--dm);line-height:1.7;}
+.explore-cd{font-size:.65rem;color:var(--re);margin-top:6px;font-weight:500;}
+
+.location-card{background:var(--w);border:1px solid var(--bd);border-radius:2px;overflow:hidden;margin-bottom:14px;}
+.location-img{width:100%;height:100px;background:var(--l);border-bottom:1px dashed var(--md);display:flex;align-items:center;justify-content:center;font-size:2.2rem;}
+.location-info{padding:12px 16px;}
+.location-name{font-family:'DM Serif Display',serif;font-size:1.1rem;margin-bottom:3px;}
+.location-desc{font-size:.72rem;color:var(--dm);line-height:1.7;}
+
+/* 事件框 */
+.event-box{background:var(--w);border:1px solid var(--bd);border-radius:2px;padding:14px 16px;margin-bottom:14px;}
+.event-tag{display:inline-block;font-size:.58rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:2px 6px;border-radius:2px;margin-bottom:8px;}
+.event-tag.incident{background:rgba(184,48,48,.08);color:var(--re);border:1px solid rgba(184,48,48,.2);}
+.event-tag.shop{background:rgba(52,120,80,.08);color:var(--gr);border:1px solid rgba(52,120,80,.2);}
+.event-name{font-weight:500;font-size:.88rem;margin-bottom:4px;}
+.event-desc{font-size:.75rem;color:var(--dm);line-height:1.7;font-weight:300;}
+
+/* 商店 */
+.shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px;}
+.shop-item{background:var(--f);border:1px solid var(--bd);border-radius:2px;padding:12px 10px;cursor:pointer;transition:all .17s;}
+.shop-item:hover{border-color:var(--dk);background:var(--w);}
+.shop-item-ic{font-size:1.3rem;margin-bottom:5px;}
+.shop-item-nm{font-size:.75rem;font-weight:500;margin-bottom:2px;}
+.shop-item-price{font-size:.65rem;color:var(--go);font-weight:500;}
+.shop-item-desc{font-size:.6rem;color:var(--dm);margin-top:2px;}
+
+/* 奖励弹窗 */
+.reward-box{background:var(--w);border:1px solid var(--bd);border-radius:2px;padding:20px;text-align:center;margin-bottom:14px;}
+.reward-ic{font-size:2.5rem;margin-bottom:8px;animation:pop .4s ease;}
+.reward-title{font-family:'DM Serif Display',serif;font-size:1.1rem;margin-bottom:4px;}
+.reward-desc{font-size:.75rem;color:var(--dm);line-height:1.7;}
+
+/* ── supermarket ── */
+.mkt-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.mkt-cd{font-size:.62rem;color:var(--re);font-weight:500;}
+.mkt-empty{text-align:center;padding:32px 0;color:var(--md);font-size:.78rem;line-height:1.9;}
+.mkt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:18px;}
+@media(min-width:460px){.mkt-grid{grid-template-columns:repeat(3,1fr);}}
+.mkt-item{background:var(--w);border:1px solid var(--bd);border-radius:2px;padding:12px 10px;cursor:pointer;transition:all .17s;}
+.mkt-item:hover{border-color:var(--dk);box-shadow:0 2px 10px var(--sh);}
+.mkt-item.cant{opacity:.4;cursor:not-allowed;pointer-events:none;}
+.mkt-ic{font-size:1.25rem;margin-bottom:5px;}
+.mkt-nm{font-size:.73rem;font-weight:500;margin-bottom:2px;line-height:1.3;}
+.mkt-price{font-size:.63rem;color:var(--go);font-weight:500;margin-bottom:2px;}
+.mkt-desc{font-size:.57rem;color:var(--dm);line-height:1.4;}
+
+/* ── ingredient grid ── */
+.ingr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+@media(min-width:460px){.ingr-grid{grid-template-columns:repeat(5,1fr);}}
+.ingr-slot{aspect-ratio:1;background:var(--w);border:1px solid var(--bd);border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative;transition:all .17s;}
+.ingr-slot.emp{background:var(--l);border-style:dashed;}
+.ingr-slot.has{cursor:pointer;}
+.ingr-slot.has:hover{border-color:var(--bk);box-shadow:0 2px 8px var(--sh);}
+.ingr-ic{font-size:1.2rem;}
+.ingr-nm{font-size:.46rem;font-weight:500;color:var(--dm);text-align:center;padding:0 2px;line-height:1.3;}
+.ingr-qty{font-size:.5rem;font-weight:700;color:var(--w);background:var(--bk);border-radius:3px;padding:1px 4px;position:absolute;top:3px;right:3px;line-height:1.4;}
+
+/* ── recipe ingredient check ── */
+.rc-ingr{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px;}
+.ri{font-size:.52rem;padding:1px 5px;border-radius:2px;border:1px solid var(--bd);color:var(--dm);}
+.ri.have{border-color:var(--gr);color:var(--gr);background:rgba(52,120,80,.06);}
+.ri.miss{border-color:var(--re);color:var(--re);background:rgba(184,48,48,.06);}
+.rc.locked{opacity:.5;cursor:not-allowed;}
+.rc.locked:hover{transform:none;box-shadow:none;border-color:var(--bd);}
+
+/* ── misc ── */
+.div{height:1px;background:var(--bd);margin:18px 0;}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--bk);color:var(--w);padding:8px 16px;font-size:.72rem;font-weight:500;letter-spacing:.06em;border-radius:99px;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap;z-index:999;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+.empty{text-align:center;padding:32px 0;color:var(--md);font-size:.76rem;line-height:1.8;grid-column:1/-1;}
+
+/* ── 注意事项弹窗 ── */
+#warn-overlay{
+  position:fixed;inset:0;background:rgba(26,24,22,.92);z-index:500;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+.warn-box{
+  background:var(--w);border-radius:4px;padding:28px 24px;
+  width:100%;max-width:420px;
+  animation:slideUp .3s ease;
+}
+.warn-title{
+  font-family:'DM Serif Display',serif;font-size:1.2rem;
+  margin-bottom:4px;
+}
+.warn-sub{font-size:.7rem;color:var(--dm);letter-spacing:.08em;margin-bottom:18px;}
+.warn-list{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}
+.warn-item{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:12px 14px;background:var(--f);border:1px solid var(--bd);border-radius:2px;
+}
+.warn-num{
+  font-size:.7rem;font-weight:700;color:var(--dm);
+  min-width:18px;margin-top:1px;
+}
+.warn-text{font-size:.78rem;line-height:1.7;color:var(--dk);font-weight:300;}
+.warn-btn{
+  width:100%;padding:12px;background:var(--bk);color:var(--w);
+  border:none;border-radius:2px;font-family:'DM Sans',sans-serif;
+  font-size:.8rem;font-weight:500;letter-spacing:.08em;cursor:pointer;
+  transition:background .17s;
+}
+.warn-btn:hover{background:var(--dk);}
+
+/* ── 开场剧情页 ── */
+#intro-screen{
+  position:fixed;inset:0;background:var(--f);z-index:400;
+  display:none;overflow-y:auto;
+}
+.intro-wrap{
+  max-width:520px;margin:0 auto;
+  padding:32px 20px 60px;
+  display:flex;flex-direction:column;min-height:100vh;
+}
+.intro-img{
+  width:100%;height:200px;background:var(--l);
+  border:1px dashed var(--md);border-radius:2px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;font-size:.65rem;color:var(--md);letter-spacing:.1em;
+  margin-bottom:20px;
+}
+.intro-img span{font-size:2.5rem;}
+.intro-chapter{
+  font-size:.62rem;font-weight:500;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--dm);margin-bottom:8px;
+}
+.intro-title{
+  font-family:'DM Serif Display',serif;font-size:1.6rem;
+  margin-bottom:20px;line-height:1.3;
+}
+.intro-dlg{
+  background:var(--w);border:1px solid var(--bd);border-radius:2px;
+  padding:16px 18px;margin-bottom:14px;flex:1;
+}
+.intro-spk{
+  font-size:.63rem;font-weight:500;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--dm);margin-bottom:7px;
+}
+.intro-txt{
+  font-size:.88rem;line-height:1.95;font-weight:300;
+  color:var(--dk);min-height:52px;
+}
+.intro-cur{
+  display:inline-block;width:2px;height:.85em;
+  background:var(--bk);margin-left:1px;vertical-align:middle;
+  animation:bl .7s step-end infinite;
+}
+.intro-choices{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.intro-choice{
+  background:var(--w);border:1px solid var(--bd);border-radius:2px;
+  padding:11px 15px;font-family:'DM Sans',sans-serif;font-size:.8rem;
+  font-weight:300;color:var(--dk);text-align:left;cursor:pointer;transition:all .17s;
+}
+.intro-choice:hover{border-color:var(--bk);background:var(--f);}
+.intro-next{
+  width:100%;padding:11px;background:transparent;
+  border:1px solid var(--bd);border-radius:2px;
+  font-family:'DM Sans',sans-serif;font-size:.75rem;
+  font-weight:500;color:var(--dm);cursor:pointer;
+  letter-spacing:.08em;transition:all .17s;display:none;
+}
+.intro-next:hover{border-color:var(--bk);color:var(--bk);}
+</style>
+</head>
+<body>
+
+<!-- ══ 注意事项弹窗（最先显示）══ -->
+<div id="warn-overlay">
+  <div class="warn-box">
+    <div class="warn-title">在开始或继续之前</div>
+    <div class="warn-sub">请阅读以下注意事项及公告（v5.4)</div>
+    <div class="warn-list">
+      <div class="warn-item">
+        <span class="warn-num">1</span>
+        <span class="warn-text">本游戏含有 NSFW 情节🦇❤️</span>
+      </div>
+      <div class="warn-item">
+        <span class="warn-num">2</span>
+        <span class="warn-text">格子游戏中同时亮起多个方格时，<strong>无法同时点击</strong>，需要依次逐个点击完成。同时游戏中一天为现实一小时。</span>
+        </div>
+      <div class="warn-item">
+        <span class="warn-num">3</span>
+        <span class="warn-text">⚠️<strong>双性预警</strong>⚠️</span>
+      </div>
+    </div>
+    <button class="warn-btn" onclick="dismissWarning()">我已了解，进入游戏</button>
+  </div>
+</div>
+
+<!-- ══ 开场剧情页 ══ -->
+<div id="intro-screen">
+  <div class="intro-wrap">
+    <div class="intro-img">
+      <span>🦸🦇</span>
+      <!-- 📌 替换为开场插图 -->
+      震撼美丽（并非）没有出生的插图
+    </div>
+    <div class="intro-chapter">序章</div>
+    <div class="intro-title" id="intro-title">在此填写章节标题</div>
+    <div class="intro-dlg">
+      <div class="intro-spk" id="intro-spk"></div>
+      <div class="intro-txt">
+        <span id="intro-typed"></span><span class="intro-cur" id="intro-cur" style="display:none"></span>
+      </div>
+    </div>
+    <div class="intro-choices" id="intro-choices"></div>
+    <button class="intro-next" id="intro-next" onclick="introNext()">继续 ▶</button>
+  </div>
+</div>
+
+<!-- header -->
+<div class="hd">
+  <span class="hd-title">Clark needs BAT</span>
+  <div class="hd-right">
+    <div class="money-chip">💵 <span id="money-n">10.00</span></div>
+    <div class="aff-chip">
+      <div class="aff-track"><div class="aff-fill" id="aff-fill" style="width:0%"></div></div>
+      <span class="aff-n" id="aff-n">2</span>
+    </div>
+  </div>
+</div>
+
+<!-- nav -->
+<div class="nav">
+  <div class="nt on"  onclick="tab('kitchen')">厨房</div>
+  <div class="nt"     onclick="tab('inv')">物品栏</div>
+  <div class="nt"     onclick="tab('market')">超市</div>
+  <div class="nt"     onclick="tab('explore')">随便逛逛</div>
+  <div class="nt"     onclick="tab('story')">剧情</div>
+</div>
+
+<!-- 厨房页 -->
+<div class="pg on" id="p-kitchen">
+  <div class="sl">选择菜谱</div>
+  <div class="rg" id="recipe-grid"></div>
+</div>
+
+<!-- 烹饪页 -->
+<div id="p-cook">
+  <div class="ck-hero">
+    <div class="ck-back" onclick="exitCook()">← 返回</div>
+    <div class="ck-img">
+      <span id="ck-hero-ic"></span>
+    </div>
+    <div class="ck-nm" id="ck-nm"></div>
+    <div class="ck-sub" id="ck-sub"></div>
+    <div class="s-dots" id="s-dots"></div>
+  </div>
+  <div class="ck-body">
+    <div id="ck-step-wrap">
+      <div class="game-info">
+        <span class="game-label" id="game-label">准备开始</span>
+        <span class="game-prog" id="game-prog"></span>
+      </div>
+      <div class="game-desc" id="game-desc"></div>
+      <div class="timer-wrap"><div class="timer-bar" id="timer-bar" style="width:100%"></div></div>
+      <div class="grid-wrap" id="grid-wrap"></div>
+      <div class="round-msg" id="round-msg"></div>
+    </div>
+    <div class="done-panel" id="done-panel">
+      <div class="done-ic" id="done-ic"></div>
+      <div class="done-nm" id="done-nm"></div>
+      <div class="done-mt" id="done-mt"></div>
+      <div class="done-ds" id="done-ds"></div>
+      <div class="btns">
+        <button class="btn btn-o" onclick="exitCook()">继续烹饪</button>
+        <button class="btn btn-s" onclick="tab('inv')">查看物品栏</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 物品栏页 -->
+<div class="pg" id="p-inv">
+  <div class="sl">食物</div>
+  <div class="ig" id="inv-food"></div>
+  <div class="sl" style="margin-top:18px">食材</div>
+  <div class="ingr-grid" id="inv-ingr"></div>
+  <div class="sl" style="margin-top:18px">道具</div>
+  <div class="ig" id="inv-item"></div>
+  <div class="inv-note">💡 点击食物/道具可以出售、丢弃或送给蝙蝠侠。点击食材可丢弃。食材无保质期。</div>
+</div>
+
+<!-- 超市页 -->
+<div class="pg" id="p-market">
+  <div class="mkt-header">
+    <span class="sl" style="margin-bottom:0">今日上架</span>
+    <span class="mkt-cd" id="mkt-cd"></span>
+  </div>
+  <div id="mkt-grid-wrap">
+    <div class="mkt-grid" id="mkt-grid"></div>
+  </div>
+  <div class="inv-note">🛒 超市每半天刷新10~20样食材。食材无保质期。</div>
+</div>
+
+<!-- 随便逛逛页 -->
+<div class="pg" id="p-explore">
+  <div id="explore-idle">
+    <div class="explore-hero" onclick="goExplore()">
+      <div class="explore-icon">🚶</div>
+      <div class="explore-title">出去走走</div>
+      <div class="explore-sub">每天可以出门一次<br>也许会遇到什么，也许什么都没有</div>
+      <div class="explore-cd" id="explore-cd"></div>
+    </div>
+  </div>
+  <div id="explore-active" style="display:none">
+    <!-- 地点卡片 -->
+    <div class="location-card" id="loc-card">
+      <div class="location-img" id="loc-img"></div>
+      <div class="location-info">
+        <div class="location-name" id="loc-name"></div>
+        <div class="location-desc" id="loc-desc"></div>
+      </div>
+    </div>
+    <!-- 事件或商店区域 -->
+    <div id="explore-content"></div>
+    <!-- 格子游戏（事件用） -->
+    <div id="event-grid-area" style="display:none">
+      <button class="btn btn-s" id="ev-start-btn" onclick="beginEvent()" style="width:100%;margin-bottom:14px;display:none">开始处理</button>
+      <div class="game-info">
+        <span class="game-label" id="ev-label">处理中</span>
+        <span class="game-prog" id="ev-prog"></span>
+      </div>
+      <div class="game-desc" id="ev-desc"></div>
+      <div class="timer-wrap"><div class="timer-bar" id="ev-timer" style="width:100%"></div></div>
+      <div class="grid-wrap" id="ev-grid"></div>
+      <div class="round-msg" id="ev-msg"></div>
+    </div>
+    <!-- 奖励展示 -->
+    <div id="reward-area" style="display:none">
+      <div class="reward-box">
+        <div class="reward-ic" id="reward-ic"></div>
+        <div class="reward-title" id="reward-title"></div>
+        <div class="reward-desc" id="reward-desc"></div>
+      </div>
+      <button class="btn btn-s" onclick="finishExplore()" style="width:100%">收下，回家</button>
+    </div>
+    <div id="shop-area" style="display:none">
+      <div class="shop-grid" id="shop-grid"></div>
+      <button class="btn btn-o" onclick="finishExplore()" style="width:100%;margin-top:12px">离开商店</button>
+    </div>
+  </div>
+</div>
+
+<!-- 剧情页 -->
+<div class="pg" id="p-story">
+  <div class="st-card">
+    <div class="st-img"><span>🦇</span>在此替换章节封面图</div>
+    <div class="st-info">
+      <div class="pool-tag" id="pool-tag">—</div>
+      <div class="st-title" id="st-title">按下「开始剧情」</div>
+      <div class="st-desc" id="st-desc">第一次开始将载入初见章节，之后根据好感度随机抽取。</div>
+    </div>
+  </div>
+  <div class="dlg-box" id="dlg-box">
+    <div class="dlg-spk" id="dlg-spk"></div>
+    <div class="dlg-txt"><span id="dlg-typed"></span><span class="dlg-cur" id="dlg-cur" style="display:none"></span></div>
+  </div>
+  <div class="choices" id="choices"></div>
+  <button class="btn btn-s" id="btn-start" onclick="startStory()" style="width:100%">开始剧情</button>
+  <button class="btn btn-o" id="btn-next"  onclick="nextScene()"  style="width:100%;margin-top:8px;display:none">继续 ▶</button>
+  <div class="div"></div>
+  <div class="sl">剧情池</div>
+  <div class="pool-grid" id="pool-grid"></div>
+</div>
+
+<!-- 物品操作弹窗 -->
+<div class="modal-bg" id="item-modal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-item-row">
+      <div class="modal-ic" id="modal-ic"></div>
+      <div>
+        <div class="modal-item-name" id="modal-nm"></div>
+        <div class="modal-item-meta" id="modal-meta"></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn" id="modal-sell" onclick="modalAction('sell')">
+        <span>💵 出售</span>
+        <span class="modal-btn-hint" id="modal-sell-hint"></span>
+      </button>
+      <button class="modal-btn danger" onclick="modalAction('discard')">
+        <span>🗑️ 丢弃</span>
+        <span class="modal-btn-hint">不获得任何收入</span>
+      </button>
+      <button class="modal-btn" onclick="modalAction('gift')">
+        <span>🦇 送给蝙蝠侠</span>
+        <span class="modal-btn-hint" id="modal-gift-hint"></span>
+      </button>
+    </div>
+    <button class="modal-cancel" onclick="closeModalDirect()">取消</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ╔═══════════════════════════════════════════════════╗
+// ║              ★ 数据区 ★                           ║
+// ╚═══════════════════════════════════════════════════╝
+//这块儿为啥在手机上是这个鬼样子，笑死了。
+// ─── 菜谱 ─────────────────────────────────────────────
+// rounds       : 总轮数
+// litPerRound  : 每轮亮几个（数字 或 [min,max]）
+// timeMs       : 反应时间毫秒（1000 = 1秒）
+// sellPrice    : 出售基础价格（美元，浮点数）
+// steps        : 步骤描述数组（按轮次比例显示）
+//在这里增加更多注释！！！好像一个记忆缺失患者。
+const RECIPES = [
+{
+  id:"apple_pie", name:"堪萨斯苹果派", nameEn:"Kansas Apple Pie",
+  icon:"🥧",img:"https://raw.githubusercontent.com/kuoci/-/refs/heads/main/IMG_20260513_201144.png", tag:"堪萨斯风味", expiry:3, difficulty:"★★☆",
+  desc:"玛莎的秘方，金黄酥皮包裹着香甜的苹果馅，克拉克的拿手甜品。",
+  rounds:12, litPerRound:[1,2], timeMs:1000, sellPrice:14.50,
+  steps:["制作派皮面团","冷藏松弛","苹果切片拌糖","调制肉桂香料","铺馅料","编织派皮","刷蛋液","入炉烘烤"],
+  ingredients: [
+    { id:"apple", qty:3 },
+    { id:"flour", qty:1 },
+    { id:"butter", qty:0.5 },
+    { id:"brown_sugar", qty:1 },
+    { id:"cinnamon", qty:0.2 },
+    { id:"nutmeg", qty:0.1 },
+    { id:"lemon", qty:0.5 },
+    { id:"egg", qty:1 }
+  ]
+},
+{
+  id:"potroast", name:"堪萨斯炖牛肉", nameEn:"Kansas Pot Roast",
+  icon:"🍲", tag:"堪萨斯风味", expiry:3, difficulty:"★★★",
+  desc:"慢炖数小时的牛肉软烂入味，配以胡萝卜和土豆，让人满足。",
+  rounds:15, litPerRound:[2,2], timeMs:1000, sellPrice:22.00,
+  steps:["牛肉抹盐胡椒","热锅煎至上色","洋葱胡萝卜爆香","加入红酒和牛肉高汤","小火慢炖","加土豆块收汁"],
+  ingredients: [
+    { id:"steak_cut", qty:1 },
+    { id:"onion", qty:1 },
+    { id:"carrot", qty:2 },
+    { id:"potato", qty:2 },
+    { id:"red_wine", qty:0.5 },
+    { id:"beef_stock", qty:1 },
+    { id:"olive_oil", qty:0.2 },
+    { id:"canned_tomato", qty:0.5 }
+  ]
+},
+{
+  id:"green_bean_casserole", name:"青豆砂锅", nameEn:"Green Bean Casserole",
+  icon:"🥘", tag:"堪萨斯风味", expiry:2, difficulty:"★☆☆",
+  desc:"感恩节餐桌上的常客，奶油蘑菇汤包裹青豆，顶层铺满酥脆炸洋葱。",
+  rounds:8, litPerRound:1, timeMs:1000, sellPrice:11.00,
+  steps:["混合青豆和蘑菇浓汤","加入牛奶调味","铺上炸洋葱碎","入烤箱烤至金黄"],
+  ingredients: [
+    { id:"green_bean", qty:1 },
+    { id:"cream_of_mushroom", qty:1 },
+    { id:"french_fried_onion", qty:0.5 },
+    { id:"milk", qty:0.5 }
+  ]
+},
+{
+  id:"cornbread", name:"堪萨斯玉米面包", nameEn:"Kansas Cornbread",
+  icon:"🍞", tag:"堪萨斯风味", expiry:2, difficulty:"★☆☆",
+  desc:"金黄的玉米面包，克拉克小时候经常吃。",
+  rounds:9, litPerRound:1, timeMs:800, sellPrice:8.50,
+  steps:["混合干粉材料","加入牛奶和鸡蛋","融化黄油拌入","倒入模具","烤箱烘烤"],
+  ingredients: [
+    { id:"corn", qty:1 },
+    { id:"flour", qty:0.5 },
+    { id:"milk", qty:0.5 },
+    { id:"egg", qty:1 },
+    { id:"butter", qty:0.3 },
+    { id:"sugar", qty:0.2 }
+  ]
+},
+{
+  id:"smores_pie", name:"篝火棉花糖派", nameEn:"S'mores Pie",
+  icon:"🍫☁️", tag:"堪萨斯风味", expiry:2, difficulty:"★★☆",
+  desc:"异常甜蜜的热量炸弹，氪星人喜欢，但不知道为什么蝙蝠不吃。",
+  rounds:11, litPerRound:[1,2], timeMs:1000, sellPrice:13.00,
+  steps:["制作全麦饼干底","融化巧克力甘纳许","倒入派皮冷却","铺上棉花糖","喷枪烤至焦糖色"],
+  ingredients: [
+    { id:"graham_cracker", qty:1 },
+    { id:"butter", qty:0.3 },
+    { id:"chocolate", qty:1 },
+    { id:"marshmallow", qty:0.5 },
+    { id:"sugar", qty:0.1 },
+    { id:"egg", qty:0.5 }
+  ]
+},
+{
+  id:"bolognese", name:"意大利肉酱面", nameEn:"Spaghetti Bolognese",
+  icon:"🍝", tag:"意式", expiry:2, difficulty:"★★★",
+  desc:"浓郁番茄肉酱，搭配弹牙意面。",
+  rounds:14, litPerRound:[1,2], timeMs:1000, sellPrice:18.00,
+  steps:["备料切菜","炒香三宝","下牛肉末","加红酒提香","加番茄炖煮","收汁装盘"],
+  ingredients: [
+    { id:"pasta", qty:1 },           // 1份意面 (500g)
+    { id:"beef_mince", qty:1 },      // 1份牛肉馅 (250g)
+    { id:"onion", qty:0.5 },         // 半个洋葱
+    { id:"carrot", qty:1 },          // 1根胡萝卜
+    { id:"celery", qty:0.5 },        // 半把芹菜
+    { id:"canned_tomato", qty:1 },   // 1罐番茄罐头
+    { id:"red_wine", qty:0.3 },      // 0.3份红酒 (60ml)
+    { id:"olive_oil", qty:0.2 },     // 0.2份橄榄油 (50ml)
+    { id:"salt", qty:0.1 },          // 少许盐
+    { id:"black_pepper", qty:0.1 }   // 少许黑胡椒
+  ]
+},
+{
+  id:"tiramisu", name:"提拉米苏", nameEn:"Tiramisù",
+  icon:"🍮", tag:"甜点", expiry:3, difficulty:"★★☆",
+  desc:"家喻户晓的美味甜品。",
+  rounds:8, litPerRound:1, timeMs:1000, sellPrice:12.00,
+  steps:["煮咖啡放凉","打发蛋黄","拌马斯卡彭","折鲜奶油","浸泡饼干","叠层冷藏"],
+  ingredients: [
+    { id:"mascarpone", qty:1 },      // 1份马斯卡彭 (250g)
+    { id:"egg", qty:2 },             // 2个鸡蛋
+    { id:"heavy_cream", qty:0.5 },   // 半份淡奶油 (100ml)
+    { id:"ladyfinger", qty:1 },      // 1份手指饼干 (6根)
+    { id:"coffee_powder", qty:0.5 }, // 半份咖啡粉 (50g)
+    { id:"coffee_liqueur", qty:0.5 },// 半份咖啡酒 (25ml)
+    { id:"cocoa", qty:0.2 },         // 0.2份可可粉 (20g)
+    { id:"sugar", qty:0.3 }          // 0.3份白糖 (150g)
+  ]
+},
+  // 继续添加菜谱，goodgood(千万记得苹果派。)
+];
+
+// ─── 道具库 ───────────────────────────────────────────
+const ITEM_DB = {
+  "kryptonite":    { name:"氪石碎片",  icon:"💚", desc:"绿色氪石，对超人有害。",    sellPrice:0 },//这个绿色爱心我真服了，我笑死了之后再找个办法换掉。
+  "special_metal": { name:"神秘合金",  icon:"⚙️",  desc:"来源不明的特殊金属。",    sellPrice:5 },//感觉齿轮确实比黑色方块好一点。。
+  "coffee":        { name:"意式咖啡",  icon:"☕",  desc:"佩吉咖啡店的招牌。",      sellPrice:4.5, expiry:1 },
+  "latte":         { name:"拿铁",      icon:"🥛",  desc:"丝滑奶香。",              sellPrice:5.5, expiry:1 },
+  "cappuccino":    { name:"卡布奇诺",  icon:"☕",  desc:"绵密奶泡。",              sellPrice:5.0, expiry:1 },
+  "espresso":      { name:"浓缩咖啡",  icon:"☕",  desc:"浓烈苦香。",              sellPrice:3.5, expiry:1 },
+  "mocha":         { name:"摩卡",      icon:"☕",  desc:"咖啡与巧克力的邂逅。",    sellPrice:6.0, expiry:1 },
+  "cold_brew":     { name:"冷萃咖啡",  icon:"🧊☕",  desc:"低温萃取，顺滑无苦涩。", sellPrice:6.5, expiry:2 },
+  "pour_over":     { name:"手冲咖啡",  icon:"☕",  desc:"精心手冲，风味复杂。",    sellPrice:7.0, expiry:1 },
+  "matcha_latte":  { name:"抹茶拿铁",  icon:"🍵☕",  desc:"抹茶与牛奶的清新组合。", sellPrice:6.0, expiry:1 },
+  "hot_choco":     { name:"热巧克力",  icon:"🍫",  desc:"浓郁可可，暖心暖胃。",   sellPrice:5.5, expiry:1 },
+  "tea":           { name:"现泡茶",    icon:"🍵",  desc:"清新茶香。",              sellPrice:4.0, expiry:1 },
+  "croissant":     { name:"可颂",      icon:"🥐",  desc:"酥脆层叠，黄油香。",     sellPrice:4.5, expiry:1 },
+  "bagel":         { name:"贝果",      icon:"🥯",  desc:"嚼劲十足。",              sellPrice:3.5, expiry:2 },
+  "muffin":        { name:"玛芬蛋糕",  icon:"🧁",  desc:"松软香甜。",              sellPrice:4.0, expiry:2 },
+  "cookie":        { name:"曲奇饼干",  icon:"🍪",  desc:"酥脆甜香。",              sellPrice:3.0, expiry:5 },
+  "sandwich":      { name:"三明治",    icon:"🥪",  desc:"美味三明治，据说被超人吃过。（其实克拉克觉得不美味）",   sellPrice:8.5, expiry:1 },
+  "panini":        { name:"帕尼尼",    icon:"🥖",  desc:"热压出的完美纹路。",     sellPrice:9.0, expiry:1 },
+  "cheesecake":    { name:"芝士蛋糕",  icon:"🍰",  desc:"绵密芝士，回味无穷。",   sellPrice:7.5, expiry:2 },
+  "scone":         { name:"司康",      icon:"🍞",  desc:"英式下午茶经典。",        sellPrice:4.0, expiry:2 },
+  "pen":           { name:"钢笔",      icon:"🖊️",  desc:"一支做工精良的钢笔。",   sellPrice:8.0 },
+  // 📝 继续添加道具（最喜欢的环节。）
+};
+
+// ─── 出去逛逛 ──────────────────────────────────────
+
+// 地点池（目前只有星球日报）
+const LOCATIONS = [
+  {
+    id:"daily_planet", name:"星球日报", icon:"🗞️",
+    desc:"大都会最繁忙的报社，克拉克·肯特的工作地点。",
+    // 每个地点独立的突发事件池和商店池
+    eventPool:["editor_deadline"],
+    shopPool:["peggys_cafe"]
+  }
+  // 📝 之后添加更多地点
+];
+
+// 突发事件池
+const EVENTS = {
+  "editor_deadline": {
+    id:"editor_deadline", name:"主编催稿",
+    desc:"主编在他的办公室里大吼。「肯特，稿子呢？」",
+    tag:"incident",
+    rounds:6, litPerRound:1, timeMs:1000,
+    // 完成奖励池（随机选一个）
+    rewards:[
+      { id:"money_30",    type:"money",  value:30,   icon:"💵", name:"稿费 $30",     desc:"虽然是额外的工作，但是并不完全依靠光合作用的氪星人还是很喜爱这份稿费的。" },
+      { id:"coffee_gift", type:"food",   itemId:"espresso", icon:"☕", name:"一杯意式咖啡", desc:"「给你。」露易斯路过的时候把一杯意式咖啡放在你的手边，同情地看了你一眼。" },
+      { id:"pen_gift",    type:"item",   itemId:"pen", icon:"🖊️", name:"一支钢笔",      desc:"意外收获……主编说这是韦恩同款钢笔，一名合作商送来几支，他顺手把这支送了你。" }
+    ]
+  }
+  // 📝 之后添加更多突发事件
+};
+
+// 商店池
+const SHOPS = {
+  "peggys_cafe": {
+    id:"peggys_cafe", name:"佩吉的咖啡店",
+    desc:"藏在报社楼下的小咖啡馆，佩吉总是记得每个常客的口味。",
+    icon:"☕",
+    // 这家店的完整商品池，每次随机抽5~10样
+    itemPool:[
+      "coffee","latte","cappuccino","espresso","mocha","cold_brew",
+      "pour_over","matcha_latte","hot_choco","tea","croissant","bagel",
+      "muffin","cookie","sandwich","panini","cheesecake","scone",
+      "tea_bag","coffee_beans"
+    ]
+  }
+  // 📝 之后添加更多商店
+};
+
+// ─── 食材数据库 ──────────────────────────────────────
+// unit:'pc'=按个叠加  'g'=按克叠加  'ml'=按毫升叠加
+// stackSize: 每次购买增加的数量
+// price: 超市售价（美元）
+const INGR_DB = {
+"cinnamon":       {name:"肉桂粉",       icon:"🧂", unit:"g",  stackSize:50,  price:2.99, desc:"肉桂粉 50g"},
+"nutmeg":         {name:"肉豆蔻粉",     icon:"🧂", unit:"g",  stackSize:30,  price:3.49, desc:"肉豆蔻粉 30g"},
+"clove":          {name:"丁香粉",       icon:"🧂", unit:"g",  stackSize:20,  price:2.99, desc:"丁香粉 20g"},
+"ginger":         {name:"姜粉",         icon:"🧂", unit:"g",  stackSize:50,  price:2.49, desc:"姜粉 50g"},
+"allspice":       {name:"多香果粉",     icon:"🧂", unit:"g",  stackSize:40,  price:3.29, desc:"牙买加多香果粉 40g"},
+"vanilla_extract":{name:"香草精",       icon:"🫙", unit:"ml", stackSize:30,  price:4.99, desc:"纯天然香草精 30ml"},
+"lemon":          {name:"柠檬",         icon:"🍋", unit:"pc", stackSize:1,  price:0.79, desc:"新鲜柠檬 1个"},
+"cornstarch":     {name:"玉米淀粉",     icon:"🌽", unit:"g",  stackSize:200, price:1.99, desc:"玉米淀粉 200g"},
+"shortening":     {name:"起酥油",       icon:"🧈", unit:"g",  stackSize:250, price:3.49, desc:"植物起酥油 250g"},
+"buttermilk":     {name:"酪乳",         icon:"🥛", unit:"ml", stackSize:250, price:2.49, desc:"发酵酪乳 250ml"},
+"brown_sugar":    {name:"红糖",         icon:"🫙", unit:"g",  stackSize:500, price:2.49, desc:"红糖 500g"},
+"powdered_sugar": {name:"糖粉",         icon:"🫙", unit:"g",  stackSize:250, price:2.29, desc:"糖粉 250g"},
+"oats":           {name:"燕麦片",       icon:"🥡", unit:"g",  stackSize:400, price:3.49, desc:"传统燕麦片 400g"},
+"pecan":          {name:"山核桃",       icon:"🌰", unit:"g",  stackSize:150, price:6.99, desc:"山核桃碎 150g"},
+"walnut":         {name:"核桃",         icon:"🌰", unit:"g",  stackSize:150, price:5.99, desc:"核桃碎 150g"},
+"raisin":         {name:"葡萄干",       icon:"🍇", unit:"g",  stackSize:200, price:3.99, desc:"葡萄干 200g"},
+"honey":          {name:"蜂蜜",         icon:"🍯", unit:"ml", stackSize:250, price:5.99, desc:"纯天然蜂蜜 250ml"},
+"maple_syrup":    {name:"枫糖浆",       icon:"🍯", unit:"ml", stackSize:250, price:7.99, desc:"纯枫糖浆 250ml"},
+"potato":         {name:"土豆",         icon:"🥔", unit:"pc", stackSize:1,  price:0.79, desc:"褐皮土豆 1磅"},
+"cheddar":        {name:"切达芝士",     icon:"🧀", unit:"g",  stackSize:200, price:4.49, desc:"浓味切达芝士 200g"},
+"cream_of_mushroom":{name:"蘑菇浓汤罐头",icon:"🥫", unit:"pc", stackSize:1,  price:1.99, desc:"浓缩蘑菇浓汤罐头 1罐"},
+"green_bean":     {name:"青豆罐头",     icon:"🥫", unit:"pc", stackSize:1,  price:1.49, desc:"法式青豆罐头 1罐"},
+"french_fried_onion":{name:"炸洋葱碎",  icon:"🧅", unit:"g",  stackSize:100, price:2.99, desc:"法式炸洋葱碎 100g"},
+"corn":           {name:"玉米粒罐头",   icon:"🥫", unit:"pc", stackSize:1,  price:1.29, desc:"甜玉米粒罐头 1罐"},
+"bell_pepper":    {name:"彩椒",         icon:"🫑", unit:"pc", stackSize:1,  price:1.49, desc:"甜彩椒 1个"},
+"zucchini":       {name:"西葫芦",       icon:"🥒", unit:"pc", stackSize:1,  price:0.99, desc:"西葫芦 1根"},
+"eggplant":       {name:"茄子",         icon:"🍆", unit:"pc", stackSize:1,  price:1.29, desc:"茄子 1个"},
+"basil":          {name:"罗勒叶",       icon:"🌿", unit:"g",  stackSize:30,  price:2.49, desc:"新鲜罗勒叶 30g"},
+"oregano":        {name:"牛至叶",       icon:"🌿", unit:"g",  stackSize:20,  price:2.29, desc:"干牛至叶 20g"},
+"thyme":          {name:"百里香",       icon:"🌿", unit:"g",  stackSize:20,  price:2.29, desc:"新鲜百里香 20g"},
+"rosemary":       {name:"迷迭香",       icon:"🌿", unit:"g",  stackSize:20,  price:2.49, desc:"新鲜迷迭香 20g"},
+"bay_leaf":       {name:"月桂叶",       icon:"🌿", unit:"g",  stackSize:10,  price:1.99, desc:"月桂叶 10g"},
+"soy_sauce":      {name:"酱油",         icon:"🥫", unit:"ml", stackSize:150, price:2.99, desc:"生抽酱油 150ml"},
+"worcestershire": {name:"伍斯特酱",     icon:"🫙", unit:"ml", stackSize:150, price:3.49, desc:"伍斯特酱 150ml"},
+"balsamic":       {name:"香醋",         icon:"🫙", unit:"ml", stackSize:200, price:4.99, desc:"意大利香醋 200ml"},
+"rice_vinegar":   {name:"米醋",         icon:"🫙", unit:"ml", stackSize:200, price:2.49, desc:"米醋 200ml"},
+"fish_sauce":     {name:"鱼露",         icon:"🫙", unit:"ml", stackSize:150, price:3.29, desc:"鱼露 150ml"},
+"sesame_oil":     {name:"芝麻油",       icon:"🫙", unit:"ml", stackSize:100, price:3.99, desc:"纯芝麻油 100ml"},
+"chili_flake":    {name:"辣椒碎",       icon:"🌶️", unit:"g",  stackSize:50,  price:2.49, desc:"红辣椒碎 50g"},
+"paprika":        {name:"红椒粉",       icon:"🌶️", unit:"g",  stackSize:50,  price:2.99, desc:"烟熏红椒粉 50g"},
+"cumin":          {name:"孜然粉",       icon:"🧂", unit:"g",  stackSize:50,  price:2.79, desc:"孜然粉 50g"},
+"coriander":      {name:"香菜籽粉",     icon:"🧂", unit:"g",  stackSize:50,  price:2.49, desc:"香菜籽粉 50g"},
+"turmeric":       {name:"姜黄粉",       icon:"🧂", unit:"g",  stackSize:50,  price:2.99, desc:"姜黄粉 50g"},
+"white_pepper":   {name:"白胡椒粉",     icon:"🧂", unit:"g",  stackSize:50,  price:3.49, desc:"白胡椒粉 50g"},
+"chicken_stock":  {name:"鸡汤块",       icon:"🥣", unit:"pc", stackSize:1,  price:0.79, desc:"浓缩鸡汤块 1块"},
+"beef_stock":     {name:"牛肉汤块",     icon:"🥣", unit:"pc", stackSize:1,  price:0.79, desc:"浓缩牛肉汤块 1块"},
+"vegetable_stock":{name:"蔬菜汤块",     icon:"🥣", unit:"pc", stackSize:1,  price:0.69, desc:"浓缩蔬菜汤块 1块"},
+"capers":         {name:"酸豆",         icon:"🫙", unit:"g",  stackSize:50,  price:2.99, desc:"水瓜柳 50g"},
+"olive":          {name:"油橄榄",       icon:"🫒", unit:"g",  stackSize:100, price:3.49, desc:"卡拉马塔橄榄 100g"},
+"sun_dried_tomato":{name:"油渍番茄干",  icon:"🍅", unit:"g",  stackSize:100, price:4.99, desc:"油渍番茄干 100g"},
+"artichoke":      {name:"洋蓟心罐头",   icon:"🥫", unit:"pc", stackSize:1,  price:2.99, desc:"腌制洋蓟心罐头 1罐"},
+"pesto":          {name:"青酱",         icon:"🌿", unit:"g",  stackSize:150, price:4.49, desc:"罗勒青酱 150g"},
+"alfredo":        {name:"白酱",         icon:"🫙", unit:"ml", stackSize:350, price:3.99, desc:"阿尔弗雷多白酱 350ml"},
+"marinara":       {name:"意式番茄酱",   icon:"🫙", unit:"ml", stackSize:400, price:3.49, desc:"意式番茄罗勒酱 400ml"},
+  "beef_mince":    {name:"牛肉馅",     icon:"🥩",unit:"g",  stackSize:250,price:4.99, desc:"新鲜牛肉馅 250g"},
+  "chicken":       {name:"鸡胸肉",     icon:"🍗",unit:"pc", stackSize:1,  price:3.49, desc:"鸡胸肉 1块"},
+  "bacon":         {name:"培根",       icon:"🥓",unit:"pc", stackSize:1,  price:5.99, desc:"培根 1包"},
+  "steak_cut":     {name:"牛排",       icon:"🥩",unit:"pc", stackSize:1,  price:12.99,desc:"厚切牛排 1块"},
+  "pork_chop":     {name:"猪排",       icon:"🍖",unit:"pc", stackSize:1,  price:6.99, desc:"猪排 1块"},
+  "sausage":       {name:"香肠",       icon:"🌭",unit:"pc", stackSize:1,  price:3.49, desc:"热狗香肠 1根"},
+  "shrimp":        {name:"虾",         icon:"🍤",unit:"pc", stackSize:6,  price:8.99, desc:"新鲜虾 6只"},
+  "egg":           {name:"鸡蛋",       icon:"🥚",unit:"pc", stackSize:1,  price:0.49, desc:"鸡蛋 1枚"},
+  "milk":          {name:"牛奶",       icon:"🥛",unit:"ml", stackSize:250,price:1.99, desc:"全脂牛奶 250ml"},
+  "butter":        {name:"黄油",       icon:"🧈",unit:"g",  stackSize:250,price:3.99, desc:"无盐黄油 250g"},
+  "cheddar":       {name:"切达奶酪",   icon:"🧀",unit:"g",  stackSize:200,price:4.49, desc:"切达奶酪 200g"},
+  "mozzarella":    {name:"马苏里拉",   icon:"🧀",unit:"g",  stackSize:200,price:4.99, desc:"马苏里拉奶酪 200g"},
+  "parmesan":      {name:"帕尔马干酪", icon:"🧀",unit:"g",  stackSize:100,price:5.99, desc:"帕尔马干酪 100g"},
+  "cream_cheese":  {name:"奶油奶酪",   icon:"🧀",unit:"g",  stackSize:200,price:3.99, desc:"奶油奶酪 200g"},
+  "yogurt":        {name:"酸奶",       icon:"🥛",unit:"g",  stackSize:150,price:1.49, desc:"原味酸奶 150g"},
+  "heavy_cream":   {name:"淡奶油",     icon:"🥛",unit:"ml", stackSize:200,price:3.49, desc:"淡奶油 200ml"},
+  "mascarpone":    {name:"马斯卡彭",   icon:"🧀",unit:"g",  stackSize:250,price:6.99, desc:"马斯卡彭奶酪 250g"},
+  "flour":         {name:"面粉",       icon:"🌾",unit:"g",  stackSize:500,price:2.49, desc:"中筋面粉 500g"},
+  "sugar":         {name:"白糖",       icon:"🍚",unit:"g",  stackSize:500,price:1.99, desc:"细砂糖 500g"},
+  "baking_powder": {name:"泡打粉",     icon:"🧂",unit:"g",  stackSize:100,price:1.99, desc:"泡打粉 100g"},
+  "baking_soda":   {name:"小苏打",     icon:"🧂",unit:"g",  stackSize:100,price:1.49, desc:"小苏打 100g"},
+  "yeast":         {name:"酵母",       icon:"🧂",unit:"g",  stackSize:50, price:2.49, desc:"干酵母 50g"},
+  "olive_oil":     {name:"橄榄油",     icon:"🫙",unit:"ml", stackSize:250,price:5.99, desc:"特级初榨橄榄油 250ml"},
+  "veg_oil":       {name:"植物油",     icon:"🫙",unit:"ml", stackSize:500,price:3.49, desc:"植物油 500ml"},
+  "pasta":         {name:"意大利面",   icon:"🍝",unit:"g",  stackSize:500,price:2.49, desc:"意大利面 500g"},
+  "rice":          {name:"大米",       icon:"🍚",unit:"g",  stackSize:500,price:2.99, desc:"长粒大米 500g"},
+  "ladyfinger":    {name:"手指饼干",   icon:"🍪",unit:"pc", stackSize:6,  price:3.99, desc:"手指饼干 6根"},
+  "bread":         {name:"意式面包",   icon:"🍞",unit:"pc", stackSize:1,  price:3.99, desc:"意式拖鞋面包 1条"},
+  "burger_bun":    {name:"汉堡坯",     icon:"🍞",unit:"pc", stackSize:1,  price:0.99, desc:"汉堡坯 1个"},
+  "pizza_base":    {name:"披萨饼底",   icon:"🍕",unit:"pc", stackSize:1,  price:4.99, desc:"冷冻披萨饼底 1张"},
+  "onion":         {name:"洋葱",       icon:"🧅",unit:"pc", stackSize:1,  price:0.79, desc:"黄洋葱 1个"},
+  "garlic":        {name:"大蒜",       icon:"🧄",unit:"pc", stackSize:1,  price:0.49, desc:"大蒜 1头"},
+  "potato":        {name:"土豆",       icon:"🥔",unit:"pc", stackSize:1,  price:0.99, desc:"土豆 1个"},
+  "tomato":        {name:"番茄",       icon:"🍅",unit:"pc", stackSize:1,  price:0.89, desc:"番茄 1个"},
+  "lettuce":       {name:"生菜",       icon:"🥬",unit:"pc", stackSize:1,  price:1.49, desc:"生菜 1棵"},
+  "carrot":        {name:"胡萝卜",     icon:"🥕",unit:"pc", stackSize:1,  price:0.69, desc:"胡萝卜 1根"},
+  "celery":        {name:"芹菜",       icon:"🌿",unit:"pc", stackSize:1,  price:1.29, desc:"芹菜 1把"},
+  "apple":         {name:"苹果",       icon:"🍎",unit:"pc", stackSize:1,  price:0.99, desc:"苹果 1个"},
+  "banana":        {name:"香蕉",       icon:"🍌",unit:"pc", stackSize:1,  price:0.39, desc:"香蕉 1根"},
+  "canned_tomato": {name:"番茄罐头",   icon:"🥫",unit:"pc", stackSize:1,  price:1.99, desc:"整番茄罐头 1罐"},
+  "canned_beans":  {name:"罐头豆类",   icon:"🥫",unit:"pc", stackSize:1,  price:1.49, desc:"混合豆罐头 1罐"},
+  "canned_corn":   {name:"罐头玉米",   icon:"🥫",unit:"pc", stackSize:1,  price:1.29, desc:"甜玉米罐头 1罐"},
+  "canned_tuna":   {name:"罐头金枪鱼", icon:"🥫",unit:"pc", stackSize:1,  price:2.49, desc:"金枪鱼罐头 1罐"},
+  "tomato_paste":  {name:"番茄膏",     icon:"🥫",unit:"g",  stackSize:200,price:1.99, desc:"浓缩番茄膏 200g"},
+  "tomato_sauce":  {name:"番茄酱",     icon:"🫙",unit:"ml", stackSize:350,price:2.99, desc:"番茄酱 350ml"},
+  "pasta_sauce":   {name:"意面酱",     icon:"🫙",unit:"ml", stackSize:350,price:3.49, desc:"意面酱 350ml"},
+  "peanut_butter": {name:"花生酱",     icon:"🫙",unit:"g",  stackSize:300,price:3.99, desc:"花生酱 300g"},
+  "jam":           {name:"果酱",       icon:"🫙",unit:"g",  stackSize:300,price:3.49, desc:"草莓果酱 300g"},
+  "honey":         {name:"蜂蜜",       icon:"🍯",unit:"ml", stackSize:250,price:4.99, desc:"天然蜂蜜 250ml"},
+  "maple_syrup":   {name:"枫糖浆",     icon:"🍯",unit:"ml", stackSize:250,price:6.99, desc:"纯枫糖浆 250ml"},
+  "mustard":       {name:"芥末酱",     icon:"🫙",unit:"g",  stackSize:200,price:2.49, desc:"第戎芥末酱 200g"},
+  "hot_sauce":     {name:"辣酱",       icon:"🌶️",unit:"ml", stackSize:150,price:3.99, desc:"辣酱 150ml"},
+  "bbq_sauce":     {name:"烧烤酱",     icon:"🫙",unit:"ml", stackSize:300,price:3.99, desc:"BBQ烧烤酱 300ml"},
+  "cocoa":         {name:"可可粉",     icon:"🍫",unit:"g",  stackSize:100,price:3.99, desc:"纯可可粉 100g"},
+  "vanilla":       {name:"香草精",     icon:"🫙",unit:"ml", stackSize:30, price:4.99, desc:"天然香草精 30ml"},
+  "cinnamon":      {name:"肉桂粉",     icon:"🧂",unit:"g",  stackSize:50, price:2.99, desc:"肉桂粉 50g"},
+  "black_pepper":  {name:"黑胡椒",     icon:"🧂",unit:"g",  stackSize:50, price:3.49, desc:"现磨黑胡椒 50g"},
+  "salt":          {name:"盐",         icon:"🧂",unit:"g",  stackSize:500,price:1.29, desc:"海盐 500g"},
+  "chili_powder":  {name:"辣椒粉",     icon:"🌶️",unit:"g",  stackSize:50, price:2.49, desc:"辣椒粉 50g"},
+  "coffee_powder": {name:"咖啡粉",     icon:"☕",unit:"g",  stackSize:100,price:8.99, desc:"咖啡粉 100g"},
+  "tea_leaves":    {name:"茶包",       icon:"🍵",unit:"pc", stackSize:1,  price:0.49, desc:"红茶茶包 1个"},
+  "red_wine":      {name:"红葡萄酒",   icon:"🍷",unit:"ml", stackSize:200,price:8.99, desc:"烹饪红葡萄酒 200ml"},
+  "coffee_liqueur":{name:"咖啡酒",     icon:"🍶",unit:"ml", stackSize:50, price:6.99, desc:"咖啡酒 50ml"},
+  "soda":          {name:"苏打水",     icon:"🥤",unit:"pc", stackSize:1,  price:1.49, desc:"苏打水 1罐"},
+  "coffee_beans":  {name:"咖啡豆", icon:"☕", unit:"g", stackSize:100, price:15.00, desc:"精品咖啡豆 100g"},
+  "tea_bag":       {name:"袋泡茶", icon:"🌿", unit:"pc", stackSize:1,  price:2.00,  desc:"袋泡茶 1个"},
+  // 📝 以下食材是新增菜谱必需但之前缺失的，请添加到 INGR_DB 中
+"chocolate":      {name:"烘焙巧克力",   icon:"🍫", unit:"g",  stackSize:200, price:4.99, desc:"半甜烘焙巧克力 200g"},
+"marshmallow":    {name:"棉花糖",       icon:"🍬", unit:"g",  stackSize:200, price:3.49, desc:"迷你棉花糖 200g"},
+"graham_cracker": {name:"全麦饼干碎",   icon:"🍪", unit:"g",  stackSize:200, price:3.99, desc:"全麦饼干碎 200g"},
+  // 📝 继续添加食材
+};
+const MARKET_POOL = Object.keys(INGR_DB);
+const MARKET_CD_MS = 60*30*1000; // 超市刷新冷却：现实1小时
+
+// ─── 剧情池 ───────────────────────────────────────────
+const STORIES = {
+  firstMeet:{
+    id:"firstMeet", title:"那天之后。", desc:"那天是哪一天呢？嗯嗯我也不知道呀毕竟开头都还没写。",
+    poolTag:"再一次。", poolCls:"", start:"s1",
+    scenes:{
+      "s1":{ speaker:"narrator", name:"旁白", text:"你猜咋的我还没想好", next:null }
+    }
+  }
+  // 📝 添加更多剧情，下次一定做。
+};
+
+// ─── 送礼效果 ─────────────────────────────────────────
+function getGiftEffect(item, aff) {
+// ─── 送礼效果（结合好感度等级 + 菜品区分 + 购买商品价格区间随机）──
+  // 1. 失败菜品：几乎不加好感，偶尔可怜你一下
+  if (item.failed) {
+    const r = Math.random();
+    if (r < 0.1) return { delta: 1, msg: `蝙蝠侠盯着这盘失败的${item.name.replace('失败的', '')}，沉默了一会儿。好感 +0.1` };
+    return { delta: 0, msg: `蝙蝠侠看了一眼，没有说话。` };
+  }
+  
+  // 2. 过期物品：扣好感
+  if (item.isExpired) {
+    return { delta: -3, msg: `过期的${item.name}……蝙蝠侠皱了皱眉。好感 -0.3` };
+  }
+  
+  // 3. 根据好感度等级获取基础倍率
+  let affMultiplier = 1.0;
+  let affLevel = "";
+  if (aff >= 80) { affMultiplier = 1.5; affLevel = "亲密期"; }
+  else if (aff >= 50) { affMultiplier = 1.2; affLevel = "暧昧期"; }
+  else if (aff >= 20) { affMultiplier = 1.0; affLevel = "试探期"; }
+  else { affMultiplier = 0.8; affLevel = "陌生人"; }
+  
+  // 4. 判断是自己做的菜还是购买的商品
+  const isHomeCooked = item.homemade===true;
+  
+  // 5. 菜品专属基础好感值（自己做的菜）
+  const dishBaseMap = {
+    "apple_pie": { delta: 15, msg: "蝙蝠侠尝了一口苹果派，玛莎的秘方抓住了他的胃。" },
+    "potroast": { delta: 15, msg: "「嗯……」虽然有点冷了，但是看蝙蝠的表情，他很满意。" },
+    "tiramisu": { delta: 12, msg: "「提拉米苏……」蝙蝠侠的眼神柔和了一瞬。" },
+    "smores_pie": { delta: 10, msg: "蝙蝠侠看了一眼棉花糖派……等等，他是把耳麦关掉了吗？" },
+    "bolognese": { delta: 12, msg: "蝙蝠侠卷起一叉子意面，看上去很优雅。" },
+    "green_bean_casserole": { delta: 8, msg: "「青豆砂锅……还可以。」蝙蝠侠面无表情地说。" },
+    "cornbread": { delta: 7, msg: "蝙蝠侠掰了一块玉米面包，默默吃完了。" }
+  };
+  
+  let baseDelta = 0;
+  let customMsg = "";
+  
+  if (isHomeCooked && dishBaseMap[item.id]) {
+    // 自己做的菜：使用菜品专属基础值，再乘以好感倍率
+    const dish = dishBaseMap[item.id];
+    baseDelta = Math.floor(dish.delta * affMultiplier);
+    customMsg = dish.msg;
+  } else if (isHomeCooked) {
+    // 自己做的菜但没有专门配置（防止未来新增菜品）
+    baseDelta = Math.floor(8 * affMultiplier);
+    customMsg = `蝙蝠侠尝了一口你做的${item.name}。`;
+  } else {
+    // 购买的商品：根据价格区间随机，再乘以好感倍率
+    let price = item.sellPrice || 2;
+    let minDelta = 0, maxDelta = 0;
+    
+    if (price >= 35) { minDelta = 8; maxDelta = 10; }      // 价格≥35：+0.8~1.0
+    else if (price >= 25) { minDelta = 6; maxDelta = 8; } 
+    else if (price >= 15) { minDelta = 4; maxDelta = 6; }    
+    else if (price >= 5) { minDelta = 2; maxDelta = 4; }    
+    
+    else { minDelta = 0; maxDelta = 2; }
+    const randomDelta = minDelta + Math.random() * (maxDelta - minDelta);
+    baseDelta = Math.floor(randomDelta * affMultiplier);
+    customMsg = `蝙蝠侠收下了${item.name}。`;
+  }
+  
+  // 最高不超过10（+1.0好感）
+  baseDelta = Math.min(10, Math.max(0.1, baseDelta));
+  
+  // 根据好感度等级添加额外叙事
+  let levelMsg = "";
+  if (affLevel === "亲密期" && baseDelta >= 8) {
+    levelMsg = " 他看起来心情不错。";
+  } else if (affLevel === "陌生人" && baseDelta <= 3) {
+    levelMsg = " 他点了点头，没有说话。";
+  }
+  
+  const finalMsg = customMsg + ` 好感 +${(baseDelta * 0.1).toFixed(1)}` + levelMsg;
+  return { delta: baseDelta, msg: finalMsg };
+}
+  // 在这里为每样物品设置好感效果，这个例句太有用了，要永久保留。不然我的金鱼脑子绝对记不住。
+  // 例：if(item.id==='tiramisu' && aff>=50) return { delta:8, msg:'「提拉米苏……」好感 +0.8' };
+
+// ─── 出售价格计算 ─────────────────────────────────────
+function getSellPrice(item) {
+  if (item.failed) {
+    // 失败菜品：随机扣钱或得钱，我的得意之作，虽然还没有完全搞懂是怎么运行的。这太难了！！
+    const r = Math.random();
+    if (r < 0.3) {
+      const loss = +(1 + Math.random() * 4).toFixed(2);
+      return { value: -loss, msg: `没人要……还倒贴了处理费 −$${loss.toFixed(2)}` };
+    } else {
+      const gain = +(0.5 + Math.random() * 3).toFixed(2);
+      return { value: gain, msg: `居然有人买走了！+$${gain.toFixed(2)}` };
+    }
+  }
+  // 正常食物/道具：按基础价格
+  const base = item.sellPrice || 2;
+  const expired = item.isExpired;
+  const price = expired ? +(base * 0.1).toFixed(2) : base;
+  return { value: price, msg: `出售 ${item.name}，获得 +$${price.toFixed(2)}` };
+}
+
+// ─── 开场剧情数据 ─────────────────────────────────────
+// 这里是序章，过完才能进入游戏，只触发一次
+// 格式和普通剧情一样：
+//   speaker: 'batman'/'superman'/'narrator'
+//   name: 显示说话人名字
+//   text: 台词内容
+//   affDelta: 这幕结束后好感度变化（可省略）
+//   next: 下一幕id，null=序章结束，进入游戏
+//   choices: 有选项时填（选项可以影响初始好感度）
+const INTRO_STORY = {
+  title: "黏糊糊的初遇",  // ← 改这里
+  start: "i1",
+  scenes: {
+    // ── 📝 在这里填写你的开场对话 ──
+    // 每一幕的格式：
+    // "幕id": {
+    //   speaker: "narrator",       // narrator/batman/superman
+    //   name: "旁白",              // 显示的说话人名字
+    //   text: "内容……",            // 台词
+    //   next: "i2"                 // 下一幕id，或 null 结束序章
+    // }
+    //
+    // 有选项的幕（可以影响初始好感度）：
+    // "幕id": {
+    //   speaker: "superman",
+    //   name: "SUPERMAN",
+    //   text: "……",
+    //   choices: [
+    //     { text: "选项A的文字", next: "i3", affDelta: 5 },   // affDelta决定初始好感加减
+    //     { text: "选项B的文字", next: "i3", affDelta: -2 },
+    //     { text: "选项C的文字", next: "i3", affDelta: 0 },
+    //   ]
+    // }
+    "i1": {
+      speaker: "narrator",
+      name: "旁白",
+      text: "这里本来有一段震撼X压抑的对话和选项，但是不想显得那么急色，我删掉了。新剧本正在生成。（ps图片也在绘制）",
+      next: "null"
+    },
+  }
+};
+      // 改成 "in" 连接下一幕，或 null 直接结束序章进入游戏
+
+    // 示例：接着写第二幕
+    // "i2": {
+    //   speaker: "batman",
+    //   name: "BATMAN",
+    //   text: "……",
+    //   next: "i3"
+    // },
+    //
+    // 示例：有选项的幕（这里的 affDelta 会设定初始好感）
+    // "i_choice": {
+    //   speaker: "superman",
+    //   name: "SUPERMAN（你）",
+    //   text: "你选择怎么回应？",
+    //   choices: [
+    //     { text: "「……」", next: null, affDelta: 5 },
+    //     { text: "「……」", next: null, affDelta: 0 },
+    //   ]
+    // },
+
+// ╔═══════════════════════════════════════════════════╗
+// ║                    引擎（嘟嘟嘟）                  ║
+// ╚═══════════════════════════════════════════════════╝
+//完全搞不懂的地方就在这里了，谢谢你人类的好朋友人工智能没有这个框架就没有我的今天。
+const SK = 'sb_v5.4';
+function loadSave(){ try{ const r=localStorage.getItem(SK); return r?JSON.parse(r):null; }catch(e){return null;} }
+function save(){ try{ localStorage.setItem(SK,JSON.stringify({
+  aff:G.aff, money:G.money, met:G.met, inv:G.inv,
+  ingr:G.ingr, lastExplore:G.lastExplore, lastMarket:G.lastMarket,
+  marketStock:G.marketStock, introDone:G.introDone
+})); }catch(e){} }
+
+const _s = loadSave();
+const G = {
+  aff:         _s?.aff         ?? 0,
+  money:       _s?.money       ?? 10.00,
+  met:         _s?.met         ?? false,
+  inv:         _s?.inv         ?? [],
+  // 食材栏：[{ id, name, icon, unit, qty }] 同种叠加，最多20格
+  ingr:        _s?.ingr        ?? [],
+  lastExplore: _s?.lastExplore ?? 0,
+  lastMarket:  _s?.lastMarket  ?? 0,
+  marketStock: _s?.marketStock ?? [],  // 当前超市上架的id数组
+  introDone:   _s?.introDone   ?? false,
+  ck:  { recipe:null, round:0, litCells:[], hitCount:0, timer:null, running:false },
+  ev:  { event:null,  round:0, litCells:[], hitCount:0, timer:null, running:false },
+  st:  { story:null, sceneId:null, typing:false },
+  intro: { sceneId:null, typing:false },
+  modal: null,
+};
+
+// ── UI ────────────────────────────────────────────────
+function toast(msg, ms=2400){
+  const e=document.getElementById('toast');
+  e.textContent=msg; e.classList.add('on');
+  setTimeout(()=>e.classList.remove('on'),ms);
+}
+function setAff(v){
+  G.aff=Math.min(100,+v.toFixed(1));
+  document.getElementById('aff-fill').style.width=G.aff+'%';
+  document.getElementById('aff-n').textContent=G.aff;
+}
+function addAff(d){ setAff(G.aff + d * 0.1); save(); } 
+function setMoney(v){
+  G.money=Math.max(0,+v.toFixed(2));
+  document.getElementById('money-n').textContent=G.money.toFixed(2);
+}
+function addMoney(d){ setMoney(G.money+d); save(); }
+
+// ══ 注意事项 & 序章引擎 ══════════════════════════════
+
+function dismissWarning(){
+  document.getElementById('warn-overlay').style.display='none';
+  // 已经看过序章就直接进游戏，没有就显示序章
+  if(G.introDone){
+    enterGame();
+  } else {
+    startIntro();
+  }
+}
+
+function startIntro(){
+  const screen=document.getElementById('intro-screen');
+  screen.style.display='block';
+  document.getElementById('intro-title').textContent=INTRO_STORY.title;
+  G.intro.sceneId=INTRO_STORY.start;
+  showIntroScene(INTRO_STORY.start);
+}
+
+function showIntroScene(id){
+  const sc=INTRO_STORY.scenes[id];
+  if(!sc){ finishIntro(); return; }
+  G.intro.sceneId=id;
+  if(sc.affDelta) addAff(sc.affDelta);
+  document.getElementById('intro-spk').textContent=sc.name||'';
+  document.getElementById('intro-choices').innerHTML='';
+  document.getElementById('intro-next').style.display='none';
+  introTypeText(sc.text, ()=>{
+    if(sc.choices?.length){
+      showIntroChoices(sc.choices);
+    } else if(sc.next){
+      document.getElementById('intro-next').style.display='block';
+    } else {
+      // next是null，序章结束
+      document.getElementById('intro-next').textContent='进入游戏 →';
+      document.getElementById('intro-next').style.display='block';
+    }
+  });
+}
+
+function showIntroChoices(choices){
+  const box=document.getElementById('intro-choices'); box.innerHTML='';
+  choices.forEach(c=>{
+    const b=document.createElement('button'); b.className='intro-choice';
+    b.textContent=c.text;
+    b.onclick=()=>{
+      if(c.affDelta) addAff(c.affDelta);
+      box.innerHTML='';
+      if(c.next) showIntroScene(c.next);
+      else finishIntro();
+    };
+    box.appendChild(b);
+  });
+}
+
+function introNext(){
+  const sc=INTRO_STORY.scenes[G.intro.sceneId];
+  if(sc?.next) showIntroScene(sc.next);
+  else finishIntro();
+}
+
+function finishIntro(){
+  G.introDone=true; save();
+  document.getElementById('intro-screen').style.display='none';
+  enterGame();
+}
+
+function enterGame(){
+  // 主游戏界面正式显示
+  document.querySelector('.hd').style.display='flex';
+  document.querySelector('.nav').style.display='flex';
+  document.getElementById('p-kitchen').classList.add('on');
+   document.querySelectorAll('.nt')[0].classList.add('on');
+}
+
+function introTypeText(text, cb){
+  const el=document.getElementById('intro-typed'), cur=document.getElementById('intro-cur');
+  el.textContent=''; cur.style.display='inline-block'; G.intro.typing=true;
+  let i=0;
+  (function tick(){
+    i<text.length
+      ?(el.textContent+=text[i++], setTimeout(tick, 24+Math.random()*14))
+      :(cur.style.display='none', G.intro.typing=false, cb&&cb());
+  })();
+}
+
+// ── Tab ───────────────────────────────────────────────
+const TABS=['kitchen','inv','market','explore','story'];
+function tab(name){
+  TABS.forEach((t,i)=>{
+    document.querySelectorAll('.nt')[i].classList.toggle('on',t===name);
+    const el=document.getElementById('p-'+t);
+    if(el) el.classList.toggle('on',t===name);
+  });
+  document.getElementById('p-cook').classList.remove('on');
+  if(name==='inv')     renderInv();
+  if(name==='market')  renderMarket();
+  if(name==='explore') renderExplorePage();
+  if(name==='story')   renderStoryPage();
+}
+
+// ══ 食材系统 ══════════════════════════════════════════
+
+// 获取食材栏某个id的条目（没有则返回null）
+function getIngr(id){ return G.ingr.find(x=>x.id===id)||null; }
+
+// 添加食材（叠加）
+function addIngr(id, qty){
+  const def=INGR_DB[id]; if(!def) return;
+  const existing=getIngr(id);
+  if(existing){
+    existing.qty+=qty;
+  } else {
+    if(G.ingr.length>=40){ toast('食材栏已满！'); return false; }
+    G.ingr.push({ id, name:def.name, icon:def.icon, unit:def.unit, qty });
+  }
+  save();
+  renderRecipes();
+  return true;
+}
+// 消耗食材（无论成功失败都调用）
+function consumeIngredients(recipe){
+  if(!recipe.ingredients) return;
+  recipe.ingredients.forEach(ing => {
+    // 兼容两种写法：字符串id 或 {id, qty} 对象
+    let id, needQty;
+    if(typeof ing === 'string'){
+      id = ing;
+      const def = INGR_DB[id];
+      needQty = def?.stackSize || 1;
+    } else {
+      id = ing.id;
+      needQty = ing.qty;
+    }
+    
+    const entry = getIngr(id);
+    if(!entry) return;
+    
+    const def = INGR_DB[id];
+    const actualQty = def?.stackSize ? needQty * def.stackSize : needQty;
+    
+    entry.qty -= actualQty;
+    if(entry.qty <= 0) G.ingr = G.ingr.filter(x => x.id !== id);
+  });
+  save();
+}
+
+// 检查菜谱所需食材是否都有
+function checkIngredients(recipe){
+  if(!recipe.ingredients || !recipe.ingredients.length) return {ok:true, missing:[]};
+  const missing = [];
+  for(let ing of recipe.ingredients){
+    let id, needQty;
+    if(typeof ing === 'string'){
+      id = ing;
+      const def = INGR_DB[id];
+      needQty = def?.stackSize || 1;
+    } else {
+      id = ing.id;
+      needQty = ing.qty;
+    }
+    
+    const entry = getIngr(id);
+    const def = INGR_DB[id];
+    const actualNeed = def?.stackSize ? needQty * def.stackSize : needQty;
+    
+    if(!entry || entry.qty < actualNeed){
+      missing.push(id);
+    }
+  }
+  return {ok:missing.length===0, missing};
+}
+
+// 渲染食材栏
+function renderIngrGrid(){
+  const g=document.getElementById('inv-ingr'); if(!g) return;
+  g.innerHTML='';
+  const MAX=40;
+  for(let i=0;i<MAX;i++){
+    const sl=document.createElement('div');
+    if(i<G.ingr.length){
+      const it=G.ingr[i];
+      sl.className='ingr-slot has';
+      const qtyStr = it.unit==='pc' ? `×${it.qty}` : `${it.qty}${it.unit}`;
+      sl.innerHTML=`<div class="ingr-ic">${it.icon}</div>
+        <div class="ingr-nm">${it.name}</div>
+        <span class="ingr-qty">${qtyStr}</span>`;
+      sl.onclick=()=>discardIngr(it.id);
+    } else {
+      sl.className='ingr-slot emp';
+    }
+    g.appendChild(sl);
+  }
+}
+
+// 丢弃食材（点击时）
+function discardIngr(id){
+  const entry=getIngr(id); if(!entry) return;
+  const def=INGR_DB[id];
+  const qtyStr=entry.unit==='pc'?`×${entry.qty}`:`${entry.qty}${entry.unit}`;
+  if(confirm(`丢弃 ${entry.name} ${qtyStr}？`)){
+    G.ingr=G.ingr.filter(x=>x.id!==id);
+    save(); renderIngrGrid(); toast(`🗑️ 丢弃了${entry.name}`);
+  }
+}
+
+// ══ 超市系统 ══════════════════════════════════════════
+
+function refreshMarketStock(){
+  // 随机抽10~20样
+  const pool=[...MARKET_POOL].sort(()=>Math.random()-.5);
+  const count=10+Math.floor(Math.random()*11);
+  G.marketStock=pool.slice(0,count);
+  G.lastMarket=Date.now();
+  save();
+}
+
+function renderMarket(){
+  const now=Date.now();
+  const elapsed=now-G.lastMarket;
+  const needRefresh=G.marketStock.length===0||elapsed>=MARKET_CD_MS;
+  if(needRefresh) refreshMarketStock();
+
+  // 冷却提示
+  const cdEl=document.getElementById('mkt-cd');
+  const rem=Math.ceil((MARKET_CD_MS-(Date.now()-G.lastMarket))/60000);
+  cdEl.textContent=rem>0?`${rem}分钟后刷新`:'';
+
+  const grid=document.getElementById('mkt-grid'); grid.innerHTML='';
+  G.marketStock.forEach(id=>{
+    const def=INGR_DB[id]; if(!def) return;
+    const cantAfford=G.money<def.price;
+    const card=document.createElement('div');
+    card.className='mkt-item'+(cantAfford?' cant':'');
+    card.innerHTML=`<div class="mkt-ic">${def.icon}</div>
+      <div class="mkt-nm">${def.name}</div>
+      <div class="mkt-price">$${def.price.toFixed(2)}</div>
+      <div class="mkt-desc">${def.desc}</div>`;
+    if(!cantAfford) card.onclick=()=>buyIngr(id,def);
+    grid.appendChild(card);
+  });
+}
+
+function buyIngr(id, def){
+  if(G.money<def.price){ toast(`💸 余额不足（需要 $${def.price.toFixed(2)}）`); return; }
+  const ok=addIngr(id, def.stackSize);
+  if(ok===false) return; // 食材栏满
+  addMoney(-def.price);
+  renderMarket(); // 刷新超市（更新余额不足灰色）
+  toast(`${def.icon} 购入${def.name} −$${def.price.toFixed(2)}`);
+}
+
+// ── 菜谱渲染（加食材检查）────────────────────────────
+function renderRecipes(){
+  const g=document.getElementById('recipe-grid'); g.innerHTML='';
+  RECIPES.forEach(r=>{
+    const {ok,missing}=checkIngredients(r);
+    const d=document.createElement('div');
+    d.className='rc'+(ok?'':' locked');
+
+    // 食材标签
+    let ingrHtml='';
+    if(r.ingredients&&r.ingredients.length){
+      ingrHtml='<div class="rc-ingr">';
+      r.ingredients.forEach(ing=>{
+  const id = typeof ing === 'string' ? ing : ing.id;
+  const def=INGR_DB[id];
+        const have=getIngr(id)&&getIngr(id).qty>0;
+        ingrHtml+=`<span class="ri ${have?'have':'miss'}">${def?def.name:id}</span>`;
+      });
+      ingrHtml+='</div>';
+    }
+
+    d.innerHTML=`<div class="rc-ic">${r.icon}</div>
+      <div class="rc-nm">${r.name}</div>
+      <div class="rc-mt">${r.nameEn}</div>
+      <div class="rc-mt">保质期 ${r.expiry}天 · ${r.difficulty} · 售价$${r.sellPrice}</div>
+      <span class="rc-tg">${r.tag}</span>
+      ${ingrHtml}
+      ${!ok?'<div style="font-size:.55rem;color:var(--re);margin-top:4px">⚠ 食材不足</div>':''}`;
+    if(ok) d.onclick=()=>startCook(r.id);
+    else   d.onclick=()=>toast(`缺少食材：${missing.map(id=>INGR_DB[id]?.name||id).join('、')}`);
+    g.appendChild(d);
+  });
+}
+//这个真的太完美了我完全要夸赞，最伟大的设计。虽然我的贡献微乎其微。（可能写prompt贡献了吧。。）
+// ══ 格子游戏通用引擎 ══════════════════════════════════
+// cfg: { rounds, litPerRound, timeMs, steps }
+// gridId, timerBarId, labelId, progId, descId, msgId
+// onSuccess, onFail
+function GridGame(cfg, ids, callbacks){
+  this.cfg=cfg; this.ids=ids; this.cb=callbacks;
+  this.round=0; this.litCells=[]; this.hitCount=0;
+  this.timer=null; this.running=false;
+}
+GridGame.prototype.build=function(){
+  const w=document.getElementById(this.ids.grid); w.innerHTML='';
+  for(let i=0;i<16;i++){
+    const c=document.createElement('div'); c.className='cell'; c.dataset.idx=i;
+    c.onclick=()=>this.click(i); w.appendChild(c);
+  }
+};
+GridGame.prototype.cells=function(){ return document.getElementById(this.ids.grid).querySelectorAll('.cell'); };
+GridGame.prototype.start=function(){ this.round=0; this.build(); setTimeout(()=>this.nextRound(),400); };
+GridGame.prototype.nextRound=function(){
+  if(this.round>=this.cfg.rounds){ this.cb.onSuccess(); return; }
+  const {litPerRound,timeMs,steps}=this.cfg;
+  const stepIdx=Math.min(Math.floor(this.round/this.cfg.rounds*(steps?.length||1)),(steps?.length||1)-1);
+  if(document.getElementById(this.ids.label)) document.getElementById(this.ids.label).textContent=steps?.[stepIdx]||'';
+  if(document.getElementById(this.ids.prog))  document.getElementById(this.ids.prog).textContent=`${this.round+1} / ${this.cfg.rounds}`;
+  if(document.getElementById(this.ids.msg))   { document.getElementById(this.ids.msg).textContent=''; document.getElementById(this.ids.msg).className=this.ids.msg.replace('ev-msg','round-msg').replace('round-msg','round-msg'); }
+  // dots
+  document.querySelectorAll('#'+this.ids.dots+' .sd').forEach((d,i)=>{
+    d.className='sd'+(i<this.round?'done':i===this.round?' cur':'');
+  });
+  const lit=Array.isArray(litPerRound)
+    ? litPerRound[0]+Math.floor(Math.random()*(litPerRound[1]-litPerRound[0]+1))
+    : litPerRound;
+  const idxs=[];
+  while(idxs.length<lit){ const n=Math.floor(Math.random()*16); if(!idxs.includes(n))idxs.push(n); }
+  this.litCells=[...idxs]; this.hitCount=0; this.running=true;
+  const cells=this.cells();
+  cells.forEach(c=>c.className='cell');
+  idxs.forEach(i=>cells[i].classList.add('lit'));
+  this.startTimer(timeMs);
+};
+GridGame.prototype.startTimer=function(ms){
+  const bar=document.getElementById(this.ids.timer);
+  bar.style.transition='none'; bar.style.width='100%'; bar.className='timer-bar';
+  bar.getBoundingClientRect();
+  bar.style.transition=`width ${ms}ms linear`; bar.style.width='0%';
+  if(ms<=300) bar.className='timer-bar danger';
+  if(this.timer) clearTimeout(this.timer);
+  this.timer=setTimeout(()=>{ if(this.running) this.timeout(); },ms);
+};
+GridGame.prototype.click=function(idx){
+  if(!this.running) return;
+  const cells=this.cells(), cell=cells[idx];
+  if(this.litCells.includes(idx)){
+    cell.classList.remove('lit'); cell.classList.add('hit','locked');
+    this.hitCount++;
+    if(this.hitCount>=this.litCells.length){
+      this.running=false; clearTimeout(this.timer);
+      const msg=document.getElementById(this.ids.msg);
+      if(msg){ msg.textContent='✓'; msg.className='round-msg ok'; }
+      cells.forEach(c=>c.classList.add('locked'));
+      this.round++;
+      setTimeout(()=>this.nextRound(),500);
+    }
+  } else {
+    if(!this.running) return;
+    this.running=false; clearTimeout(this.timer);
+    cell.classList.add('miss');
+    this.litCells.forEach(i=>cells[i].classList.add('lit'));
+    cells.forEach(c=>c.classList.add('locked'));
+    this.fail();
+  }
+};
+GridGame.prototype.timeout=function(){
+  if(!this.running) return;
+  this.running=false;
+  const cells=this.cells();
+  cells.forEach(c=>c.classList.add('locked'));
+  this.litCells.forEach(i=>cells[i].classList.add('miss'));
+  this.fail();
+};
+GridGame.prototype.fail=function(){
+  const msg=document.getElementById(this.ids.msg);
+  if(msg){ msg.textContent='✗ 操作失误！'; msg.className='round-msg ng'; }
+  setTimeout(()=>this.cb.onFail(),800);
+};
+GridGame.prototype.stop=function(){ if(this.timer)clearTimeout(this.timer); this.running=false; };
+
+// ── 烹饪 ──────────────────────────────────────────────
+let cookGame=null;
+function startCook(id){
+  const r=RECIPES.find(x=>x.id===id); if(!r) return;
+  TABS.forEach(t=>{ const e=document.getElementById('p-'+t); if(e)e.classList.remove('on'); });
+  document.querySelectorAll('.nt').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-cook').classList.add('on');
+  
+  // 显示菜品图片（支持自定义图片）
+  if (r.img) {
+    document.getElementById('ck-hero-ic').innerHTML = `<img src="${r.img}">`;
+  } else {
+    document.getElementById('ck-hero-ic').textContent = r.icon;
+  }
+  
+  document.getElementById('ck-nm').textContent=r.name;
+  document.getElementById('ck-sub').textContent=r.nameEn+' · 保质期'+r.expiry+'天 · 售价$'+r.sellPrice;
+  // 进度点
+  const dots=document.getElementById('s-dots'); dots.innerHTML='';
+  for(let i=0;i<r.rounds;i++){ const d=document.createElement('div'); d.className='sd'+(i===0?' cur':''); d.id='sd'+i; dots.appendChild(d); }
+  document.getElementById('ck-step-wrap').style.display='block';
+  document.getElementById('done-panel').classList.remove('on');
+
+  cookGame=new GridGame(
+    { rounds:r.rounds, litPerRound:r.litPerRound, timeMs:r.timeMs, steps:r.steps },
+    { grid:'grid-wrap', timer:'timer-bar', label:'game-label', prog:'game-prog',
+      desc:'game-desc', msg:'round-msg', dots:'s-dots' },
+    {
+      onSuccess:()=>{ document.querySelectorAll('#s-dots .sd').forEach(d=>d.className='sd done'); setTimeout(()=>finishCook(r,false),500); },
+      onFail:()=>finishCook(r,true)
+    }
+  );
+  // 初始描述
+  document.getElementById('game-label').textContent=r.steps?.[0]||'开始';
+  document.getElementById('game-desc').textContent='点击亮起的格子，在时间内完成！';
+  cookGame.start();
+}
+function finishCook(r, failed){
+  document.getElementById('ck-step-wrap').style.display='none';
+  if(failed){
+    document.getElementById('done-ic').textContent='💔';
+    document.getElementById('done-nm').textContent='失败的'+r.name;
+    document.getElementById('done-mt').textContent='做糊了……';
+    document.getElementById('done-ds').textContent='操作失误，菜做失败了。等等，不会吧，你真的要把这种东西送给蝙蝠？';
+    G.inv.push({ uid:Date.now(), type:'food', id:r.id+'_fail', name:'失败的'+r.name,
+      icon:'💔', expiry:1, timestamp:Date.now(), sellPrice:r.sellPrice*0.1, failed:true,homemade:true});
+    // 失败也消耗食材
+    consumeIngredients(r);
+  } else {
+    document.getElementById('done-ic').textContent=r.icon;
+    document.getElementById('done-nm').textContent=r.name;
+    document.getElementById('done-mt').textContent='完美完成！';
+    document.getElementById('done-ds').textContent=r.desc;
+    G.inv.push({ uid:Date.now(), type:'food', id:r.id, name:r.name,
+      icon:r.icon, expiry:r.expiry, timestamp:Date.now(), sellPrice:r.sellPrice, failed:false,homemade:true});
+    consumeIngredients(r);
+  }
+  document.getElementById('done-panel').classList.add('on');
+  save();
+  renderRecipes(); // 刷新菜谱显示（食材消耗后可能有变化）
+  toast((failed?'💔 失败的':r.icon+' ')+r.name+' 已加入物品栏');
+}
+function exitCook(){
+  if(cookGame) cookGame.stop();
+  document.getElementById('p-cook').classList.remove('on');
+  document.getElementById('p-kitchen').classList.add('on');
+  document.querySelectorAll('.nt')[0].classList.add('on');
+  document.getElementById('ck-step-wrap').style.display='block';
+  document.getElementById('done-panel').classList.remove('on');
+}
+
+// ── 保质期 ────────────────────────────────────────────
+function expiryInfo(item){
+  if(item.type!=='food'&&!item.expiry) return {exp:false,label:'永久',cls:'fr'};
+  if(!item.timestamp&&!item.expiry) return {exp:false,label:'永久',cls:'fr'};
+  const hoursElapsed=(Date.now()-(item.timestamp||0))/(1000*60*60);
+  const daysElapsed=Math.floor(hoursElapsed);
+  const remaining=(item.expiry||999)-daysElapsed;
+  if(remaining<=0) return {exp:true,label:'已过期',cls:'ex'};
+  if(remaining===1) return {exp:false,label:'不足1天',cls:'so'};
+  return {exp:false,label:`剩${remaining}天`,cls:'fr'};
+}
+
+// ── 物品栏渲染 ────────────────────────────────────────
+function renderInv(){
+  renderIG('inv-food','food',16);
+  renderIngrGrid();
+  renderIG('inv-item','item',12);
+}
+function renderIG(cid,type,max){
+  const g=document.getElementById(cid); g.innerHTML='';
+  const items=G.inv.filter(i=>i.type===type);
+  for(let i=0;i<max;i++){
+    const sl=document.createElement('div');
+    if(i<items.length){
+      const it=items[i], ei=expiryInfo(it);
+      sl.className='is itm'+(ei.exp?' exp-item':'');
+      sl.innerHTML=`<div class="i-ic">${it.icon}</div><div class="i-nm">${it.name}</div>
+        ${it.expiry?`<span class="eb ${ei.cls}">${ei.label}</span>`:''}
+        ${ei.exp?'<div class="exp-mask">变质</div>':''}`;
+      sl.onclick=()=>openModal(it,ei.exp);
+    } else { sl.className='is emp'; }
+    g.appendChild(sl);
+  }
+}
+
+// ── 物品弹窗 ──────────────────────────────────────────
+function openModal(item, isExpired){
+  G.modal={ ...item, isExpired };
+  const ei=expiryInfo(item);
+  document.getElementById('modal-ic').textContent=item.icon;
+  document.getElementById('modal-nm').textContent=item.name;
+  const metaParts=[];
+  if(item.type==='food') metaParts.push(ei.label);
+  if(item.failed) metaParts.push('失败品');
+  document.getElementById('modal-meta').textContent=metaParts.join(' · ')||item.desc||'';
+  // 出售提示 - 失败菜品显示固定文字
+const sp = getSellPrice({...item,isExpired});
+if (item.failed) {
+  document.getElementById('modal-sell-hint').textContent = `也许有人会愿意给你点钱，又或者他们会趁机讹你一笔。`;
+} else {
+  document.getElementById('modal-sell-hint').textContent = `预计 +$${sp.value.toFixed(2)}`;
+}
+  // 送礼提示
+  const gfx=getGiftEffect({...item,isExpired},G.aff);
+  document.getElementById('modal-gift-hint').textContent=
+    gfx.delta>0?`好感 +${(gfx.delta*0.1).toFixed(2)}`:gfx.delta<0?`好感 ${(gfx.delta*0.1).toFixed(2)}`:'好感无变化';
+  document.getElementById('item-modal').classList.add('on');
+}
+function closeModal(e){ if(e.target===document.getElementById('item-modal')) closeModalDirect(); }
+function closeModalDirect(){ document.getElementById('item-modal').classList.remove('on'); G.modal=null; }
+function modalAction(action){
+  const item=G.modal; if(!item) return;
+  closeModalDirect();
+  if(action==='sell'){
+    const sp=getSellPrice(item);
+    addMoney(sp.value);
+    G.inv=G.inv.filter(i=>i.uid!==item.uid);
+    save(); renderInv(); toast(sp.msg, 2800);
+  } else if(action==='discard'){
+    G.inv=G.inv.filter(i=>i.uid!==item.uid);
+    save(); renderInv(); toast(`🗑️ 丢弃了${item.name}`);
+} else if (action === 'gift') {
+    const gfx = getGiftEffect(item, G.aff);
+    addAff(gfx.delta);
+    G.inv = G.inv.filter(i => i.uid !== item.uid);  // 删除所有送礼物品
+    save(); renderInv(); toast(gfx.msg, 2800);
+}
+}
+
+// ══ 出游系统 ══════════════════════════════════════════
+const EXPLORE_CD_MS = 60*1000; // 现实1小时
+let evGame=null;
+
+function renderExplorePage(){
+  const now=Date.now();
+  const elapsed=now-G.lastExplore;
+  const canGo=elapsed>=EXPLORE_CD_MS||G.lastExplore===0;
+  const cdEl=document.getElementById('explore-cd');
+  if(canGo){
+    cdEl.textContent=''; cdEl.style.display='none';
+  } else {
+    const rem=Math.ceil((EXPLORE_CD_MS-elapsed)/60000);
+    cdEl.textContent=`还需等待 ${rem} 分钟`;
+    cdEl.style.display='block';
+  }
+}
+function goExplore(){
+  const now=Date.now();
+  const elapsed=now-G.lastExplore;
+  if(elapsed<EXPLORE_CD_MS&&G.lastExplore!==0){
+    const rem=Math.ceil((EXPLORE_CD_MS-elapsed)/60000);
+    toast(`还需等待 ${rem} 分钟才能再次出门`); return;
+  }
+  G.lastExplore=now; save();
+  // 随机地点
+  const loc=LOCATIONS[Math.floor(Math.random()*LOCATIONS.length)];
+  document.getElementById('explore-idle').style.display='none';
+  document.getElementById('explore-active').style.display='block';
+  document.getElementById('loc-img').textContent=loc.icon;
+  document.getElementById('loc-name').textContent=loc.name;
+  document.getElementById('loc-desc').textContent=loc.desc;
+  // 隐藏所有子区域
+  document.getElementById('event-grid-area').style.display='none';
+  document.getElementById('reward-area').style.display='none';
+  document.getElementById('shop-area').style.display='none';
+  document.getElementById('explore-content').innerHTML='';
+  // 50%概率事件，50%概率商店
+  const hasEvent=Math.random()<0.5&&loc.eventPool.length>0;
+  if(hasEvent){
+    const evId=loc.eventPool[Math.floor(Math.random()*loc.eventPool.length)];
+    startEvent(EVENTS[evId]);
+  } else {
+    const shopId=loc.shopPool[Math.floor(Math.random()*loc.shopPool.length)];
+    openShop(SHOPS[shopId]);
+  }
+}
+function startEvent(ev){
+  const content=document.getElementById('explore-content');
+  content.innerHTML=`<div class="event-box">
+    <span class="event-tag incident">${ev.tag==='incident'?'突发事件':'事件'}</span>
+    <div class="event-name">${ev.name}</div>
+    <div class="event-desc">${ev.desc}</div>
+  </div>`;
+  // 格子游戏区域
+  const ga=document.getElementById('event-grid-area');
+  ga.style.display='block';
+  // 构建进度点
+  const dotsWrap=document.createElement('div');
+  dotsWrap.className='s-dots'; dotsWrap.id='ev-dots'; dotsWrap.style.marginBottom='12px';
+  for(let i=0;i<ev.rounds;i++){ const d=document.createElement('div'); d.className='sd'+(i===0?' cur':''); dotsWrap.appendChild(d); }
+  ga.insertBefore(dotsWrap, ga.firstChild);
+
+  evGame=new GridGame(
+    { rounds:ev.rounds, litPerRound:ev.litPerRound, timeMs:ev.timeMs, steps:[ev.name] },
+    { grid:'ev-grid', timer:'ev-timer', label:'ev-label', prog:'ev-prog',
+      desc:'ev-desc', msg:'ev-msg', dots:'ev-dots' },
+    {
+      onSuccess:()=>showReward(ev),
+      onFail:()=>{ document.getElementById('ev-label').textContent='处理失败'; showEventFail(ev); }
+    }
+  );
+  document.getElementById('ev-desc').textContent=`处理：${ev.name} — 准备好了就开始！`;
+document.getElementById('ev-start-btn').style.display='block';
+}
+function showReward(ev){
+  document.getElementById('event-grid-area').style.display='none';
+  const reward=ev.rewards[Math.floor(Math.random()*ev.rewards.length)];
+  document.getElementById('reward-ic').textContent=reward.icon;
+  document.getElementById('reward-title').textContent=reward.name;
+  document.getElementById('reward-desc').textContent=reward.desc;
+  document.getElementById('reward-area').style.display='block';
+  // 实际给予奖励
+  if(reward.type==='money'){
+    addMoney(reward.value);
+} else if(reward.type==='item'|| reward.type === 'food'){
+    const def=ITEM_DB[reward.itemId];
+    const itemType = (reward.type === 'food') ? 'food' : 'item';
+    if(def) G.inv.push({ uid:Date.now(), type:itemType, id:reward.itemId,
+      name:def.name, icon:def.icon, expiry:def.expiry||null, timestamp:Date.now(), sellPrice:def.sellPrice||0 });
+    save();
+  }
+}
+function showEventFail(ev){
+  document.getElementById('event-grid-area').style.display='none';
+  document.getElementById('reward-ic').textContent='😓';
+  document.getElementById('reward-title').textContent='没能处理好';
+  document.getElementById('reward-desc').textContent='因为一些小事，没能好好完成工作……主编应该不会太生气吧……😭';
+  document.getElementById('reward-area').style.display='block';
+}
+function openShop(shop){
+  const content=document.getElementById('explore-content');
+  content.innerHTML=`<div class="event-box">
+    <span class="event-tag shop">商店</span>
+    <div class="event-name">${shop.name}</div>
+    <div class="event-desc">${shop.desc}</div>
+  </div>`;
+  // 随机抽6~20样商品
+  const pool=[...shop.itemPool].sort(()=>Math.random()-.5);
+  const count=5+Math.floor(Math.random()*6);
+  const items=pool.slice(0,count);
+  const grid=document.getElementById('shop-grid'); grid.innerHTML='';
+  items.forEach(itemId=>{
+    const def=ITEM_DB[itemId]; if(!def) return;
+    const card=document.createElement('div'); card.className='shop-item';
+    card.innerHTML=`<div class="shop-item-ic">${def.icon}</div>
+      <div class="shop-item-nm">${def.name}</div>
+      <div class="shop-item-price">$${(def.sellPrice||2).toFixed(2)}</div>
+      <div class="shop-item-desc">${def.desc}</div>`;
+    card.onclick=()=>buyItem(itemId, def);
+    grid.appendChild(card);
+  });
+  document.getElementById('shop-area').style.display='block';
+}
+function buyItem(itemId, def){
+  const price=def.sellPrice||2;
+  if(G.money<price){ toast(`💸 余额不足（需要 $${price.toFixed(2)}）`); return; }
+  addMoney(-price);
+  
+  // 如果这个物品在食材库里，就当食材存
+  if(INGR_DB[itemId]){
+    addIngr(itemId, INGR_DB[itemId].stackSize);
+  } else {
+    G.inv.push({ uid:Date.now(), type:'food', id:itemId,
+      name:def.name, icon:def.icon, expiry:def.expiry||null,
+      timestamp:Date.now(), sellPrice:def.sellPrice||0 });
+    save();
+  }
+  toast(`${def.icon} 购入${def.name} −$${price.toFixed(2)}`);
+}
+function finishExplore(){
+  if(evGame) evGame.stop();
+  document.getElementById('explore-active').style.display='none';
+  document.getElementById('explore-idle').style.display='block';
+  // 重建进度点防重复
+  const old=document.getElementById('ev-dots');
+  if(old) old.remove();
+  renderExplorePage();
+}
+
+// ── 剧情系统 ──────────────────────────────────────────
+function getPool(){
+  const a=G.aff;
+  const keys=Object.keys(STORIES).filter(k=>k!=='firstMeet');
+  const buckets=[
+    keys.filter(k=>STORIES[k].poolTag==='陌生人'),
+    keys.filter(k=>STORIES[k].poolTag==='试探期'),
+    keys.filter(k=>STORIES[k].poolTag==='暧昧期'),
+    keys.filter(k=>STORIES[k].poolTag==='亲密期'),
+  ];
+  const defs=[
+    {label:'陌生人',range:'0—20',cls:''},
+    {label:'试探期',range:'20—50',cls:'p1'},
+    {label:'暧昧期',range:'50—80',cls:'p2'},
+    {label:'亲密期',range:'80—100',cls:'p3'},
+  ];
+  const idx=a<20?0:a<50?1:a<80?2:3;
+  return {def:defs[idx],keys:buckets[idx],allDefs:defs,allBuckets:buckets};
+}
+function renderStoryPage(){
+  const {def,allDefs,allBuckets}=getPool();
+  document.getElementById('pool-tag').textContent=G.met?def.label:'初见';
+  document.getElementById('pool-tag').className='pool-tag '+(G.met?def.cls:'');
+  document.getElementById('st-title').textContent='准备开始';
+  document.getElementById('st-desc').textContent=G.met
+    ?`当前好感度 ${G.aff} · 将从「${def.label}」池随机抽取`
+    :'第一次游玩将载入初见章节';
+  document.getElementById('dlg-box').classList.remove('on');
+  document.getElementById('choices').innerHTML='';
+  document.getElementById('btn-next').style.display='none';
+  document.getElementById('btn-start').style.display='block';
+  document.getElementById('btn-start').textContent='开始剧情';
+  const pg=document.getElementById('pool-grid'); pg.innerHTML='';
+  allDefs.forEach((d,i)=>{
+    const c=document.createElement('div'); c.className='pg-card';
+    c.innerHTML=`<div class="pg-range">${d.range}</div><div class="pg-name">${d.label}</div><div class="pg-cnt">${allBuckets[i].length}个剧情</div>`;
+    pg.appendChild(c);
+  });
+}
+function startStory(){
+  let story;
+  if(!G.met){ story=STORIES.firstMeet; G.met=true; save(); }
+  else {
+    const {keys}=getPool();
+    if(!keys.length){ toast('当前好感池还没有剧情！'); return; }
+    story=STORIES[keys[Math.floor(Math.random()*keys.length)]];
+  }
+  G.st={story,sceneId:story.start,typing:false};
+  document.getElementById('pool-tag').textContent=story.poolTag||'剧情';
+  document.getElementById('pool-tag').className='pool-tag '+(story.poolCls||'');
+  document.getElementById('st-title').textContent=story.title;
+  document.getElementById('st-desc').textContent=story.desc;
+  document.getElementById('btn-start').style.display='none';
+  document.getElementById('dlg-box').classList.add('on');
+  showScene(story.start);
+}
+function showScene(id){
+  const story=G.st.story;
+  if(!story||!story.scenes[id]){ endStory(); return; }
+  G.st.sceneId=id;
+  const sc=story.scenes[id];
+  if(sc.affDelta) addAff(sc.affDelta);
+  document.getElementById('dlg-spk').textContent=sc.name||'';
+  document.getElementById('choices').innerHTML='';
+  document.getElementById('btn-next').style.display='none';
+  typeText(sc.text,()=>{
+    if(sc.choices?.length) showChoices(sc.choices);
+    else if(sc.next) document.getElementById('btn-next').style.display='block';
+    else endStory();
+  });
+}
+function showChoices(choices){
+  const box=document.getElementById('choices'); box.innerHTML='';
+  choices.forEach(c=>{
+    const b=document.createElement('button'); b.className='ch'; b.textContent=c.text;
+    b.onclick=()=>{ if(c.affDelta)addAff(c.affDelta); box.innerHTML=''; showScene(c.next); };
+    box.appendChild(b);
+  });
+}
+function nextScene(){
+  const sc=G.st.story?.scenes[G.st.sceneId];
+  sc?.next?showScene(sc.next):endStory();
+}
+function endStory(){
+  document.getElementById('btn-next').style.display='none';
+  document.getElementById('choices').innerHTML='';
+  document.getElementById('btn-start').textContent='再来一段';
+  document.getElementById('btn-start').style.display='block';
+  save();
+}
+function typeText(text,cb){
+  const el=document.getElementById('dlg-typed'),cur=document.getElementById('dlg-cur');
+  el.textContent=''; cur.style.display='inline-block'; G.st.typing=true;
+  let i=0;
+  (function tick(){ i<text.length?(el.textContent+=text[i++],setTimeout(tick,24+Math.random()*14)):(cur.style.display='none',G.st.typing=false,cb&&cb()); })();
+}
+
+// ── 道具获取（剧情触发用）────────────────────────────
+function addItem(id){
+  const def=ITEM_DB[id]; if(!def) return;
+  G.inv.push({ uid:Date.now(), type:'item', id, name:def.name, icon:def.icon,
+    expiry:def.expiry||null, timestamp:Date.now(), sellPrice:def.sellPrice||0 });
+  save(); toast(`${def.icon} 获得：${def.name}`);
+}
+
+// ── 初始化 ────────────────────────────────────────────
+setAff(G.aff);
+setMoney(G.money);
+renderRecipes();
+
+// 默认隐藏主界面，等过完注意事项+序章再显示
+document.querySelector('.hd').style.display='none';
+document.querySelector('.nav').style.display='none';
+document.getElementById('p-kitchen').classList.remove('on');
+// warn-overlay默认已显示（HTML里没有display:none），直接等用户点击
+
+function beginEvent(){
+  document.getElementById('ev-start-btn').style.display='none';
+  evGame.start();
+}
+</script>
+<!-- 开发者外挂菜单（点右下角3次呼出） -->
+<div id="dev-menu" style="position:fixed; bottom:20px; right:20px; background:#1a1816; color:white; padding:16px; border-radius:12px; z-index:1000; display:none; flex-direction:column; gap:8px; min-width:200px; box-shadow:0 4px 12px rgba(0,0,0,0.3); max-height:80vh; overflow-y:auto;">
+  <div style="font-size:13px; margin-bottom:4px; text-align:center;">🔧 开发者工具</div>
+  
+  <!-- 基础作弊 -->
+  <button onclick="addMoney(500); toast('💰 +$500')" style="padding:8px 12px; border:none; border-radius:6px; background:#347850; color:white; font-weight:bold;">➕ 加钱 $500</button>
+  <button onclick="addAff(20); toast('❤️ 好感 +2.0')" style="padding:8px 12px; border:none; border-radius:6px; background:#a07828; color:white; font-weight:bold;">❤️ 加好感 +2.0</button>
+  
+  <div style="font-size:11px; color:#aaa; margin-top:4px;">📦 一键获取菜品所需食材（各1份）</div>
+  
+  <!-- 苹果派食材 -->
+  <button onclick="getRecipeIngredients('apple_pie'); toast('🥧 苹果派食材已添加')" style="padding:6px 10px; border:none; border-radius:6px; background:#2e2c28; color:white;">🥧 苹果派食材</button>
+  
+  <!-- 炖牛肉食材 -->
+  <button onclick="getRecipeIngredients('potroast'); toast('🍲 炖牛肉食材已添加')" style="padding:6px 10px; border:none; border-radius:6px; background:#2e2c28; color:white;">🍲 炖牛肉食材</button>
+  
+  <!-- 青豆砂锅食材 -->
+  <button onclick="getRecipeIngredients('green_bean_casserole'); toast('🥘 青豆砂锅食材已添加')" style="padding:6px 10px; border:none; border-radius:6px; background:#2e2c28; color:white;">🥘 青豆砂锅食材</button>
+  
+  <!-- 玉米面包食材 -->
+  <button onclick="getRecipeIngredients('cornbread'); toast('🍞 玉米面包食材已添加')" style="padding:6px 10px; border:none; border-radius:6px; background:#2e2c28; color:white;">🍞 玉米面包食材</button>
+  
+  <!-- 棉花糖派食材 -->
+  <button onclick="getRecipeIngredients('smores_pie'); toast('🍫 棉花糖派食材已添加')" style="padding:6px 10px; border:none; border-radius:6px; background:#2e2c28; color:white;">🍫 棉花糖派食材</button>
+  
+  <!-- 意面食材 -->
+  <button onclick="getRecipeIngredients('bolognese'); toast('🍝 意面食材已添加')" style="padding:6px 10px; border:none; border-radius:6px; background:#2e2c28; color:white;">🍝 意面食材</button>
+  
+  <!-- 提拉米苏食材 -->
+  <button onclick="getRecipeIngredients('tiramisu'); toast('🍮 提拉米苏食材已添加')" style="padding:6px 10px; border:none; border-radius:6px; background:#2e2c28; color:white;">🍮 提拉米苏食材</button>
+  
+  <!-- 所有菜品食材（谨慎使用） -->
+  <button onclick="getAllRecipesIngredients(); toast('📦 所有菜品食材已添加（小心格子爆满！）')" style="padding:6px 10px; border:none; border-radius:6px; background:#b83030; color:white;">⚠️ 所有菜品食材</button>
+  
+  <div style="height:1px; background:#444; margin:4px 0;"></div>
+  
+  <!-- 直接获得成品 -->
+  <button onclick="getFinishedDish('apple_pie'); toast('🥧 获得苹果派')" style="padding:6px 10px; border:none; border-radius:6px; background:#347850; color:white;">🥧 直接获得苹果派</button>
+  <button onclick="getFinishedDish('potroast'); toast('🍲 获得炖牛肉')" style="padding:6px 10px; border:none; border-radius:6px; background:#347850; color:white;">🍲 直接获得炖牛肉</button>
+  <button onclick="getFinishedDish('bolognese'); toast('🍝 获得意面')" style="padding:6px 10px; border:none; border-radius:6px; background:#347850; color:white;">🍝 直接获得意面</button>
+  <button onclick="getFinishedDish('tiramisu'); toast('🍮 获得提拉米苏')" style="padding:6px 10px; border:none; border-radius:6px; background:#347850; color:white;">🍮 直接获得提拉米苏</button>
+  
+  <div style="height:1px; background:#444; margin:4px 0;"></div>
+  
+  <button onclick="localStorage.removeItem('sb_v5.4'); location.reload();" style="padding:8px 12px; border:none; border-radius:6px; background:#555; color:white;">🗑️ 重置存档</button>
+  <div style="font-size:10px; text-align:center; margin-top:4px; color:#aaa;">点右下角3次呼出/关闭</div>
+</div>
+
+<script>
+// 根据菜谱ID获取所需食材（精确数量）
+function getRecipeIngredients(recipeId) {
+  const recipe = RECIPES.find(r => r.id === recipeId);
+  if (!recipe || !recipe.ingredients) {
+    toast('未找到菜谱！');
+    return;
+  }
+  
+  recipe.ingredients.forEach(ing => {
+    let id, needQty;
+    if (typeof ing === 'string') {
+      id = ing;
+      needQty = 1;
+    } else {
+      id = ing.id;
+      needQty = ing.qty;
+    }
+    
+    const def = INGR_DB[id];
+    if (def) {
+      const addQty = needQty * def.stackSize;
+      addIngr(id, addQty);
+    }
+  });
+  
+  // 刷新物品栏，厨房显示
+  renderIngrGrid();
+  renderRecipes();
+  toast(`✅ ${recipe.name} 食材已添加`);
+}
+
+// 获取所有菜品所需食材（会很多，小心格子）
+function getAllRecipesIngredients() {
+  RECIPES.forEach(recipe => {
+    if (recipe.ingredients) {
+      recipe.ingredients.forEach(ing => {
+        let id, needQty;
+        if (typeof ing === 'string') {
+          id = ing;
+          needQty = 1;
+        } else {
+          id = ing.id;
+          needQty = ing.qty;
+        }
+        
+        const def = INGR_DB[id];
+        if (def) {
+          const addQty = needQty * def.stackSize;
+          addIngr(id, addQty);
+        }
+      });
+    }
+  });
+  renderIngrGrid();
+}
+
+// 直接获得成品菜品（跳过烹饪）
+function getFinishedDish(recipeId) {
+  const recipe = RECIPES.find(r => r.id === recipeId);
+  if (!recipe) {
+    toast('未找到菜谱！');
+    return;
+  }
+  
+  G.inv.push({
+   uid: Date.now(),
+    type: 'food',
+    id: recipe.id,
+    name: recipe.name,
+    icon: recipe.icon,
+    expiry: recipe.expiry,
+    timestamp: Date.now(),
+    sellPrice: recipe.sellPrice,
+    failed: false,
+    homemade: true
+  });
+  
+  save();
+  renderInv();
+  toast(`✅ 获得：${recipe.name}`);
+}
+
+// 右下角点击3次呼出菜单
+let devPressCount = 0, devTimer = null;
+
+document.addEventListener('click', function(e) {
+  const x = e.clientX;
+  const y = e.clientY;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  
+  // 右下角80x80区域
+  if (x > w - 80 && y > h - 80) {
+    devPressCount++;
+    clearTimeout(devTimer);
+    devTimer = setTimeout(() => { devPressCount = 0; }, 800);
+    if (devPressCount >= 3) {
+      const menu = document.getElementById('dev-menu');
+      menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+      devPressCount = 0;
+    }
+  }
+});
+</script>
+</body>
+</html>
