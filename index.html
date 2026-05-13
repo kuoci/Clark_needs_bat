@@ -352,7 +352,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
 <div id="warn-overlay">
   <div class="warn-box">
     <div class="warn-title">在开始或继续之前</div>
-    <div class="warn-sub">请阅读以下注意事项及公告（v5.4)</div>
+    <div class="warn-sub">请阅读以下注意事项及公告（v5.4.2)（更新日志：2026.5.14）</div>
     <div class="warn-list">
       <div class="warn-item">
         <span class="warn-num">1</span>
@@ -576,6 +576,38 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
   </div>
 </div>
 
+<!-- 食材精确操作弹窗 -->
+<div class="modal-bg" id="ingr-modal" onclick="closeIngrModal(event)">
+  <div class="modal">
+    <div class="modal-item-row">
+      <div class="modal-ic" id="ingr-modal-ic"></div>
+      <div>
+        <div class="modal-item-name" id="ingr-modal-nm"></div>
+        <div class="modal-item-meta" id="ingr-modal-meta"></div>
+      </div>
+    </div>
+    
+    <!-- 数量选择器 -->
+    <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin:16px 0 20px 0;">
+      <button id="ingr-dec-btn" style="width:44px; height:44px; font-size:1.5rem; background:var(--f); border:1px solid var(--bd); border-radius:8px; cursor:pointer;">−</button>
+      <input type="number" id="ingr-qty-input" value="1" min="0" step="1" style="width:80px; height:44px; text-align:center; font-size:1rem; background:var(--w); border:1px solid var(--bd); border-radius:8px;">
+      <button id="ingr-inc-btn" style="width:44px; height:44px; font-size:1.5rem; background:var(--f); border:1px solid var(--bd); border-radius:8px; cursor:pointer;">+</button>
+    </div>
+    
+    <div class="modal-actions">
+      <button class="modal-btn" id="ingr-sell-btn" onclick="ingrModalAction('sell')">
+        <span>💵 出售</span>
+        <span class="modal-btn-hint" id="ingr-sell-hint"></span>
+      </button>
+      <button class="modal-btn danger" onclick="ingrModalAction('discard')">
+        <span>🗑️ 丢弃</span>
+        <span class="modal-btn-hint">不获得任何收入</span>
+      </button>
+    </div>
+    <button class="modal-cancel" onclick="closeIngrModalDirect()">取消</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -689,7 +721,7 @@ const RECIPES = [
 },
 {
   id:"tiramisu", name:"提拉米苏", nameEn:"Tiramisù",
-  icon:"🍰", tag:"甜点", expiry:3, difficulty:"★★☆",
+  icon:"🍮", tag:"甜点", expiry:3, difficulty:"★★☆",
   desc:"家喻户晓的美味甜品。",
   rounds:8, litPerRound:1, timeMs:1000, sellPrice:12.00,
   steps:["煮咖啡放凉","打发蛋黄","拌马斯卡彭","折鲜奶油","浸泡饼干","叠层冷藏"],
@@ -743,6 +775,12 @@ const LOCATIONS = [
     // 每个地点独立的突发事件池和商店池
     eventPool:["editor_deadline"],
     shopPool:["peggys_cafe"]
+  },
+  {
+    id:"daily_planet_roof", name:"星球日报楼顶", icon:"🏙️",
+    desc:"克拉克时常来这儿，不过是以超人的身份。",
+    eventPool:["cat_rescue", "lois_interview"],
+    shopPool:[]  // 没有商店
   }
   // 📝 之后添加更多地点
 ];
@@ -760,6 +798,31 @@ const EVENTS = {
       { id:"coffee_gift", type:"food",   itemId:"espresso", icon:"☕", name:"一杯意式咖啡", desc:"「给你。」露易斯路过的时候把一杯意式咖啡放在你的手边，同情地看了你一眼。" },
       { id:"pen_gift",    type:"item",   itemId:"pen", icon:"🖊️", name:"一支钢笔",      desc:"意外收获……主编说这是韦恩同款钢笔，一名合作商送来几支，他顺手把这支送了你。" }
     ]
+  },
+    // 事件1：毛茸茸邪恶生物求助
+  "cat_rescue": {
+    id:"cat_rescue", name:"毛茸茸邪恶生物求助",
+    desc:"一只猫爬到了树上下不来，喵喵叫。",
+    tag:"incident",
+    rounds:4, litPerRound:1, timeMs:1000,
+    rewards:[
+      { id:"cat_thanks", type:"text", value:null, icon:"🐱", name:"抱了猫咪说谢谢了吗？", desc:"猫咪蹭了蹭你的手，然后跑开了。" },
+      { id:"money_5",     type:"money",  value:5,    icon:"💵", name:"五美元", desc:"抱着猫咪下来的时候，克拉克发现地上有一张五美元，也许这就是好心有好报。" }
+    ],
+    failMsg:"克拉克好像把猫弄不舒服了，它挠了克拉克一下，跳着跑开了。或许克拉克的抱猫手法还需要提升。"
+  },
+  
+  // 事件2：露易丝采访
+  "lois_interview": {
+    id:"lois_interview", name:"露易丝采访",
+    desc:"「好了，谈一谈你上一次的英勇事迹吧？」大记者挑着眉调笑。",
+    tag:"incident",
+    rounds:5, litPerRound:1, timeMs:1000,
+    rewards:[
+      { id:"lois_sandwich", type:"food", itemId:"sandwich", icon:"🥪", name:"三明治", desc:"「好了，这个就给你当报酬了。」露易丝随手把手中的袋子放到超人手上，扭头就走了。" },
+      { id:"lois_coffee",   type:"food", itemId:"espresso", icon:"☕", name:"美式咖啡", desc:"「好了，这个就给你当报酬了。」露易丝随手把手中的袋子放到超人手上，扭头就走了。" }
+    ],
+    failMsg:"露易丝叹了口气：「好吧，这看上去不足以作为我下一次报道的内容。」"
   }
   // 📝 之后添加更多突发事件
 };
@@ -906,7 +969,6 @@ const INGR_DB = {
   "soda":          {name:"苏打水",     icon:"🥤",unit:"pc", stackSize:1,  price:1.49, desc:"苏打水 1罐"},
   "coffee_beans":  {name:"咖啡豆", icon:"☕", unit:"g", stackSize:100, price:15.00, desc:"精品咖啡豆 100g"},
   "tea_bag":       {name:"袋泡茶", icon:"🌿", unit:"pc", stackSize:1,  price:2.00,  desc:"袋泡茶 1个"},
-  // 📝 以下食材是新增菜谱必需但之前缺失的，请添加到 INGR_DB 中
 "chocolate":      {name:"烘焙巧克力",   icon:"🍫", unit:"g",  stackSize:200, price:4.99, desc:"半甜烘焙巧克力 200g"},
 "marshmallow":    {name:"棉花糖",       icon:"🍬", unit:"g",  stackSize:200, price:3.49, desc:"迷你棉花糖 200g"},
 "graham_cracker": {name:"全麦饼干碎",   icon:"🍪", unit:"g",  stackSize:200, price:3.99, desc:"全麦饼干碎 200g"},
@@ -981,19 +1043,21 @@ function getGiftEffect(item, aff) {
     let price = item.sellPrice || 2;
     let minDelta = 0, maxDelta = 0;
     
-    if (price >= 35) { minDelta = 8; maxDelta = 10; }      // 价格≥35：+0.8~1.0
-    else if (price >= 25) { minDelta = 6; maxDelta = 8; } 
-    else if (price >= 15) { minDelta = 4; maxDelta = 6; }    
-    else if (price >= 5) { minDelta = 2; maxDelta = 4; }    
+    if (price >= 35) { minDelta = 3; maxDelta = 5; }      // 价格≥35：+0.8~1.0
+    else if (price >= 25) { minDelta = 2; maxDelta =4 ; } 
+    else if (price >= 15) { minDelta = 1; maxDelta = 3; }    
+    else if (price >= 5) { minDelta = 1; maxDelta = 2; }    
     
-    else { minDelta = 0; maxDelta = 2; }
+    else { minDelta = 0; maxDelta = 1; }
     const randomDelta = minDelta + Math.random() * (maxDelta - minDelta);
     baseDelta = Math.floor(randomDelta * affMultiplier);
     customMsg = `蝙蝠侠收下了${item.name}。`;
   }
   
-  // 最高不超过10（+1.0好感）
-  baseDelta = Math.min(10, Math.max(0.1, baseDelta));
+// 只对随机好感商品进行上限限制（固定好感菜品不受限）
+if (!(isHomeCooked && dishBaseMap[item.id])) {
+  baseDelta = Math.min(5, Math.max(0.1, baseDelta));
+}
   
   // 根据好感度等级添加额外叙事
   let levelMsg = "";
@@ -1003,8 +1067,19 @@ function getGiftEffect(item, aff) {
     levelMsg = " 他点了点头，没有说话。";
   }
   
-  const finalMsg = customMsg + ` 好感 +${(baseDelta * 0.1).toFixed(1)}` + levelMsg;
-  return { delta: baseDelta, msg: finalMsg };
+const deltaShow = (baseDelta * 0.1).toFixed(1);
+
+let finalMsg;
+const deltaText = ` 好感 ${deltaShow >= 0 ? '+' : ''}${deltaShow}`;
+
+if (isHomeCooked && dishBaseMap[item.id]) {
+  // 自己做的菜：描述 + 好感数值
+  finalMsg = customMsg + deltaText + levelMsg;
+} else {
+  // 购买的礼物：描述 + 好感数值（同样显示）
+  finalMsg = customMsg + deltaText + levelMsg;
+}
+return { delta: baseDelta, msg: finalMsg };
 }
   // 在这里为每样物品设置好感效果，这个例句太有用了，要永久保留。不然我的金鱼脑子绝对记不住。
   // 例：if(item.id==='tiramisu' && aff>=50) return { delta:8, msg:'「提拉米苏……」好感 +0.8' };
@@ -1307,7 +1382,7 @@ function checkIngredients(recipe){
     const def = INGR_DB[id];
     const actualNeed = def?.stackSize ? needQty * def.stackSize : needQty;
     
-    if(!entry || entry.qty < actualNeed){
+    if(!entry || entry.qty < actualNeed-0.01){
       missing.push(id);
     }
   }
@@ -1336,17 +1411,168 @@ function renderIngrGrid(){
   }
 }
 
-// 丢弃食材（点击时）
+// 点击食材时打开数量选择弹窗
 function discardIngr(id){
-  const entry=getIngr(id); if(!entry) return;
-  const def=INGR_DB[id];
-  const qtyStr=entry.unit==='pc'?`×${entry.qty}`:`${entry.qty}${entry.unit}`;
-  if(confirm(`丢弃 ${entry.name} ${qtyStr}？`)){
-    G.ingr=G.ingr.filter(x=>x.id!==id);
-    save(); renderIngrGrid(); toast(`🗑️ 丢弃了${entry.name}`);
-  }
+  const entry = getIngr(id);
+  if(!entry) return;
+  const def = INGR_DB[id];
+  
+  // 保存当前操作的食材信息
+  G.currentIngr = {
+    id: id,
+    name: entry.name,
+    icon: entry.icon,
+    unit: def.unit,
+    stackSize: def.stackSize,
+    price: def.price,
+    qty: entry.qty,
+    pricePerUnit: def.price / def.stackSize  // 每单位价格（如每克、每毫升）
+  };
+  
+  // 设置弹窗内容
+  document.getElementById('ingr-modal-ic').textContent = entry.icon;
+  document.getElementById('ingr-modal-nm').textContent = entry.name;
+  
+  const unitLabel = def.unit === 'pc' ? '个' : (def.unit === 'g' ? '克' : '毫升');
+  document.getElementById('ingr-modal-meta').textContent = `库存: ${entry.qty}${unitLabel} · 单价: $${(G.currentIngr.pricePerUnit).toFixed(2)}/${unitLabel}`;
+  
+  // 设置数量输入框
+  const qtyInput = document.getElementById('ingr-qty-input');
+  qtyInput.value = 1;
+  qtyInput.max = entry.qty;
+  qtyInput.min = 0;
+  qtyInput.step = getStepByUnit(def.unit);  // 根据单位设置步长
+  
+
+  // 更新出售提示
+  updateIngrSellHint(1);
+  
+  setupIngrQuantityControls();
+  
+  // 显示弹窗
+  document.getElementById('ingr-modal').classList.add('on');
 }
 
+// 根据单位返回步长
+function getStepByUnit(unit){
+  if(unit === 'pc') return 1;
+  if(unit === 'g') return 100;
+  if(unit === 'ml') return 50;
+  return 1;
+}
+
+// 根据单位返回步长显示文字
+function getStepLabel(unit){
+  if(unit === 'pc') return '个';
+  if(unit === 'g') return '100g';
+  if(unit === 'ml') return '50ml';
+  return '';
+}
+
+// 更新出售提示
+function updateIngrSellHint(qty){
+  const item = G.currentIngr;
+  if(!item) return;
+  const totalPrice = (item.pricePerUnit * qty).toFixed(2);
+  document.getElementById('ingr-sell-hint').textContent = `预计 +$${totalPrice}`;
+}
+
+// 加减按钮逻辑
+function setupIngrQuantityControls(){
+  const input = document.getElementById('ingr-qty-input');
+  const decBtn = document.getElementById('ingr-dec-btn');
+  const incBtn = document.getElementById('ingr-inc-btn');
+  
+  const step = getStepByUnit(G.currentIngr?.unit);
+  const maxQty = G.currentIngr?.qty || 0;
+  
+  // 移除旧事件，重新绑定
+  const newDecBtn = decBtn.cloneNode(true);
+  const newIncBtn = incBtn.cloneNode(true);
+  decBtn.parentNode.replaceChild(newDecBtn, decBtn);
+  incBtn.parentNode.replaceChild(newIncBtn, incBtn);
+  
+  newDecBtn.onclick = () => {
+    let val = parseFloat(input.value) || 0;
+    let newVal = val - step;
+    if(newVal >= 0){
+      input.value = newVal;
+      updateIngrSellHint(newVal);
+    }
+  };
+  
+  newIncBtn.onclick = () => {
+    let val = parseFloat(input.value) || 0;
+    let newVal = val + step;
+    if(newVal <= maxQty){
+      input.value = newVal;
+      updateIngrSellHint(newVal);
+    }
+  };
+  
+  input.onchange = () => {
+    let val = parseFloat(input.value) || 0;
+    if(val < 0) val = 0;
+    if(val > maxQty) val = maxQty;
+    // 按步长取整
+    val = Math.floor(val / step) * step;
+    input.value = val;
+    updateIngrSellHint(val);
+  };
+}
+
+// 食材弹窗操作（出售/丢弃）
+function ingrModalAction(action){
+  const input = document.getElementById('ingr-qty-input');
+  let qty = parseInt(input.value) || 0;
+  if(qty <= 0){
+    toast('请选择数量！');
+    return;
+  }
+  
+  const item = G.currentIngr;
+  if(!item) return;
+  
+  const entry = getIngr(item.id);
+  if(!entry || entry.qty < qty) return;
+  
+  if(action === 'sell'){
+    const totalPrice = item.pricePerUnit * qty;
+    addMoney(totalPrice);
+    toast(`💰 出售 ${item.name} x${qty}${getUnitLabel(item.unit)}，获得 $${totalPrice.toFixed(2)}`);
+  } else if(action === 'discard'){
+    toast(`🗑️ 丢弃了 ${item.name} x${qty}${getUnitLabel(item.unit)}`);
+  }
+  
+  // 减少食材数量
+  entry.qty -= qty;
+  if(entry.qty <= 0){
+    G.ingr = G.ingr.filter(x => x.id !== item.id);
+  }
+  
+  save();
+  renderIngrGrid();
+  closeIngrModalDirect();
+}
+
+// 获取单位显示文字
+function getUnitLabel(unit){
+  if(unit === 'pc') return '个';
+  if(unit === 'g') return '克';
+  if(unit === 'ml') return '毫升';
+  return '';
+}
+
+// 关闭弹窗
+function closeIngrModal(e){
+  if(e.target === document.getElementById('ingr-modal')){
+    closeIngrModalDirect();
+  }
+}
+function closeIngrModalDirect(){
+  document.getElementById('ingr-modal').classList.remove('on');
+  G.currentIngr = null;
+}
 // ══ 超市系统 ══════════════════════════════════════════
 
 function refreshMarketStock(){
@@ -1551,7 +1777,13 @@ function startCook(id){
   document.getElementById('game-desc').textContent='点击亮起的格子，在时间内完成！';
   cookGame.start();
 }
+let isFinishingCook = false;  // 防重复标记
+
 function finishCook(r, failed){
+  // 如果已经在执行中，直接返回
+  if(isFinishingCook) return;
+  isFinishingCook = true;
+  
   document.getElementById('ck-step-wrap').style.display='none';
   if(failed){
     document.getElementById('done-ic').textContent='💔';
@@ -1560,7 +1792,6 @@ function finishCook(r, failed){
     document.getElementById('done-ds').textContent='操作失误，菜做失败了。等等，不会吧，你真的要把这种东西送给蝙蝠？';
     G.inv.push({ uid:Date.now(), type:'food', id:r.id+'_fail', name:'失败的'+r.name,
       icon:'💔', expiry:1, timestamp:Date.now(), sellPrice:r.sellPrice*0.1, failed:true,homemade:true});
-    // 失败也消耗食材
     consumeIngredients(r);
   } else {
     document.getElementById('done-ic').textContent=r.icon;
@@ -1573,8 +1804,11 @@ function finishCook(r, failed){
   }
   document.getElementById('done-panel').classList.add('on');
   save();
-  renderRecipes(); // 刷新菜谱显示（食材消耗后可能有变化）
+  renderRecipes();
   toast((failed?'💔 失败的':r.icon+' ')+r.name+' 已加入物品栏');
+  
+  // 延迟重置标记，防止同一轮次内重复触发
+  setTimeout(() => { isFinishingCook = false; }, 500);
 }
 function exitCook(){
   if(cookGame) cookGame.stop();
@@ -1701,15 +1935,23 @@ function goExplore(){
   document.getElementById('reward-area').style.display='none';
   document.getElementById('shop-area').style.display='none';
   document.getElementById('explore-content').innerHTML='';
-  // 50%概率事件，50%概率商店
-  const hasEvent=Math.random()<0.5&&loc.eventPool.length>0;
-  if(hasEvent){
-    const evId=loc.eventPool[Math.floor(Math.random()*loc.eventPool.length)];
-    startEvent(EVENTS[evId]);
-  } else {
-    const shopId=loc.shopPool[Math.floor(Math.random()*loc.shopPool.length)];
-    openShop(SHOPS[shopId]);
-  }
+// 如果有商店池，则50%概率事件50%概率商店；如果没有商店池，则必定触发事件
+let hasEvent = false;
+if(loc.shopPool.length === 0){
+  // 没有商店，必定触发事件
+  hasEvent = true;
+} else {
+  // 有商店，50%概率事件
+  hasEvent = Math.random() < 0.5 && loc.eventPool.length > 0;
+}
+
+if(hasEvent){
+  const evId = loc.eventPool[Math.floor(Math.random() * loc.eventPool.length)];
+  startEvent(EVENTS[evId]);
+} else {
+  const shopId = loc.shopPool[Math.floor(Math.random() * loc.shopPool.length)];
+  openShop(SHOPS[shopId]);
+}
 }
 function startEvent(ev){
   const content=document.getElementById('explore-content');
@@ -1749,7 +1991,11 @@ function showReward(ev){
   // 实际给予奖励
   if(reward.type==='money'){
     addMoney(reward.value);
-} else if(reward.type==='item'|| reward.type === 'food'){
+} 
+else if(reward.type === 'text'){
+    // 纯文本奖励，什么都不加，只显示文字
+  } 
+else if(reward.type==='item'|| reward.type === 'food'){
     const def=ITEM_DB[reward.itemId];
     const itemType = (reward.type === 'food') ? 'food' : 'item';
     if(def) G.inv.push({ uid:Date.now(), type:itemType, id:reward.itemId,
@@ -1758,11 +2004,15 @@ function showReward(ev){
   }
 }
 function showEventFail(ev){
-  document.getElementById('event-grid-area').style.display='none';
-  document.getElementById('reward-ic').textContent='😓';
-  document.getElementById('reward-title').textContent='没能处理好';
-  document.getElementById('reward-desc').textContent='因为一些小事，没能好好完成工作……主编应该不会太生气吧……😭';
-  document.getElementById('reward-area').style.display='block';
+  document.getElementById('event-grid-area').style.display = 'none';
+  document.getElementById('reward-ic').textContent = '😓';
+  document.getElementById('reward-title').textContent = '没能处理好';
+  
+  // 使用事件自己的失败文本
+  const failText = ev.failMsg || '因为一些小事，没能好好完成工作……主编应该不会太生气吧……😭';
+  document.getElementById('reward-desc').textContent = failText;
+  
+  document.getElementById('reward-area').style.display = 'block';
 }
 function openShop(shop){
   const content=document.getElementById('explore-content');
@@ -1942,6 +2192,8 @@ function beginEvent(){
   <!-- 基础作弊 -->
   <button onclick="addMoney(500); toast('💰 +$500')" style="padding:8px 12px; border:none; border-radius:6px; background:#347850; color:white; font-weight:bold;">➕ 加钱 $500</button>
   <button onclick="addAff(20); toast('❤️ 好感 +2.0')" style="padding:8px 12px; border:none; border-radius:6px; background:#a07828; color:white; font-weight:bold;">❤️ 加好感 +2.0</button>
+  <button onclick="refreshMarketNow(); toast('🛒 超市已刷新！')" style="padding:8px 12px; border:none; border-radius:6px; background:#347850; color:white; font-weight:bold;">🛒 立即刷新超市</button>
+<button onclick="resetExploreCD(); toast('🚶 出门冷却已重置！')" style="padding:8px 12px; border:none; border-radius:6px; background:#347850; color:white; font-weight:bold;">🚶 重置出门冷却</button>
   
   <div style="font-size:11px; color:#aaa; margin-top:4px;">📦 一键获取菜品所需食材（各1份）</div>
   
@@ -1977,6 +2229,16 @@ function beginEvent(){
   <button onclick="getFinishedDish('bolognese'); toast('🍝 获得意面')" style="padding:6px 10px; border:none; border-radius:6px; background:#347850; color:white;">🍝 直接获得意面</button>
   <button onclick="getFinishedDish('tiramisu'); toast('🍮 获得提拉米苏')" style="padding:6px 10px; border:none; border-radius:6px; background:#347850; color:white;">🍮 直接获得提拉米苏</button>
   
+  <div style="height:1px; background:#444; margin:4px 0;"></div>
+
+<!-- 自定义物品获取 -->
+<div style="font-size:11px; color:#aaa; margin-top:4px;">自定义获取物品</div>
+<div style="display:flex; gap:6px; margin-top:4px;">
+  <input type="text" id="dev-item-id" placeholder="输入物品ID" style="flex:1; padding:6px 8px; border-radius:6px; border:1px solid #444; background:#2e2c28; color:white; font-size:12px;">
+  <button onclick="getCustomItem()" style="padding:6px 12px; border:none; border-radius:6px; background:#347850; color:white; font-weight:bold;">获取</button>
+</div>
+<div style="font-size:9px; color:#666; margin-top:3px;">可用ID: 道具(pen, espresso...) / 食材(apple, flour...) / 菜品(apple_pie, potroast...)</div>
+
   <div style="height:1px; background:#444; margin:4px 0;"></div>
   
   <button onclick="localStorage.removeItem('sb_v5.4'); location.reload();" style="padding:8px 12px; border:none; border-radius:6px; background:#555; color:white;">🗑️ 重置存档</button>
@@ -2064,6 +2326,87 @@ function getFinishedDish(recipeId) {
   save();
   renderInv();
   toast(`✅ 获得：${recipe.name}`);
+}
+
+// 自定义获取物品（根据ID）
+function getCustomItem() {
+  const inputId = document.getElementById('dev-item-id').value.trim();
+  if (!inputId) {
+    toast('请输入物品ID！');
+    return;
+  }
+  
+  if (INGR_DB[inputId]) {
+    const def = INGR_DB[inputId];
+    addIngr(inputId, def.stackSize);
+    toast(`✅ 获得食材：${def.name} x${def.stackSize}${def.unit}`);
+    document.getElementById('dev-item-id').value = '';
+    return;
+  }
+  
+  if (ITEM_DB[inputId]) {
+    const def = ITEM_DB[inputId];
+    const itemType = def.expiry ? 'food' : 'item';
+    G.inv.push({
+      uid: Date.now(),
+      type: itemType,
+      id: inputId,
+      name: def.name,
+      icon: def.icon,
+      expiry: def.expiry || null,
+      timestamp: Date.now(),
+      sellPrice: def.sellPrice || 0
+    });
+    save();
+    renderInv();
+    toast(`✅ 获得：${def.name}`);
+    document.getElementById('dev-item-id').value = '';
+    return;
+  }
+  
+  const recipe = RECIPES.find(r => r.id === inputId);
+  if (recipe) {
+    G.inv.push({
+      uid: Date.now(),
+      type: 'food',
+      id: recipe.id,
+      name: recipe.name,
+      icon: recipe.icon,
+      expiry: recipe.expiry,
+      timestamp: Date.now(),
+      sellPrice: recipe.sellPrice,
+      failed: false,
+      homemade: true
+    });
+    save();
+    renderInv();
+    toast(`✅ 获得菜品：${recipe.name}`);
+    document.getElementById('dev-item-id').value = '';
+    return;
+  }
+  
+  toast(`❌ 未找到物品：${inputId}`);
+}
+
+// 立即刷新超市（重置冷却并重新生成商品）
+function refreshMarketNow() {
+  // 重置最后刷新时间
+  G.lastMarket = 0;
+  // 强制刷新超市
+  refreshMarketStock();
+  // 如果当前在超市页面，重新渲染
+  if (document.getElementById('p-market').classList.contains('on')) {
+    renderMarket();
+  }
+  toast('🛒 超市已刷新！');
+}
+
+// 重置出门冷却（立即可再次出门）
+function resetExploreCD() {
+  G.lastExplore = 0;
+  // 如果当前在探索页面，更新按钮状态
+  renderExplorePage();
+  toast('🚶 出门冷却已重置，现在可以再次出门了！');
 }
 
 // 右下角点击3次呼出菜单
