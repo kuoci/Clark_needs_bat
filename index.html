@@ -476,7 +476,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
 <div id="warn-overlay">
   <div class="warn-box">
     <div class="warn-title">在开始或继续之前</div>
-    <div class="warn-sub">请阅读以下注意事项及公告（v 6.9)（更新日志：2026.5.15）</div>
+    <div class="warn-sub">请阅读以下注意事项及公告（v 6.9.1)（更新日志：2026.5.16）</div>
     <div class="warn-list">
       <div class="warn-item">
         <span class="warn-num">1</span>
@@ -914,7 +914,7 @@ const RECIPES = [
   name: "芝士汉堡",
   nameEn: "Cheese Burger",
   icon: "🍔",
-  img: "",
+  img: "https://raw.githubusercontent.com/kuoci/-/refs/heads/main/IMG_20260516_000213.jpg",
   tag: "美式",
   expiry: 1,
   difficulty: "★★☆",
@@ -940,7 +940,7 @@ const RECIPES = [
   name: "番茄鸡蛋盖饭",
   nameEn: "Tomato Egg Rice Bowl",
   icon: "🍅",
-  img: "",
+  img: "https://raw.githubusercontent.com/kuoci/-/refs/heads/main/IMG_20260516_000250.jpg",
   tag: "中式",
   expiry: 1,
   difficulty: "★☆☆",
@@ -964,7 +964,7 @@ const RECIPES = [
   name: "蒜香黄油烤鸡",
   nameEn: "Garlic Butter Roast Chicken",
   icon: "🍗",
-  img:"",
+  img:"https://raw.githubusercontent.com/kuoci/-/refs/heads/main/IMG_20260516_000224.jpg",
   tag: "美式",
   expiry: 2,
   difficulty: "★★☆",
@@ -990,6 +990,7 @@ const RECIPES = [
 
 // ══ 更新日志（修改这里就能更新公示板）══════════════════
 const UPDATE_LOGS = [
+  "【2026.5.16】增加了开发者模式的退出按钮，缩小呼出范围。增加地点克拉克的公寓，增加星球日报突发事件。补全了新增菜品的图片。",
   "【2026.5.15】修复了大部分bug，增加了剧情，增加了序幕，增加了超市限量，洗衣液新增的菜谱，没有更新图片，剧情部分没有图片。",
   "【2026.5.14】增加了新菜谱，新菜谱没有在作弊器上更新。",
   "【2026.5.14】更新反馈，公告板",
@@ -1020,18 +1021,24 @@ const ITEM_DB = {
   "cheesecake":    { name:"芝士蛋糕",  icon:"🍰",  desc:"绵密芝士，回味无穷。",   sellPrice:7.5, expiry:2 },
   "scone":         { name:"司康",      icon:"🍞",  desc:"英式下午茶经典。",        sellPrice:4.0, expiry:2 },
   "pen":           { name:"钢笔",      icon:"🖊️",  desc:"一支做工精良的钢笔。",   sellPrice:8.0 },
+  // 同人图/文特殊道具
+  "fanart_superman": { name:"小画师的超人同人图（特殊道具）", icon:"🎨", desc:"小画师画的超人同人图，画风很可爱。", sellPrice:0 },
+  "fanart_batman":   { name:"小画师的蝙蝠侠同人图（特殊道具）", icon:"🎨", desc:"小画师画的蝙蝠侠同人图，画风巨帅无比。", sellPrice:0 },
+  "fanart_superbat": { name:"小画师的超蝙同人图（特殊道具）", icon:"🎨", desc:"小画师画的超蝙同人图，人体很好。", sellPrice:0 },
+  "fanfic_superbat": { name:"小文手的超蝙同人文短打（特殊道具）", icon:"📜", desc:"小文手写的超蝙同人文短打，擅长擦边。", sellPrice:0 },
+  "pretty_stone":    { name:"一枚漂亮石头", icon:"🪨", desc:"克拉克作为超人的时候，经常在世界各地飞来飞去，有时候会看见这些漂亮的石头。", sellPrice:0 },
   // 📝 继续添加道具（最喜欢的环节。）
 };
 
 // ─── 出去逛逛 ──────────────────────────────────────
 
-// 地点池（目前只有星球日报）
+// 地点池
 const LOCATIONS = [
   {
     id:"daily_planet", name:"星球日报", icon:"🗞️",
     desc:"大都会最繁忙的报社，克拉克·肯特的工作地点。",
     // 每个地点独立的突发事件池和商店池
-    eventPool:["editor_deadline"],
+    eventPool:["editor_deadline", "commission_request"],
     shopPool:["peggys_cafe"]
   },
   {
@@ -1039,6 +1046,12 @@ const LOCATIONS = [
     desc:"克拉克时常来这儿，不过是以超人的身份。",
     eventPool:["cat_rescue", "lois_interview"],
     shopPool:[]  // 没有商店
+  },
+  {
+    id:"clarks_apartment", name:"克拉克的公寓", icon:"🏠",
+    desc:"克拉克在大都会租住的小公寓，虽然不大但很温馨。",
+    eventPool:["clean_room"],
+    shopPool:["fan_site"]
   }
   // 📝 之后添加更多地点
 ];
@@ -1081,11 +1094,38 @@ const EVENTS = {
       { id:"lois_coffee",   type:"food", itemId:"espresso", icon:"☕", name:"美式咖啡", desc:"「好了，这个就给你当报酬了。」露易丝随手把手中的袋子放到超人手上，扭头就走了。" }
     ],
     failMsg:"露易丝叹了口气：「好吧，这看上去不足以作为我下一次报道的内容。」"
+  },
+  
+  // 事件3：打扫房间
+  "clean_room": {
+    id:"clean_room", name:"打扫房间",
+    desc:"屋子里面好像有点儿乱……克拉克决定收拾一下。",
+    tag:"incident",
+    rounds:10, litPerRound:[1,2], timeMs:1000,
+    rewards:[
+      { id:"money_30",    type:"money",  value:30,   icon:"💵", name:"30美元",     desc:"天呐，克拉克不知道这些钱是什么时候掉在沙发夹缝里面的。" },
+      { id:"money_5",     type:"money",  value:5,    icon:"💵", name:"五美元",     desc:"压在餐盘底下，早上出门的时候好像忘带了。" },
+      { id:"money_10",    type:"money",  value:10,   icon:"💵", name:"10美元",     desc:"放在衣服口袋里，洗衣服的时候忘记掏出来，有些皱巴巴的。" },
+      { id:"pretty_stone", type:"item",  itemId:"pretty_stone", icon:"🪨", name:"一枚漂亮石头", desc:"克拉克作为超人的时候，经常在世界各地飞来飞去，有时候会看见这些漂亮的石头，但是把他们带回来之后，总有一些会滚到各种奇怪角落。" }
+    ],
+    failMsg:"破坏了原本的布局，好多东西找不到了。"
+  },
+  
+  // 事件4：有人约稿（星球日报突发事件）
+  "commission_request": {
+    id:"commission_request", name:"有人约稿",
+    desc:"有一位网友在公共平台上向克拉克发出了约稿邀请，想要约他家产的超迷你短篇。克拉克背着其他人偷偷回复网友。",
+    tag:"incident",
+    rounds:12, litPerRound:[1,2], timeMs:1000,
+    rewards:[
+      { id:"commission_money", type:"money", value:30, icon:"💵", name:"30美元", desc:"太棒了，这完全就是自己擅长的类型！用工作的摸鱼闲暇完成了这篇稿件。" }
+    ],
+    failMsg:"沟通之后发现不是自己擅长的类型，遗憾拒绝。"
   }
   // 📝 之后添加更多突发事件
 };
 
-// 商店池
+  // 商店池
 const SHOPS = {
   "peggys_cafe": {
     id:"peggys_cafe", name:"佩吉的咖啡店",
@@ -1097,6 +1137,17 @@ const SHOPS = {
       "pour_over","matcha_latte","hot_choco","tea","croissant","bagel",
       "muffin","cookie","sandwich","panini","cheesecake","scone",
       "tea_bag","coffee_beans"
+    ]
+  },
+  "fan_site": {
+    id:"fan_site", name:"同人网站",
+    desc:"一个热闹的同人创作社区，小画师和小文手们在这里分享各种作品。",
+    icon:"🎨",
+    itemPool:[
+      { id:"fanart_superman", price:50 },
+      { id:"fanart_batman",   price:50 },
+      { id:"fanart_superbat", price:100 },
+      { id:"fanfic_superbat", price:66 }
     ]
   }
   // 📝 之后添加更多商店
@@ -2987,20 +3038,24 @@ function openShop(shop){
   const count=5+Math.floor(Math.random()*6);
   const items=pool.slice(0,count);
   const grid=document.getElementById('shop-grid'); grid.innerHTML='';
-  items.forEach(itemId=>{
+  items.forEach(item=>{
+    // 支持两种格式：字符串ID 或 {id, price} 对象
+    const itemId = typeof item === 'string' ? item : item.id;
+    const customPrice = typeof item === 'object' ? item.price : null;
     const def=ITEM_DB[itemId]; if(!def) return;
+    const price = customPrice || def.sellPrice || 2;
     const card=document.createElement('div'); card.className='shop-item';
     card.innerHTML=`<div class="shop-item-ic">${def.icon}</div>
       <div class="shop-item-nm">${def.name}</div>
-      <div class="shop-item-price">$${(def.sellPrice||2).toFixed(2)}</div>
+      <div class="shop-item-price">$${price.toFixed(2)}</div>
       <div class="shop-item-desc">${def.desc}</div>`;
-    card.onclick=()=>buyItem(itemId, def);
+    card.onclick=()=>buyItem(itemId, def, customPrice);
     grid.appendChild(card);
   });
   document.getElementById('shop-area').style.display='block';
 }
-function buyItem(itemId, def){
-  const price=def.sellPrice||2;
+function buyItem(itemId, def, customPrice){
+  const price=customPrice || def.sellPrice || 2;
   if(G.money<price){ toast(`💸 余额不足（需要 $${price.toFixed(2)}）`); return; }
   addMoney(-price);
   
@@ -3159,6 +3214,9 @@ function beginEvent(){
 <div id="dev-menu" style="position:fixed; bottom:20px; right:20px; background:#1a1816; color:white; padding:16px; border-radius:12px; z-index:9999; display:none; flex-direction:column; gap:8px; min-width:200px; box-shadow:0 4px 12px rgba(0,0,0,0.3); max-height:80vh; overflow-y:auto;">
   <div style="font-size:13px; margin-bottom:4px; text-align:center;">🔧 开发者工具</div>
   
+  <!-- 退出开发者模式按钮 -->
+  <button onclick="closeDevMenu()" style="padding:8px 12px; border:none; border-radius:6px; background:#b83030; color:white; font-weight:bold; margin-bottom:4px;">🚪 退出开发者模式</button>
+  
   <!-- 基础作弊 -->
   <button onclick="addMoney(500); toast('💰 +$500')" style="padding:8px 12px; border:none; border-radius:6px; background:#347850; color:white; font-weight:bold;">➕ 加钱 $500</button>
   <button onclick="addAff(20); toast('❤️ 好感 +2.0')" style="padding:8px 12px; border:none; border-radius:6px; background:#a07828; color:white; font-weight:bold;">❤️ 加好感 +2.0</button>
@@ -3212,7 +3270,7 @@ function beginEvent(){
   <div style="height:1px; background:#444; margin:4px 0;"></div>
   
 <button onclick="localStorage.removeItem('sb_v5.4'); localStorage.removeItem('story_log_v1'); location.reload();" style="padding:8px 12px; border:none; border-radius:6px; background:#555; color:white;">🗑️ 重置存档</button>
-  <div style="font-size:10px; text-align:center; margin-top:4px; color:#aaa;">点右下角3次呼出/关闭</div>
+  <div style="font-size:10px; text-align:center; margin-top:4px; color:#aaa;">点右下角3次呼出 · 点击下方按钮退出</div>
 </div>
 
 <script>
@@ -3833,6 +3891,11 @@ function resetExploreCD() {
   toast('🚶 出门冷却已重置，现在可以再次出门了！');
 }
 
+// 关闭开发者菜单
+function closeDevMenu() {
+  document.getElementById('dev-menu').style.display = 'none';
+}
+
 // 右下角点击3次呼出菜单（capture阶段监听，穿透所有覆盖层）
 let devPressCount = 0, devTimer = null;
 
@@ -3842,8 +3905,8 @@ document.addEventListener('click', function(e) {
   const w = window.innerWidth;
   const h = window.innerHeight;
   
-  // 右下角2x2cm区域
-  if (x > w - 200 && y > h - 200) {
+  // 右下角1x1cm区域
+  if (x > w - 100 && y > h - 100) {
     devPressCount++;
     clearTimeout(devTimer);
     devTimer = setTimeout(() => { devPressCount = 0; }, 800);
