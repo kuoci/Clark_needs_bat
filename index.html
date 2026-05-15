@@ -329,6 +329,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
   background:var(--bk);margin-left:1px;vertical-align:middle;
   animation:bl .7s step-end infinite;
 }
+/* ── 剧情图片插入区域 ── */
+.story-img-area{
+  margin:12px 0 8px 0;
+  width:100%;
+  min-height:80px;
+  border:1px dashed var(--md);
+  border-radius:2px;
+  background:var(--l);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.65rem;
+  color:var(--md);
+  letter-spacing:.1em;
+  padding:12px;
+  text-align:center;
+  line-height:1.6;
+}
+.story-img-area.hidden{display:none;}
 .intro-choices{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
 .intro-choice{
   background:var(--w);border:1px solid var(--bd);border-radius:2px;
@@ -344,6 +363,111 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
   letter-spacing:.08em;transition:all .17s;display:none;
 }
 .intro-next:hover{border-color:var(--bk);color:var(--bk);}
+
+/* ── 剧情收录弹窗 ── */
+#story-log-modal {
+  position: fixed; inset: 0; background: rgba(26,24,22,.92); z-index: 500;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.story-log-box {
+  background: var(--w); border-radius: 8px; width: 100%; max-width: 500px;
+  max-height: 80vh; display: flex; flex-direction: column; overflow: hidden;
+}
+.story-log-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--bd);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.story-log-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; }
+.story-log-close { font-size: 1.4rem; cursor: pointer; color: var(--dm); }
+.story-log-list {
+  flex: 1; overflow-y: auto; padding: 12px;
+}
+.log-item {
+  padding: 12px 16px; border-bottom: 1px solid var(--bd); cursor: pointer;
+  transition: background .15s;
+}
+.log-item:hover { background: var(--f); }
+.log-item-name { font-weight: 500; font-size: .85rem; margin-bottom: 3px; }
+.log-item-tag { font-size: .55rem; color: var(--dm); letter-spacing: .1em; }
+.empty-log { text-align: center; padding: 40px; color: var(--md); }
+
+/* ── 剧情阅读弹窗（翻页）── */
+#story-reader-modal {
+  position: fixed; inset: 0; background: rgba(26,24,22,.95); z-index: 600;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.reader-box {
+  background: var(--w); border-radius: 8px; width: 100%; max-width: 550px;
+  max-height: 85vh; display: flex; flex-direction: column; overflow: hidden;
+}
+.reader-header {
+  padding: 14px 20px; border-bottom: 1px solid var(--bd);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.reader-title { font-family: 'DM Serif Display', serif; font-size: 1rem; }
+.reader-close { font-size: 1.3rem; cursor: pointer; color: var(--dm); }
+.reader-content {
+  flex: 1; overflow-y: auto; padding: 20px;
+  font-size: .88rem; line-height: 1.9; color: var(--dk);
+  white-space: pre-wrap;
+}
+.reader-footer {
+  padding: 12px 20px; border-top: 1px solid var(--bd);
+  display: flex; justify-content: space-between; gap: 12px;
+}
+.reader-nav-btn {
+  padding: 8px 16px; background: var(--f); border: 1px solid var(--bd);
+  border-radius: 2px; cursor: pointer; font-size: .7rem;
+}
+.reader-nav-btn:hover { border-color: var(--bk); }
+.reader-page-info { font-size: .7rem; color: var(--dm); align-self: center; }
+
+/* ── 剧情全屏页面 ── */
+#story-fullscreen {
+  position: fixed; inset: 0; background: var(--f); z-index: 300;
+  display: none; overflow-y: auto;
+}
+.story-full-wrap {
+  max-width: 560px; margin: 0 auto; padding: 24px 20px 40px;
+  min-height: 100vh; display: flex; flex-direction: column;
+}
+.story-full-title {
+  font-family: 'DM Serif Display', serif; font-size: 1.4rem;
+  margin-bottom: 20px; text-align: center;
+}
+.story-full-dlg {
+  background: var(--w); border: 1px solid var(--bd); border-radius: 2px;
+  padding: 20px; margin-bottom: 16px; flex: 1;
+}
+.story-full-spk {
+  font-size: .65rem; font-weight: 500; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--dm); margin-bottom: 8px;
+}
+.story-full-txt {
+  font-size: .92rem; line-height: 2; font-weight: 300;
+  color: var(--dk); min-height: 80px;
+}
+.story-full-cur {
+  display: inline-block; width: 2px; height: .9em;
+  background: var(--bk); margin-left: 2px; vertical-align: middle;
+  animation: bl .7s step-end infinite;
+}
+.story-full-choices { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.story-full-choice {
+  background: var(--w); border: 1px solid var(--bd); border-radius: 2px;
+  padding: 12px 16px; font-family: 'DM Sans', sans-serif; font-size: .82rem;
+  font-weight: 300; text-align: left; cursor: pointer;
+}
+.story-full-choice:hover { border-color: var(--bk); background: var(--f); }
+.story-full-next {
+  width: 100%; padding: 12px; background: var(--bk); color: var(--w);
+  border: none; border-radius: 2px; font-size: .78rem; font-weight: 500;
+  cursor: pointer; display: none;
+}
+.story-full-next:hover { background: var(--dk); }
+.story-full-end { display: none; text-align: center; margin-top: 20px; }
+.story-full-end p { margin-bottom: 16px; color: var(--gr); font-size: .9rem; }
+
 </style>
 </head>
 <body>
@@ -352,11 +476,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
 <div id="warn-overlay">
   <div class="warn-box">
     <div class="warn-title">在开始或继续之前</div>
-    <div class="warn-sub">请阅读以下注意事项及公告（v5.4.2)（更新日志：2026.5.14）</div>
+    <div class="warn-sub">请阅读以下注意事项及公告（v 6.9)（更新日志：2026.5.15）</div>
     <div class="warn-list">
       <div class="warn-item">
         <span class="warn-num">1</span>
-        <span class="warn-text">本游戏含有 NSFW 情节🦇❤️</span>
+        <span class="warn-text">本游戏含有 NSFW 情节🦇❤️（现在还没有啊啊啊没这么高产）</span>
       </div>
       <div class="warn-item">
         <span class="warn-num">2</span>
@@ -364,7 +488,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
         </div>
       <div class="warn-item">
         <span class="warn-num">3</span>
-        <span class="warn-text">⚠️<strong>双性预警</strong>⚠️</span>
+        <span class="warn-text">⚠️<strong>双性预警，触手预警</strong>⚠️</span>
       </div>
     </div>
     <button class="warn-btn" onclick="dismissWarning()">我已了解，进入游戏</button>
@@ -374,10 +498,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
 <!-- ══ 开场剧情页 ══ -->
 <div id="intro-screen">
   <div class="intro-wrap">
-    <div class="intro-img">
-      <span>🦸🦇</span>
-      <!-- 📌 替换为开场插图 -->
-      震撼美丽（并非）没有出生的插图
+    <div class="intro-img" style="padding:0; overflow:hidden;">
+      <img src="https://raw.githubusercontent.com/kuoci/-/refs/heads/main/1778778028762.png" 
+           style="width:100%; height:100%; object-fit:cover;">
     </div>
     <div class="intro-chapter">序章</div>
     <div class="intro-title" id="intro-title">在此填写章节标题</div>
@@ -385,6 +508,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
       <div class="intro-spk" id="intro-spk"></div>
       <div class="intro-txt">
         <span id="intro-typed"></span><span class="intro-cur" id="intro-cur" style="display:none"></span>
+      </div>
+      <!-- 📌 图片插入区域：在场景数据中设置 image 字段即可在此处显示图片 -->
+      <div class="story-img-area hidden" id="intro-img-area">
+        <!-- 📌 在这里插入图片：<img src="图片路径" alt="描述" style="max-width:100%;"> -->
       </div>
     </div>
     <div class="intro-choices" id="intro-choices"></div>
@@ -411,6 +538,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
   <div class="nt"     onclick="tab('market')">超市</div>
   <div class="nt"     onclick="tab('explore')">随便逛逛</div>
   <div class="nt"     onclick="tab('story')">剧情</div>
+  <div class="nt"     onclick="tab('about')">关于</div> 
 </div>
 
 <!-- 厨房页 -->
@@ -483,7 +611,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
     <div class="explore-hero" onclick="goExplore()">
       <div class="explore-icon">🚶</div>
       <div class="explore-title">出去走走</div>
-      <div class="explore-sub">每天可以出门一次<br>也许会遇到什么，也许什么都没有</div>
+      <div class="explore-sub">每天都有活力！<br>也许会遇到什么，也许什么都没有</div>
       <div class="explore-cd" id="explore-cd"></div>
     </div>
   </div>
@@ -533,7 +661,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
     <div class="st-info">
       <div class="pool-tag" id="pool-tag">—</div>
       <div class="st-title" id="st-title">按下「开始剧情」</div>
-      <div class="st-desc" id="st-desc">第一次开始将载入初见章节，之后根据好感度随机抽取。</div>
+      <div class="st-desc" id="st-desc">第一次开始将载入那一天章节，之后根据好感度随机抽取。</div>
     </div>
   </div>
   <div class="dlg-box" id="dlg-box">
@@ -541,11 +669,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
     <div class="dlg-txt"><span id="dlg-typed"></span><span class="dlg-cur" id="dlg-cur" style="display:none"></span></div>
   </div>
   <div class="choices" id="choices"></div>
-  <button class="btn btn-s" id="btn-start" onclick="startStory()" style="width:100%">开始剧情</button>
+  <button class="btn btn-s" id="btn-start" onclick="drawStory()" style="width:100%">开始剧情</button>
   <button class="btn btn-o" id="btn-next"  onclick="nextScene()"  style="width:100%;margin-top:8px;display:none">继续 ▶</button>
   <div class="div"></div>
   <div class="sl">剧情池</div>
   <div class="pool-grid" id="pool-grid"></div>
+<div class="div"></div>
+<button class="btn btn-o" onclick="openStoryLog()" style="width:100%; margin-top:8px;">剧情收录</button>
 </div>
 
 <!-- 物品操作弹窗 -->
@@ -605,6 +735,49 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
       </button>
     </div>
     <button class="modal-cancel" onclick="closeIngrModalDirect()">取消</button>
+  </div>
+</div>
+
+<!-- 关于页 -->
+<div class="pg" id="p-about">
+  <div class="sl">关于游戏</div>
+  <div class="st-card" style="margin-bottom:16px;">
+    <div class="st-info">
+      <div class="st-title">🦸🦇</div>
+      Clark needs BAT<div class="st-desc" style="margin-top:8px;">
+        🤓👆本人XP之作（p.s.修复bug，更新剧情，更新道具不能够完全及时，积攒差不多会一次性上传❤️）
+      </div>
+    </div>
+  </div>
+
+  <!-- 邮箱反馈 -->
+  <div class="sl">📮 反馈与建议</div>
+  <div class="st-card">
+    <div class="st-info">
+      <div class="st-desc" style="margin-bottom:12px;">
+        🥺 Bug？建议？许愿？投稿？（夸夸？？）<br>
+        请发送邮件到：
+      </div>
+      <div style="text-align:center; margin:16px 0;">
+        <span style="font-size:1rem; font-weight:500; background:var(--f); padding:8px 16px; border-radius:99px; border:1px solid var(--bd); word-break:break-all;">
+          📧 kuociii@163.com
+        </span>
+      </div>
+      <div class="st-desc" style="font-size:.7rem; color:var(--dm); text-align:center;">
+        （收到后会有反馈邮箱🫡三天内无反馈可再次发送，可能是被吞）
+      </div>
+    </div>
+  </div>
+
+  <!-- 更新公告板 -->
+  <div class="sl" style="margin-top:24px;">📢 更新公告板 📢</div>
+  <div class="st-card">
+    <div class="st-info">
+      <div class="st-desc" style="margin-bottom:12px; font-size:.7rem; color:var(--dm);">
+        最新修复和更新内容会在这里列出
+      </div>
+      <div id="update-log-list" style="display:flex; flex-direction:column; gap:12px;"></div>
+    </div>
   </div>
 </div>
 
@@ -736,7 +909,92 @@ const RECIPES = [
     { id:"sugar", qty:0.3 }          // 0.3份白糖 (150g)
   ]
 },
+{
+  id: "cheese_burger",
+  name: "芝士汉堡",
+  nameEn: "Cheese Burger",
+  icon: "🍔",
+  img: "",
+  tag: "美式",
+  expiry: 1,
+  difficulty: "★★☆",
+  desc: "多汁的牛肉饼配上融化的切达芝士，夹在松软的汉堡坯里，克拉克经常在外面买，偶尔自己做。",
+  rounds: 10,
+  litPerRound: [1, 2],
+  timeMs: 900,
+  sellPrice: 15.00,
+  steps: ["牛肉馅加盐胡椒拌匀", "拍成肉饼", "热锅煎肉饼", "翻面前放上芝士片", "汉堡坯烤热", "组装汉堡"],
+  ingredients: [
+    { id: "beef_mince", qty: 1 },
+    { id: "cheddar", qty: 0.5 },
+    { id: "burger_bun", qty: 1 },
+    { id: "onion", qty: 0.5 },
+    { id: "tomato", qty: 0.5 },
+    { id: "lettuce", qty: 0.5 },
+    { id: "salt", qty: 0.1 },
+    { id: "black_pepper", qty: 0.1 }
+  ]
+},
+{
+  id: "tomato_egg_rice",
+  name: "番茄鸡蛋盖饭",
+  nameEn: "Tomato Egg Rice Bowl",
+  icon: "🍅",
+  img: "",
+  tag: "中式",
+  expiry: 1,
+  difficulty: "★☆☆",
+  desc: "浓郁的香味，美国改良版本番茄鸡蛋盖饭。",
+  rounds: 6,
+  litPerRound: 1,
+  timeMs: 800,
+  sellPrice: 9.00,
+  steps: ["鸡蛋打散加盐", "番茄切块", "炒鸡蛋盛出", "炒番茄出汁", "倒入鸡蛋翻炒", "盖在米饭上"],
+  ingredients: [
+    { id: "tomato", qty: 2 },
+    { id: "egg", qty: 3 },
+    { id: "rice", qty: 1 },
+    { id: "onion", qty: 0.5 },
+    { id: "salt", qty: 0.1 },
+    { id: "sugar", qty: 0.1 }
+  ]
+},
+{
+  id: "garlic_chicken",
+  name: "蒜香黄油烤鸡",
+  nameEn: "Garlic Butter Roast Chicken",
+  icon: "🍗",
+  img:"",
+  tag: "美式",
+  expiry: 2,
+  difficulty: "★★☆",
+  desc: "外皮金黄酥脆，肉质鲜嫩多汁，蒜香和黄油的完美融合。",
+  rounds: 12,
+  litPerRound: [1, 2],
+  timeMs: 1000,
+  sellPrice: 18.00,
+  steps: ["处理鸡肉并抹盐", "制作蒜香黄油酱", "涂抹在鸡肉表面", "预热烤箱", "入炉烤制", "静置休息"],
+  ingredients: [
+    { id: "chicken", qty: 1 },
+    { id: "butter", qty: 0.3 },
+    { id: "garlic", qty: 2 },
+    { id: "rosemary", qty: 0.5 },
+    { id: "thyme", qty: 0.5 },
+    { id: "lemon", qty: 1 },
+    { id: "salt", qty: 0.1 },
+    { id: "black_pepper", qty: 0.1 }
+  ]
+},
   // 继续添加菜谱，goodgood(千万记得苹果派。)
+];
+
+// ══ 更新日志（修改这里就能更新公示板）══════════════════
+const UPDATE_LOGS = [
+  "【2026.5.15】修复了大部分bug，增加了剧情，增加了序幕，增加了超市限量，洗衣液新增的菜谱，没有更新图片，剧情部分没有图片。",
+  "【2026.5.14】增加了新菜谱，新菜谱没有在作弊器上更新。",
+  "【2026.5.14】更新反馈，公告板",
+  "【2026.5.14】version 6.0 更新"
+
 ];
 
 // ─── 道具库 ───────────────────────────────────────────
@@ -975,19 +1233,603 @@ const INGR_DB = {
   // 📝 继续添加食材
 };
 const MARKET_POOL = Object.keys(INGR_DB);
-const MARKET_CD_MS = 60*30*1000; // 超市刷新冷却：现实1小时
+const MARKET_CD_MS = 60*30*1000; // 超市刷新冷却：现实半小时
 
 // ─── 剧情池 ───────────────────────────────────────────
+// ─── 剧情池（扩充版）───────────────────────────────────────────
+// 可重复剧情标记：repeatable: true
+// 剧情结构说明：
+// - scenes: 场景字典
+// - endRewards: 剧情结束时的基础奖励（在选项结算后累加）
+// - 每个选择可以有 effect 函数，用于实时修改游戏状态（扣钱、加物品等）
+
 const STORIES = {
-  firstMeet:{
-    id:"firstMeet", title:"那天之后。", desc:"那天是哪一天呢？嗯嗯我也不知道呀毕竟开头都还没写。",
-    poolTag:"再一次。", poolCls:"", start:"s1",
-    scenes:{
-      "s1":{ speaker:"narrator", name:"旁白", text:"你猜咋的我还没想好", next:null }
+  "firstMeet_demo": {
+    id: "firstMeet_demo",
+    title: "那一天",
+    desc: "蝙蝠侠对超人还有些陌生，但是对于超人——他已经暗中偷窥蝙蝠许久。",
+    poolTag: "那一天",
+    poolCls: "",
+    repeatable: false,
+    start: "s1",
+    scenes: {
+      "s1": {
+        speaker: "superman",
+        name: "SUPERMAN",
+        text: "“……蝙蝠侠。”",
+        next: "s2"
+      },
+      "s2": {
+        speaker: "batman",
+        name: "BATMAN",
+        text: "“我正在追查【我的事】，我劝你最好不要打扰我。”蝙蝠低低地咆哮，像是怪物。",
+        next: "s3"
+      },
+      "s3": {
+        speaker: "narrator",
+        name: "旁白",
+        text: "尽管这里不是哥谭，但是蝙蝠的姿态轻巧得不可思议——超人差点跟丢。",
+        next: "s4"
+      },
+      "s4": {
+        speaker: "superman",
+        name: "SUPERMAN",
+        text: "“嘿……！求你了，别这样，蝙蝠，让我……”",
+        choices: [
+          { 
+            text: "死缠烂打跟上去。", 
+            next: "s4_1", 
+            affDelta: 0
+          },
+          { 
+            text: "不……算了。默默飘走了。", 
+            next: null, 
+            affDelta: 1
+          }
+        ]
+      },
+      "s4_1": {
+        speaker: "batman",
+        name: "BATMAN",
+        text: "“你什么毛病？”蝙蝠侠似乎瞪了超人一眼。",
+        next: "s5"
+      },
+      "s5": {
+        speaker: "batman",
+        name: "BATMAN",
+        text: "“算了……跟紧我。”",
+        next: "s6"
+      },
+      "s6": {
+        speaker: "narrator",
+        name: "旁白",
+        text: "出人意料，两人令人惊叹地完美完成任务，蝙蝠侠总觉得超人能精准领会他的意思。",
+        next: null,
+        endRewards: [
+          { type: "aff", value: 2 }
+        ]
+      }
+    }
+  },
+  
+  // ── 陌生人池：不可重复剧情──────────────────────
+  // 这类剧情只会触发一次，完成后收录进剧情回顾
+  "stranger_once_01": {
+    id: "stranger_once_01",
+    title: "偶遇布鲁斯·韦恩",
+    desc: "大名鼎鼎的布鲁斯·韦恩坐在星球日报底下的小咖啡店里面！！？",
+    poolTag: "陌生人",
+    poolCls: "",
+    repeatable: false,
+    start: "so1",
+    scenes: {
+      "so1": {
+        speaker: "narrator",
+        name: "旁白",
+        text: "克拉克写了一上午新闻，一边想着好险差点把触手放出来打字一边往楼下咖啡店走……",
+        next: "so2"
+      },
+      "so2": {
+        speaker: "bruce_wayne",
+        name: "布鲁斯·韦恩",
+        text: "“天哪！克拉克！我等你好久了！”阔佬的表情惊喜又夸张。",
+        next: "so3"
+      },
+      "so3": {
+        speaker: "Clark",
+        name: "克拉克",
+        text: "等等……什么？",
+        choices: [
+          { text: "“韦恩……韦恩先生？”", next: "so4", affDelta: 0 },
+          { text: "我知道你就是蝙蝠侠。", next: "so5", affDelta: -20 },
+          { text: "吓了一跳，飞速溜走。", next: null, affDelta: 0 }
+        ]
+      },
+      "so4": {
+        speaker: "bruce_wayne",
+        name: "布鲁斯·韦恩",
+        text: "“亲爱的，我知道你有很多疑问，但为什么不坐下说呢？”",
+        next: "so6"
+      },
+      "so5": {
+        speaker: "bruce_wayne",
+        name: "布鲁斯·韦恩",
+        text: "“超人。”韦恩面无表情。",
+        next: null,
+        affDelta: -20
+      },
+      "so6": {
+        speaker: "Clark",
+        name: "克拉克",
+        text: "磨磨蹭蹭地过去坐下来。",
+        choices: [
+          { text: "“韦恩先生……我记得上一次你拒绝了我们的采访……”", next: "so7", affDelta: 0 },
+          { text: "“有什么事情吗……？”", next: "so8", affDelta: 0 }
+        ]
+      },
+      "so7": {
+        speaker: "bruce_wayne",
+        name: "布鲁斯·韦恩",
+        text: "“喔……是吗？我都不记得啦！但是，大记者，我昨天读了你的报道，突然觉得你真是一个适合采访我的好记者呢！”",
+        next: "so8"
+      },
+      "so8": {
+        speaker: "narrator",
+        name: "旁白",
+        text: "阔佬眼睛一亮，立马滔滔不绝地拉着克拉克大聊特聊，克拉克晕乎乎地点头，结束时几乎要为阔佬倾倒，还付了咖啡钱。",
+        next: null,
+        affDelta: 2,
+        endRewards: [
+          { type: "money", value: -15.00 }
+        ]
+      }
     }
   }
-  // 📝 添加更多剧情，下次一定做。
 };
+
+// 初始化剧情收录记录（保存在 localStorage）
+let storyLog = [];  // 存储已收录的剧情ID
+let storyReaderList = [];  // 当前阅读器中的剧情列表
+let readerCurrentIndex = 0;
+
+// 加载剧情收录记录
+function loadStoryLog() {
+  const saved = localStorage.getItem('story_log_v1');
+  if (saved) {
+    storyLog = JSON.parse(saved);
+  }
+}
+
+// 保存剧情收录记录
+function saveStoryLog() {
+  localStorage.setItem('story_log_v1', JSON.stringify(storyLog));
+}
+
+// 收录剧情（不可重复的剧情在首次完成后调用）
+function addToStoryLog(storyId, scenePath) {
+  const story = STORIES[storyId];
+  if (!story || story.repeatable) return;
+  
+  // 检查是否已经收录过
+  const existingIndex = storyLog.findIndex(entry => entry.storyId === storyId);
+  if (existingIndex !== -1) return;
+  
+  storyLog.push({
+    storyId: storyId,
+    title: story.title,
+    path: scenePath || [],
+    timestamp: Date.now()
+  });
+  saveStoryLog();
+  renderStoryLogList();
+}
+// 渲染剧情收录弹窗列表
+function renderStoryLogList() {
+  const container = document.getElementById('story-log-list');
+  if (!container) return;
+  
+  if (storyLog.length === 0) {
+    container.innerHTML = '<div class="empty-log">📭 暂无收录的剧情<br>完成剧情后会自动收录</div>';
+    return;
+  }
+  
+  container.innerHTML = storyLog.map(entry => {
+    const story = STORIES[entry.storyId];
+    if (!story) return '';
+    return `
+      <div class="log-item" onclick="openStoryReader('${entry.storyId}')">
+        <div class="log-item-name">${escapeHtml(entry.title)}</div>
+        <div class="log-item-tag">${story.poolTag || '剧情'} · 已收录</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// 打开剧情收录弹窗
+function openStoryLog() {
+  renderStoryLogList();
+  document.getElementById('story-log-modal').style.display = 'flex';
+}
+
+function closeStoryLog() {
+  document.getElementById('story-log-modal').style.display = 'none';
+}
+
+// 打开剧情阅读器（查看已收录剧情全文）
+function openStoryReader(storyId) {
+  const story = STORIES[storyId];
+  if (!story) return;
+  
+  // 从 storyLog 中查找保存的路径
+  const logEntry = storyLog.find(entry => entry.storyId === storyId);
+  const savedPath = logEntry ? logEntry.path : null;
+  
+  const texts = [];
+  
+  if (savedPath && savedPath.length) {
+    // 按保存的路径顺序收集文本
+    savedPath.forEach(entry => {
+      // 如果是选项记录
+      if (typeof entry === 'object' && entry.type === 'choice') {
+        texts.push(`【你的选择】\n→ ${entry.text}\n`);
+        return;
+      }
+      // 如果是场景ID（字符串）
+      const sceneId = typeof entry === 'string' ? entry : entry.sceneId;
+      const scene = story.scenes[sceneId];
+      if (scene) {
+        const speakerName = scene.name || (scene.speaker === 'superman' ? 'SUPERMAN' : (scene.speaker === 'batman' ? 'BATMAN' : '旁白'));
+        texts.push(`【${speakerName}】\n${scene.text}\n`);
+      }
+    });
+  } else {
+    // 兼容旧数据：按 next 顺序遍历
+    function collectTexts(sceneId, visited = new Set()) {
+      if (visited.has(sceneId)) return;
+      visited.add(sceneId);
+      const scene = story.scenes[sceneId];
+      if (!scene) return;
+      const speakerName = scene.name || (scene.speaker === 'superman' ? 'SUPERMAN' : (scene.speaker === 'batman' ? 'BATMAN' : '旁白'));
+      texts.push(`【${speakerName}】\n${scene.text}\n`);
+      if (scene.next && scene.next !== sceneId) {
+        collectTexts(scene.next, visited);
+      }
+    }
+    collectTexts(story.start);
+  }
+  
+  storyReaderList = texts;
+  readerCurrentIndex = 0;
+  
+  document.getElementById('reader-title').textContent = story.title;
+  updateReaderContent();
+  document.getElementById('story-reader-modal').style.display = 'flex';
+}
+
+function updateReaderContent() {
+  if (readerCurrentIndex >= 0 && readerCurrentIndex < storyReaderList.length) {
+    document.getElementById('reader-content').innerHTML = storyReaderList[readerCurrentIndex].replace(/\n/g, '<br>');
+    document.getElementById('reader-page-info').textContent = `${readerCurrentIndex + 1} / ${storyReaderList.length}`;
+  }
+}
+
+function readerPrevPage() {
+  if (readerCurrentIndex > 0) {
+    readerCurrentIndex--;
+    updateReaderContent();
+  } else {
+    toast('已经是第一篇了');
+  }
+}
+
+function readerNextPage() {
+  if (readerCurrentIndex < storyReaderList.length - 1) {
+    readerCurrentIndex++;
+    updateReaderContent();
+  } else {
+    toast('已经是最后一篇了');
+  }
+}
+
+function closeStoryReader() {
+  document.getElementById('story-reader-modal').style.display = 'none';
+}
+
+// ── 全屏剧情引擎（替代原有剧情系统）──
+let currentStory = null;
+let currentSceneId = null;
+let currentStoryRewards = [];  
+let currentStoryCtx = { moneyCost: 0, rewardText: '', itemsGained: [] };
+let currentStoryPath = [];  // 记录当前剧情走过的场景路径
+
+
+function startStoryFull(storyId) {
+  const story = STORIES[storyId];
+  if (!story) return;
+  
+  currentStory = story;
+  currentSceneId = story.start;
+  currentStoryRewards = [];
+  currentStoryCtx = { moneyCost: 0, rewardText: '', itemsGained: [] };
+  currentStoryPath = []; 
+  
+  // 隐藏原有剧情页面，显示全屏剧情
+  document.getElementById('p-story').classList.remove('on');
+  document.querySelectorAll('.nt').forEach(t => t.classList.remove('on'));
+  document.getElementById('story-fullscreen').style.display = 'block';
+  
+  document.getElementById('story-full-title').textContent = story.title;
+  document.getElementById('story-full-end').style.display = 'none';
+  document.getElementById('story-full-choices').innerHTML = '';
+  document.getElementById('story-full-next').style.display = 'none';
+  
+  showStoryFullScene(story.start);
+}
+
+function showStoryFullScene(sceneId) {
+ if (!currentStoryPath.includes(sceneId)) {
+    currentStoryPath.push(sceneId);
+  }
+  const scene = currentStory.scenes[sceneId];
+  if (!scene) {
+    finishStoryFull();
+    return;
+  }
+  
+  currentSceneId = sceneId;
+  
+  // 应用场景自带的好感变化
+  if (scene.affDelta) {
+    currentStoryRewards.push({ type: 'aff', value: scene.affDelta });
+  }
+  
+  document.getElementById('story-full-spk').textContent = scene.name || (scene.speaker === 'superman' ? 'SUPERMAN' : (scene.speaker === 'batman' ? 'BATMAN' : '旁白'));
+  document.getElementById('story-full-choices').innerHTML = '';
+  document.getElementById('story-full-next').style.display = 'none';
+  
+  // 处理图片显示
+  const imgArea = document.getElementById('story-full-img-area');
+  if (scene.image) {
+    imgArea.classList.remove('hidden');
+    // 📌 如果设置了 image 字段，在这里插入图片：
+    // imgArea.innerHTML = '<img src="' + scene.image + '" alt="剧情插图" style="max-width:100%;">';
+  } else {
+    imgArea.classList.add('hidden');
+  }
+  
+  // 打字机效果
+  storyFullTypeText(scene.text, () => {
+    if (scene.choices && scene.choices.length) {
+      showStoryFullChoices(scene.choices);
+    } else if (scene.next) {
+      document.getElementById('story-full-next').style.display = 'block';
+    } else {
+      // 无后续，结束剧情
+      finishStoryFull();
+    }
+  });
+}
+
+function showStoryFullChoices(choices) {
+  const container = document.getElementById('story-full-choices');
+  container.innerHTML = '';
+  
+  choices.forEach((choice, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'story-full-choice';
+    btn.textContent = choice.text;
+    btn.onclick = () => {
+      // 记录玩家选择的选项到剧情路径中
+      currentStoryPath.push({ type: 'choice', text: choice.text, sceneId: currentSceneId });
+      
+      // 执行选项的即时效果（只记录消耗，不实际扣除）
+      if (choice.effect) {
+        choice.effect(currentStoryCtx);
+      }
+      // 累计选项好感变化
+      if (choice.affDelta) {
+        currentStoryRewards.push({ type: 'aff', value: choice.affDelta });
+      }
+      // 记录扣钱
+      if (currentStoryCtx.moneyCost > 0) {
+        currentStoryRewards.push({ type: 'money', value: -currentStoryCtx.moneyCost });
+      }
+      // 记录食材消耗（不实际扣除，等 finishStoryFull 统一结算）
+      if (currentStoryCtx.ingrCost) {
+        Object.keys(currentStoryCtx.ingrCost).forEach(ingId => {
+          const qty = currentStoryCtx.ingrCost[ingId];
+          currentStoryRewards.push({ type: 'ingrCost', itemId: ingId, qty: qty });
+        });
+      }
+      // 记录道具消耗（不实际扣除，等 finishStoryFull 统一结算）
+      if (currentStoryCtx.itemCost) {
+        Object.keys(currentStoryCtx.itemCost).forEach(itemId => {
+          const qty = currentStoryCtx.itemCost[itemId];
+          currentStoryRewards.push({ type: 'itemCost', itemId: itemId, qty: qty });
+        });
+      }
+      // 记录获得的物品
+      if (currentStoryCtx.itemsGained && currentStoryCtx.itemsGained.length > 0) {
+        currentStoryCtx.itemsGained.forEach(itemId => {
+          currentStoryRewards.push({ type: 'item', itemId: itemId, itemName: ITEM_DB[itemId]?.name || itemId });
+        });
+      }
+      container.innerHTML = '';
+      if (choice.next) {
+        showStoryFullScene(choice.next);
+      } else {
+        finishStoryFull();
+      }
+    };
+    container.appendChild(btn);
+  });
+}
+
+function storyFullTypeText(text, cb) {
+  const el = document.getElementById('story-full-typed');
+  const cur = document.getElementById('story-full-cur');
+  el.textContent = '';
+  cur.style.display = 'inline-block';
+  let i = 0;
+  function tick() {
+    if (i < text.length) {
+      el.textContent += text[i];
+      i++;
+      setTimeout(tick, 24 + Math.random() * 14);
+    } else {
+      cur.style.display = 'none';
+      if (cb) cb();
+    }
+  }
+  tick();
+}
+
+function storyFullNext() {
+  const scene = currentStory.scenes[currentSceneId];
+  if (scene && scene.next) {
+    showStoryFullScene(scene.next);
+  } else {
+    finishStoryFull();
+  }
+}
+
+function finishStoryFull() {
+  // 添加场景自带奖励
+  const finalScene = currentStory.scenes[currentSceneId];
+  if (finalScene && finalScene.endRewards) {
+    finalScene.endRewards.forEach(r => currentStoryRewards.push(r));
+  }
+  
+  // 添加剧情整体奖励
+  if (currentStory.endRewards) {
+    currentStory.endRewards.forEach(r => currentStoryRewards.push(r));
+  }
+  
+  // ★ 统一结算：遍历所有奖励记录，实际扣除/添加资源
+  let affTotal = 0;
+  let moneyTotal = 0;
+  let rewardMessages = [];
+  
+  currentStoryRewards.forEach(reward => {
+    if (reward.type === 'aff') {
+      affTotal += reward.value;
+    } else if (reward.type === 'money') {
+      moneyTotal += reward.value;
+    } else if (reward.type === 'item') {
+      addItem(reward.itemId);
+      rewardMessages.push(`获得：${reward.itemName || reward.itemId}`);
+    } else if (reward.type === 'ingr') {
+      // 获得食材
+      if (reward.itemId) {
+        addIngr(reward.itemId, reward.qty || 1);
+        const def = INGR_DB[reward.itemId];
+        rewardMessages.push(`获得食材：${def?.name || reward.itemId} x${reward.qty || 1}`);
+      }
+    } else if (reward.type === 'ingrCost') {
+      // ★ 统一扣除食材
+      if (reward.itemId) {
+        const entry = getIngr(reward.itemId);
+        if (entry) {
+          entry.qty -= reward.qty;
+          if (entry.qty <= 0) {
+            G.ingr = G.ingr.filter(x => x.id !== reward.itemId);
+          }
+        }
+        const def = INGR_DB[reward.itemId];
+        rewardMessages.push(`消耗食材：${def?.name || reward.itemId} x${reward.qty}`);
+      }
+    } else if (reward.type === 'itemCost') {
+      // ★ 统一扣除道具
+      if (reward.itemId) {
+        for (let i = 0; i < reward.qty; i++) {
+          const idx = G.inv.findIndex(x => x.id === reward.itemId);
+          if (idx !== -1) {
+            G.inv.splice(idx, 1);
+          }
+        }
+        const def = ITEM_DB[reward.itemId];
+        rewardMessages.push(`消耗道具：${def?.name || reward.itemId} x${reward.qty}`);
+      }
+    }
+  });
+  
+  if (affTotal !== 0) {
+    addAff(affTotal);
+    rewardMessages.push(`好感 ${affTotal >= 0 ? '+' : ''}${(affTotal * 0.1).toFixed(1)}`);
+  }
+  if (moneyTotal !== 0) {
+    addMoney(moneyTotal);
+    rewardMessages.push(`$${moneyTotal >= 0 ? '+' : ''}${moneyTotal.toFixed(2)}`);
+  }
+  if (currentStoryCtx.rewardText) {
+    rewardMessages.push(currentStoryCtx.rewardText);
+  }
+  
+  // 显示结局总结
+  document.getElementById('story-full-next').style.display = 'none';
+  document.getElementById('story-full-choices').innerHTML = '';
+  document.getElementById('story-full-end').style.display = 'block';
+  const summaryDiv = document.getElementById('story-rewards-summary');
+  if (rewardMessages.length > 0) {
+    summaryDiv.innerHTML = rewardMessages.map(m => `<div>✦ ${m}</div>`).join('');
+  } else {
+    summaryDiv.innerHTML = '<div>✦ 没有特别的变化</div>';
+  }
+  
+  // 保存
+  save();
+  
+  // 不可重复的剧情进行收录（传入路径）
+  if (!currentStory.repeatable && !storyLog.some(entry => entry.storyId === currentStory.id)) {
+    addToStoryLog(currentStory.id, currentStoryPath);
+  }
+  if (!G.met) {
+    G.met = true;
+    save();
+  }
+}
+
+
+
+function closeStoryFullscreen() {
+  document.getElementById('story-fullscreen').style.display = 'none';
+  // 返回剧情页面
+  tab('story');
+  renderStoryPage();
+}
+
+// 修改原有的 startStory 函数
+function startStory() {
+  let storyId;
+  if (!G.met) { 
+    // 第一次：找那一天池的剧情，或者直接用firstMeet_demo
+    const pool = getPool();
+    const keys = pool.keys;
+    if (keys.length) {
+      storyId = keys[Math.floor(Math.random() * keys.length)];
+    } else {
+      toast('那一天章节还没有剧情，请先填写！');
+      return;
+    }
+    G.met = true;
+    save(); 
+  } else {
+    const pool = getPool();
+    const keys = pool.keys;
+    if (!keys.length) { 
+      toast('当前好感池还没有剧情！'); 
+      return; 
+    }
+    storyId = keys[Math.floor(Math.random() * keys.length)];
+  }
+  const story = STORIES[storyId];
+  if (!story) {
+    toast('剧情加载失败');
+    return;
+  }
+  startStoryFull(story.id);
+}
+  // 📝 添加更多剧情，下次一定做。
 
 // ─── 送礼效果 ─────────────────────────────────────────
 function getGiftEffect(item, aff) {
@@ -1022,8 +1864,11 @@ function getGiftEffect(item, aff) {
     "tiramisu": { delta: 12, msg: "「提拉米苏……」蝙蝠侠的眼神柔和了一瞬。" },
     "smores_pie": { delta: 10, msg: "蝙蝠侠看了一眼棉花糖派……等等，他是把耳麦关掉了吗？" },
     "bolognese": { delta: 12, msg: "蝙蝠侠卷起一叉子意面，看上去很优雅。" },
-    "green_bean_casserole": { delta: 8, msg: "「青豆砂锅……还可以。」蝙蝠侠面无表情地说。" },
-    "cornbread": { delta: 7, msg: "蝙蝠侠掰了一块玉米面包，默默吃完了。" }
+    "green_bean_casserole": { delta: 8, msg: "「青豆砂锅……还可以。」蝙蝠侠看上去对这份蔬菜制品适应良好。" },
+    "cornbread": { delta: 7, msg: "蝙蝠侠掰了一块玉米面包，默默吃完了。" },
+     "cheese_burger": { delta: 10, msg: "蝙蝠侠咬了一口汉堡，蝙蝠嚼嚼，蝙蝠满意。" },
+     "tomato_egg_rice": { delta: 8, msg: "「番茄炒蛋？」蝙蝠侠看了克拉克一眼，蹲在楼顶慢慢吃完了。" },
+     "garlic_chicken": { delta: 15, msg: "两个人在滴水兽上分食了烤鸡——准确来说，是超人飘在空中眼巴巴看着，啃了鸡骨架，蝙蝠霸占滴水兽摄入了美味的鸡腿鸡翅鸡胸肉……" }
   };
   
   let baseDelta = 0;
@@ -1114,7 +1959,7 @@ function getSellPrice(item) {
 //   next: 下一幕id，null=序章结束，进入游戏
 //   choices: 有选项时填（选项可以影响初始好感度）
 const INTRO_STORY = {
-  title: "黏糊糊的初遇",  // ← 改这里
+  title: "-降临-",  // ← 改这里
   start: "i1",
   scenes: {
     // ── 📝 在这里填写你的开场对话 ──
@@ -1140,8 +1985,50 @@ const INTRO_STORY = {
     "i1": {
       speaker: "narrator",
       name: "旁白",
-      text: "这里本来有一段震撼X压抑的对话和选项，但是不想显得那么急色，我删掉了。新剧本正在生成。（ps图片也在绘制）",
-      next: "null"
+      text: "世界是什么颜色？大部分时候，在幼年克拉克的眼睛里，是黑色的。孤独地在宇宙里漂泊的记忆浅薄，留下的只有一些挥之不去的情绪……",
+      next: "i2"
+    },
+    "i2": {
+      speaker: "Martha",
+      name: "玛莎",
+      text: "“唉，你又要回大都会了。真是的，你最近的假期是不是变短了？”",
+      next: "i3"
+    },
+      "i3": {
+      speaker: "Clark",
+      name: "克拉克",
+      text: "“哎呀，报社最近比较忙嘛。”克拉克嘿嘿傻笑。“而且我回来很容易啊！”",
+      next: "i4"
+    },
+        "i4": {
+      speaker: "Martha",
+      name: "玛莎",
+      text: "“这能一样吗？……嗯，不过，你找到「那个人」了？”",
+      next: "i5"
+  },
+  "i5": {
+      speaker: "narrator",
+      name: "旁白",
+      text: "克拉克很明显地愣了一下，很久很久，才露出来一个大大的笑容：",
+      next: "i6"
+    },
+     "i6": {
+      speaker: "Clark",
+      name: "克拉克",
+      text: "“对……我找到了！”",
+      next: "i7"
+    },
+     "i7": {
+      speaker: "Martha",
+      name: "玛莎",
+      text: "玛莎只是很温和地看着自己的孩子。“那就好……”",
+      next: "i8"
+      },
+      "i8": {
+      speaker: "narrator",
+      name: "旁白",
+      text: "看着现在如此高大漂亮的克拉克，玛莎眼底却永远只能映射出那一枚坠落航仓里面的小小身影——用尚且稚嫩触手死死裹住自己的孩子，他的蓝眼睛那么漂亮，他的一切都如此不同寻常——玛莎和乔纳森从决定收养这个来自星星的孩子的时候，就知道克拉克的人生注定孤独而不凡。而现在，玛莎想要她的孩子得到幸福……克拉克值得幸福。",
+      next: null
     },
   }
 };
@@ -1189,6 +2076,7 @@ const G = {
   lastExplore: _s?.lastExplore ?? 0,
   lastMarket:  _s?.lastMarket  ?? 0,
   marketStock: _s?.marketStock ?? [],  // 当前超市上架的id数组
+  marketStockQty: _s?.marketStockQty ?? {},  // 超市商品库存 { id: remainingQty }
   introDone:   _s?.introDone   ?? false,
   ck:  { recipe:null, round:0, litCells:[], hitCount:0, timer:null, running:false },
   ev:  { event:null,  round:0, litCells:[], hitCount:0, timer:null, running:false },
@@ -1243,10 +2131,21 @@ function showIntroScene(id){
   document.getElementById('intro-spk').textContent=sc.name||'';
   document.getElementById('intro-choices').innerHTML='';
   document.getElementById('intro-next').style.display='none';
+  // 处理图片显示
+  const imgArea = document.getElementById('intro-img-area');
+  if (sc.image) {
+    imgArea.classList.remove('hidden');
+    // 📌 如果设置了 image 字段，在这里插入图片：
+    // imgArea.innerHTML = '<img src="' + sc.image + '" alt="剧情插图" style="max-width:100%;">';
+  } else {
+    imgArea.classList.add('hidden');
+  }
+  // 防御：把字符串"null"当作真正的null处理
+  const nextId = (sc.next === 'null' || sc.next === 'undefined') ? null : sc.next;
   introTypeText(sc.text, ()=>{
     if(sc.choices?.length){
       showIntroChoices(sc.choices);
-    } else if(sc.next){
+    } else if(nextId){
       document.getElementById('intro-next').style.display='block';
     } else {
       // next是null，序章结束
@@ -1273,7 +2172,8 @@ function showIntroChoices(choices){
 
 function introNext(){
   const sc=INTRO_STORY.scenes[G.intro.sceneId];
-  if(sc?.next) showIntroScene(sc.next);
+  const nextId = sc?.next === 'null' || sc?.next === 'undefined' ? null : sc?.next;
+  if(nextId) showIntroScene(nextId);
   else finishIntro();
 }
 
@@ -1303,7 +2203,7 @@ function introTypeText(text, cb){
 }
 
 // ── Tab ───────────────────────────────────────────────
-const TABS=['kitchen','inv','market','explore','story'];
+const TABS=['kitchen','inv','market','explore','story','about'];
 function tab(name){
   TABS.forEach((t,i)=>{
     document.querySelectorAll('.nt')[i].classList.toggle('on',t===name);
@@ -1315,7 +2215,36 @@ function tab(name){
   if(name==='market')  renderMarket();
   if(name==='explore') renderExplorePage();
   if(name==='story')   renderStoryPage();
+  if(name==='about')   renderUpdateLog();
 }
+
+// 渲染更新日志
+function renderUpdateLog() {
+  const container = document.getElementById('update-log-list');
+  if (!container) return;
+  
+  if (UPDATE_LOGS.length === 0) {
+    container.innerHTML = '<div style="color:var(--dm); text-align:center; padding:16px;">暂无更新记录</div>';
+    return;
+  }
+  
+  container.innerHTML = UPDATE_LOGS.map((log, index) => `
+    <div style="padding:6px 0; border-bottom:1px solid var(--bd);">
+      ${index + 1}. ${log}
+    </div>
+  `).join('');
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+
 
 // ══ 食材系统 ══════════════════════════════════════════
 
@@ -1580,6 +2509,25 @@ function refreshMarketStock(){
   const pool=[...MARKET_POOL].sort(()=>Math.random()-.5);
   const count=10+Math.floor(Math.random()*11);
   G.marketStock=pool.slice(0,count);
+  // 为每个商品生成随机库存
+  G.marketStockQty = {};
+  G.marketStock.forEach(id => {
+    const def = INGR_DB[id];
+    if (def) {
+      if (def.unit === 'pc') {
+        // 按个计算的商品：库存 1~5 个
+        G.marketStockQty[id] = 1 + Math.floor(Math.random() * 5);
+      } else if (def.unit === 'g') {
+        // 按克计算的商品：库存 1~3 份
+        G.marketStockQty[id] = 1 + Math.floor(Math.random() * 3);
+      } else if (def.unit === 'ml') {
+        // 按毫升计算的商品：库存 1~3 份
+        G.marketStockQty[id] = 1 + Math.floor(Math.random() * 3);
+      } else {
+        G.marketStockQty[id] = 1;
+      }
+    }
+  });
   G.lastMarket=Date.now();
   save();
 }
@@ -1598,24 +2546,37 @@ function renderMarket(){
   const grid=document.getElementById('mkt-grid'); grid.innerHTML='';
   G.marketStock.forEach(id=>{
     const def=INGR_DB[id]; if(!def) return;
-    const cantAfford=G.money<def.price;
+    const qty = G.marketStockQty[id] ?? 1;
+    const soldOut = qty <= 0;
+    const cantAfford = G.money < def.price;
+    const disabled = soldOut || cantAfford;
     const card=document.createElement('div');
-    card.className='mkt-item'+(cantAfford?' cant':'');
+    card.className='mkt-item'+(disabled?' cant':'');
     card.innerHTML=`<div class="mkt-ic">${def.icon}</div>
       <div class="mkt-nm">${def.name}</div>
       <div class="mkt-price">$${def.price.toFixed(2)}</div>
-      <div class="mkt-desc">${def.desc}</div>`;
-    if(!cantAfford) card.onclick=()=>buyIngr(id,def);
+      <div class="mkt-desc">${def.desc}</div>
+      <div style="font-size:.55rem;color:var(--dm);margin-top:3px;">${soldOut ? '已售罄' : '库存: ' + qty + (def.unit === 'pc' ? '个' : '份')}</div>`;
+    if(!disabled) card.onclick=()=>buyIngr(id,def);
     grid.appendChild(card);
   });
 }
 
 function buyIngr(id, def){
   if(G.money<def.price){ toast(`💸 余额不足（需要 $${def.price.toFixed(2)}）`); return; }
+  // 检查库存
+  const qty = G.marketStockQty[id] ?? 1;
+  if (qty <= 0) { toast('已售罄'); return; }
   const ok=addIngr(id, def.stackSize);
   if(ok===false) return; // 食材栏满
   addMoney(-def.price);
-  renderMarket(); // 刷新超市（更新余额不足灰色）
+  // 减少库存
+  G.marketStockQty[id] = qty - 1;
+  if (G.marketStockQty[id] <= 0) {
+    G.marketStockQty[id] = 0;
+  }
+  save();
+  renderMarket(); // 刷新超市（更新余额不足灰色和库存显示）
   toast(`${def.icon} 购入${def.name} −$${def.price.toFixed(2)}`);
 }
 
@@ -1899,7 +2860,7 @@ function modalAction(action){
 }
 
 // ══ 出游系统 ══════════════════════════════════════════
-const EXPLORE_CD_MS = 60*1000; // 现实1小时
+const EXPLORE_CD_MS = 60*15*1000; // 现实15分钟
 let evGame=null;
 
 function renderExplorePage(){
@@ -2067,35 +3028,59 @@ function finishExplore(){
 // ── 剧情系统 ──────────────────────────────────────────
 function getPool(){
   const a=G.aff;
-  const keys=Object.keys(STORIES).filter(k=>k!=='firstMeet');
-  const buckets=[
-    keys.filter(k=>STORIES[k].poolTag==='陌生人'),
-    keys.filter(k=>STORIES[k].poolTag==='试探期'),
-    keys.filter(k=>STORIES[k].poolTag==='暧昧期'),
-    keys.filter(k=>STORIES[k].poolTag==='亲密期'),
-  ];
-  const defs=[
+  // 获取所有剧情（排除已收录的不可重复剧情）
+const all = Object.keys(STORIES).filter(k => {
+  const story = STORIES[k];
+  // 排除已收录的不可重复剧情
+  if (!story.repeatable && storyLog.some(entry => entry.storyId === k)) return false;
+  return true;
+});
+  
+  // 按好感度分组
+  const buckets = {
+    "那一天": all.filter(k => STORIES[k].poolTag === '那一天'),
+    "陌生人": all.filter(k => STORIES[k].poolTag === '陌生人'),
+    "试探期": all.filter(k => STORIES[k].poolTag === '试探期'),
+    "暧昧期": all.filter(k => STORIES[k].poolTag === '暧昧期'),
+    "亲密期": all.filter(k => STORIES[k].poolTag === '亲密期')
+  };
+  
+  const defs = [
+    {label:'那一天',range:'0',cls:''},
     {label:'陌生人',range:'0—20',cls:''},
     {label:'试探期',range:'20—50',cls:'p1'},
     {label:'暧昧期',range:'50—80',cls:'p2'},
     {label:'亲密期',range:'80—100',cls:'p3'},
   ];
-  const idx=a<20?0:a<50?1:a<80?2:3;
-  return {def:defs[idx],keys:buckets[idx],allDefs:defs,allBuckets:buckets};
+  
+  let idx;
+  if (!G.met) idx = 0;
+  else if (a < 20) idx = 1;
+  else if (a < 50) idx = 2;
+  else if (a < 80) idx = 3;
+  else idx = 4;
+  
+  const keyMap = ['那一天', '陌生人', '试探期', '暧昧期', '亲密期'];
+  
+  return {def:defs[idx], keys:buckets[keyMap[idx]] || [], allDefs:defs, allBuckets:[buckets.那一天, buckets.陌生人, buckets.试探期, buckets.暧昧期, buckets.亲密期]};
 }
 function renderStoryPage(){
-  const {def,allDefs,allBuckets}=getPool();
-  document.getElementById('pool-tag').textContent=G.met?def.label:'初见';
+  const pool = getPool();
+  const def = pool.def;
+  const allDefs = pool.allDefs;
+  const allBuckets = pool.allBuckets;
+  document.getElementById('pool-tag').textContent=G.met?def.label:'那一天';
   document.getElementById('pool-tag').className='pool-tag '+(G.met?def.cls:'');
   document.getElementById('st-title').textContent='准备开始';
   document.getElementById('st-desc').textContent=G.met
     ?`当前好感度 ${G.aff} · 将从「${def.label}」池随机抽取`
-    :'第一次游玩将载入初见章节';
+    :'第一次游玩将载入那一天章节';
   document.getElementById('dlg-box').classList.remove('on');
   document.getElementById('choices').innerHTML='';
   document.getElementById('btn-next').style.display='none';
   document.getElementById('btn-start').style.display='block';
   document.getElementById('btn-start').textContent='开始剧情';
+  // 直接用HTML onclick属性，不用动态绑定，避免script加载顺序问题
   const pg=document.getElementById('pool-grid'); pg.innerHTML='';
   allDefs.forEach((d,i)=>{
     const c=document.createElement('div'); c.className='pg-card';
@@ -2103,23 +3088,7 @@ function renderStoryPage(){
     pg.appendChild(c);
   });
 }
-function startStory(){
-  let story;
-  if(!G.met){ story=STORIES.firstMeet; G.met=true; save(); }
-  else {
-    const {keys}=getPool();
-    if(!keys.length){ toast('当前好感池还没有剧情！'); return; }
-    story=STORIES[keys[Math.floor(Math.random()*keys.length)]];
-  }
-  G.st={story,sceneId:story.start,typing:false};
-  document.getElementById('pool-tag').textContent=story.poolTag||'剧情';
-  document.getElementById('pool-tag').className='pool-tag '+(story.poolCls||'');
-  document.getElementById('st-title').textContent=story.title;
-  document.getElementById('st-desc').textContent=story.desc;
-  document.getElementById('btn-start').style.display='none';
-  document.getElementById('dlg-box').classList.add('on');
-  showScene(story.start);
-}
+
 function showScene(id){
   const story=G.st.story;
   if(!story||!story.scenes[id]){ endStory(); return; }
@@ -2173,6 +3142,7 @@ function addItem(id){
 setAff(G.aff);
 setMoney(G.money);
 renderRecipes();
+loadStoryLog(); 
 
 // 默认隐藏主界面，等过完注意事项+序章再显示
 document.querySelector('.hd').style.display='none';
@@ -2186,7 +3156,7 @@ function beginEvent(){
 }
 </script>
 <!-- 开发者外挂菜单（点右下角3次呼出） -->
-<div id="dev-menu" style="position:fixed; bottom:20px; right:20px; background:#1a1816; color:white; padding:16px; border-radius:12px; z-index:1000; display:none; flex-direction:column; gap:8px; min-width:200px; box-shadow:0 4px 12px rgba(0,0,0,0.3); max-height:80vh; overflow-y:auto;">
+<div id="dev-menu" style="position:fixed; bottom:20px; right:20px; background:#1a1816; color:white; padding:16px; border-radius:12px; z-index:9999; display:none; flex-direction:column; gap:8px; min-width:200px; box-shadow:0 4px 12px rgba(0,0,0,0.3); max-height:80vh; overflow-y:auto;">
   <div style="font-size:13px; margin-bottom:4px; text-align:center;">🔧 开发者工具</div>
   
   <!-- 基础作弊 -->
@@ -2241,11 +3211,465 @@ function beginEvent(){
 
   <div style="height:1px; background:#444; margin:4px 0;"></div>
   
-  <button onclick="localStorage.removeItem('sb_v5.4'); location.reload();" style="padding:8px 12px; border:none; border-radius:6px; background:#555; color:white;">🗑️ 重置存档</button>
+<button onclick="localStorage.removeItem('sb_v5.4'); localStorage.removeItem('story_log_v1'); location.reload();" style="padding:8px 12px; border:none; border-radius:6px; background:#555; color:white;">🗑️ 重置存档</button>
   <div style="font-size:10px; text-align:center; margin-top:4px; color:#aaa;">点右下角3次呼出/关闭</div>
 </div>
 
 <script>
+  
+// 当前抽中的待确认剧情
+let pendingStory = null;
+
+// 抽选剧情并显示预览弹窗
+function drawStory() {
+  // 获取当前好感度对应的剧情池
+  let storyId;
+  if (!G.met) { 
+    // 第一次：找那一天池的剧情
+    const pool = getPool();
+    const keys = pool.keys;
+    if (keys.length) {
+      storyId = keys[Math.floor(Math.random() * keys.length)];
+    } else {
+      toast('那一天章节还没有剧情，请先填写！');
+      return;
+    }
+  } else {
+    const pool = getPool();
+    const keys = pool.keys;
+    if (!keys.length) { 
+      toast('当前好感池还没有剧情！'); 
+      return; 
+    }
+    storyId = keys[Math.floor(Math.random() * keys.length)];
+  }
+  
+  const story = STORIES[storyId];
+  if (!story) {
+    toast('剧情加载失败');
+    return;
+  }
+  
+  pendingStory = story;
+  
+  // 分析剧情中所有需要消耗的资源
+  const costs = analyzeStoryCosts(story);
+  
+  // 检查是否满足条件
+  const canAfford = checkCanAffordStory(story, costs);
+  
+  // 显示预览弹窗
+  showStoryPreviewModal(story, costs, canAfford);
+}
+
+// 分析剧情中所有的消耗（金钱、好感、食材、道具）
+function analyzeStoryCosts(story) {
+  // 存储每条路径的消耗（深度优先遍历）
+  let pathResults = [];
+  
+  function traversePath(sceneId, currentCosts, visited = new Set()) {
+    if (visited.has(sceneId)) return;
+    visited.add(sceneId);
+    
+    const scene = story.scenes[sceneId];
+    if (!scene) return;
+    
+    // 复制当前路径的消耗
+    let newCosts = {
+      moneyCost: currentCosts.moneyCost,
+      affCost: currentCosts.affCost,
+      hasPositiveAff: currentCosts.hasPositiveAff,
+      ingrCost: { ...currentCosts.ingrCost },
+      itemCost: { ...currentCosts.itemCost },
+      itemGain: { ...currentCosts.itemGain },
+      ingrGain: { ...currentCosts.ingrGain }
+    };
+    
+    // 检查场景自带的金钱变化
+    if (scene.affDelta && scene.affDelta > 0) {
+      newCosts.hasPositiveAff = true;
+    }
+    
+    // 检查 endRewards 中的消耗
+    if (scene.endRewards && scene.endRewards.length) {
+      scene.endRewards.forEach(reward => {
+        if (reward.type === 'money' && reward.value < 0) {
+          newCosts.moneyCost += Math.abs(reward.value);
+        }
+        if (reward.type === 'money' && reward.value > 0) {
+          // 获得金钱，不计入消耗
+        }
+        if (reward.type === 'aff' && reward.value < 0) {
+          newCosts.affCost += Math.abs(reward.value);
+        }
+        if (reward.type === 'aff' && reward.value > 0) {
+          newCosts.hasPositiveAff = true;
+        }
+        if (reward.type === 'item' && reward.itemId) {
+          newCosts.itemGain[reward.itemId] = (newCosts.itemGain[reward.itemId] || 0) + 1;
+        }
+        if (reward.type === 'food' && reward.itemId) {
+          newCosts.itemGain[reward.itemId] = (newCosts.itemGain[reward.itemId] || 0) + 1;
+        }
+        if (reward.type === 'ingr' && reward.itemId) {
+          newCosts.ingrGain[reward.itemId] = (newCosts.ingrGain[reward.itemId] || 0) + (reward.qty || 1);
+        }
+        if (reward.type === 'ingrCost' && reward.itemId) {
+          newCosts.ingrCost[reward.itemId] = (newCosts.ingrCost[reward.itemId] || 0) + (reward.qty || 1);
+        }
+        if (reward.type === 'itemCost' && reward.itemId) {
+          newCosts.itemCost[reward.itemId] = (newCosts.itemCost[reward.itemId] || 0) + (reward.qty || 1);
+        }
+      });
+    }
+    
+    // 如果是终点场景（没有next且没有choices），记录这条路径的消耗
+    const hasChoices = scene.choices && scene.choices.length > 0;
+    const hasNext = scene.next && scene.next !== sceneId;
+    
+    if (!hasChoices && !hasNext) {
+      // 到达终点，记录这条路径的消耗
+      pathResults.push({
+        moneyCost: newCosts.moneyCost,
+        affCost: newCosts.affCost,
+        hasPositiveAff: newCosts.hasPositiveAff,
+        ingrCost: newCosts.ingrCost,
+        itemCost: newCosts.itemCost,
+        itemGain: newCosts.itemGain,
+        ingrGain: newCosts.ingrGain
+      });
+      return;
+    }
+    
+    // 如果有选项，分别遍历每个选项分支
+    if (hasChoices) {
+      scene.choices.forEach(choice => {
+        let choiceCosts = {
+          moneyCost: newCosts.moneyCost,
+          affCost: newCosts.affCost,
+          hasPositiveAff: newCosts.hasPositiveAff,
+          ingrCost: { ...newCosts.ingrCost },
+          itemCost: { ...newCosts.itemCost },
+          itemGain: { ...newCosts.itemGain },
+          ingrGain: { ...newCosts.ingrGain }
+        };
+        
+        // 模拟选项的effect
+        let tempCtx = { moneyCost: 0, rewardText: '', itemsGained: [], ingrCost: {}, itemCost: {} };
+        if (choice.effect) {
+          choice.effect(tempCtx);
+        }
+        if (tempCtx.moneyCost > 0) {
+          choiceCosts.moneyCost += tempCtx.moneyCost;
+        }
+        if (choice.affDelta && choice.affDelta < 0) {
+          choiceCosts.affCost += Math.abs(choice.affDelta);
+        }
+        if (choice.affDelta && choice.affDelta > 0) {
+          choiceCosts.hasPositiveAff = true;
+        }
+        if (tempCtx.ingrCost) {
+          Object.keys(tempCtx.ingrCost).forEach(ingId => {
+            choiceCosts.ingrCost[ingId] = (choiceCosts.ingrCost[ingId] || 0) + tempCtx.ingrCost[ingId];
+          });
+        }
+        if (tempCtx.itemCost) {
+          Object.keys(tempCtx.itemCost).forEach(itemId => {
+            choiceCosts.itemCost[itemId] = (choiceCosts.itemCost[itemId] || 0) + tempCtx.itemCost[itemId];
+          });
+        }
+        if (tempCtx.itemsGained) {
+          tempCtx.itemsGained.forEach(item => {
+            choiceCosts.itemGain[item] = (choiceCosts.itemGain[item] || 0) + 1;
+          });
+        }
+        
+        if (choice.next) {
+          traversePath(choice.next, choiceCosts, new Set(visited));
+        } else {
+          // 选项没有next，这条分支结束
+          pathResults.push(choiceCosts);
+        }
+      });
+    }
+    
+    // 如果有普通next（无选项时）
+    if (!hasChoices && hasNext) {
+      traversePath(scene.next, newCosts, visited);
+    }
+  }
+  
+  // 开始遍历
+  traversePath(story.start, {
+    moneyCost: 0,
+    affCost: 0,
+    hasPositiveAff: false,
+    ingrCost: {},
+    itemCost: {},
+    itemGain: {},
+    ingrGain: {}
+  });
+  
+  // 如果没有记录任何路径，返回空
+  if (pathResults.length === 0) {
+    return {
+      moneyCost: 0,
+      affCost: 0,
+      hasPositiveAff: false,
+      ingrCost: {},
+      itemCost: {},
+      itemGain: {},
+      ingrGain: {}
+    };
+  }
+  
+  // ★ 取所有路径中消耗的最大值
+  let maxMoneyCost = 0;
+  let maxAffCost = 0;
+  let hasAnyPositiveAff = false;
+  let maxIngrCost = {};
+  let maxItemCost = {};
+  let mergedItemGain = {};
+  let mergedIngrGain = {};
+  
+  pathResults.forEach(result => {
+    // 取最大金钱消耗
+    if (result.moneyCost > maxMoneyCost) maxMoneyCost = result.moneyCost;
+    // 取最大好感消耗
+    if (result.affCost > maxAffCost) maxAffCost = result.affCost;
+    // 是否有正面好感
+    if (result.hasPositiveAff) hasAnyPositiveAff = true;
+    
+    // 食材消耗：取最大值
+    Object.keys(result.ingrCost).forEach(ingId => {
+      const qty = result.ingrCost[ingId];
+      if (!maxIngrCost[ingId] || qty > maxIngrCost[ingId]) {
+        maxIngrCost[ingId] = qty;
+      }
+    });
+    
+    // 道具消耗：取最大值
+    Object.keys(result.itemCost).forEach(itemId => {
+      const qty = result.itemCost[itemId];
+      if (!maxItemCost[itemId] || qty > maxItemCost[itemId]) {
+        maxItemCost[itemId] = qty;
+      }
+    });
+    
+    // 物品获得：合并（预览时显示可能获得的物品）
+    Object.keys(result.itemGain).forEach(itemId => {
+      mergedItemGain[itemId] = Math.max(mergedItemGain[itemId] || 0, result.itemGain[itemId]);
+    });
+    
+    // 食材获得：合并
+    Object.keys(result.ingrGain).forEach(ingId => {
+      mergedIngrGain[ingId] = Math.max(mergedIngrGain[ingId] || 0, result.ingrGain[ingId]);
+    });
+  });
+  
+  return {
+    moneyCost: maxMoneyCost,
+    affCost: maxAffCost,
+    hasPositiveAff: hasAnyPositiveAff,
+    ingrCost: maxIngrCost,
+    itemCost: maxItemCost,
+    itemGain: mergedItemGain,
+    ingrGain: mergedIngrGain
+  };
+}
+  
+
+
+// 检查是否可以开始剧情
+function checkCanAffordStory(story, costs) {
+  // 如果还没见过蝙蝠侠，第一次剧情不检查消耗
+  if (!G.met) return true;
+  
+  // 检查金钱（不足才阻止）
+  if (costs.moneyCost > 0 && G.money < costs.moneyCost) return false;
+  
+  // ★ 好感度不再作为限制条件（好感可以为负）
+
+  // 检查食材
+  if (costs.ingrCost) {
+    for (let ingId in costs.ingrCost) {
+      const needQty = costs.ingrCost[ingId];
+      const entry = getIngr(ingId);
+      if (!entry || entry.qty < needQty) return false;
+    }
+  }
+  
+  // 检查道具
+  if (costs.itemCost) {
+    for (let itemId in costs.itemCost) {
+      const needQty = costs.itemCost[itemId];
+      const count = G.inv.filter(x => x.id === itemId).length;
+      if (count < needQty) return false;
+    }
+  }
+  
+  return true;
+}
+
+// 显示剧情预览弹窗
+function showStoryPreviewModal(story, costs, canAfford) {
+  // 创建弹窗（如果不存在）
+  let modal = document.getElementById('story-preview-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'story-preview-modal';
+    modal.className = 'modal-bg';
+    modal.style.alignItems = 'center';
+    modal.innerHTML = `
+      <div class="modal" style="border-radius:12px; max-width:400px; margin:20px;">
+        <div class="modal-item-row" style="border-bottom:none; margin-bottom:8px;">
+          <div class="modal-ic" id="preview-icon" style="font-size:2rem;">📖</div>
+          <div>
+            <div class="modal-item-name" id="preview-title" style="font-size:1rem;"></div>
+            <div class="modal-item-meta" id="preview-tag" style="font-size:.65rem;"></div>
+          </div>
+        </div>
+        <div id="preview-desc" style="font-size:.78rem; color:var(--dm); line-height:1.7; margin-bottom:16px; padding:8px 0;"></div>
+        <div id="preview-costs" style="background:var(--f); padding:12px; border-radius:6px; margin-bottom:16px; font-size:.7rem;"></div>
+        <div class="btns" style="gap:12px;">
+          <button id="preview-cancel" class="btn btn-o" style="flex:1;">取消</button>
+          <button id="preview-confirm" class="btn btn-s" style="flex:1;">开始剧情</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+  
+  // 填充内容
+  document.getElementById('preview-title').textContent = story.title;
+  document.getElementById('preview-tag').textContent = story.poolTag || '剧情';
+  document.getElementById('preview-desc').textContent = story.desc;
+  
+  // 显示消耗信息
+  const costsDiv = document.getElementById('preview-costs');
+
+  // ── 第一区：开始需要满足（硬性条件）──
+  let requireHtml = '';
+  let hasRequire = false;
+
+  if (costs.moneyCost > 0) {
+    const ok = G.money >= costs.moneyCost;
+    requireHtml += `<div style="color:${ok?'var(--dk)':'var(--re)'}">金钱：$${costs.moneyCost.toFixed(2)}${ok?'':' ← 不足'}</div>`;
+    hasRequire = true;
+  }
+  if (costs.ingrCost && Object.keys(costs.ingrCost).length > 0) {
+    Object.keys(costs.ingrCost).forEach(ingId => {
+      const qty = costs.ingrCost[ingId];
+      const def = INGR_DB[ingId];
+      const entry = getIngr(ingId);
+      const have = entry?.qty || 0;
+      const ok = have >= qty;
+      const unit = def?.unit === 'pc' ? '份' : (def?.unit || '');
+      requireHtml += `<div style="color:${ok?'var(--dk)':'var(--re)'}">食材：${def?.name || ingId} ×${qty}${unit}${ok?'':' ← 不足'}</div>`;
+      hasRequire = true;
+    });
+  }
+  if (costs.itemCost && Object.keys(costs.itemCost).length > 0) {
+    Object.keys(costs.itemCost).forEach(itemId => {
+      const qty = costs.itemCost[itemId];
+      const def = ITEM_DB[itemId];
+      const count = G.inv.filter(x => x.id === itemId).length;
+      const ok = count >= qty;
+      requireHtml += `<div style="color:${ok?'var(--dk)':'var(--re)'}">道具：${def?.name || itemId} ×${qty}${ok?'':' ← 不足'}</div>`;
+      hasRequire = true;
+    });
+  }
+
+  // ── 第二区：可能产生（预测，不显示数值）──
+  let maybeLines = [];
+  // 好感变化
+  const mayHaveAffUp = costs.hasPositiveAff;
+  const mayHaveAffDown = costs.affCost > 0;
+  if (mayHaveAffUp && mayHaveAffDown) maybeLines.push({ text:'好感度↑↓', type:'neutral' });
+  else if (mayHaveAffUp)   maybeLines.push({ text:'好感度↑', type:'gain' });
+  else if (mayHaveAffDown) maybeLines.push({ text:'好感度↓', type:'cost' });
+  // 金钱
+  if (costs.moneyCost > 0) maybeLines.push({ text:'金钱↓', type:'cost' });
+  if (costs.itemGain && Object.keys(costs.itemGain).length > 0) {
+    Object.keys(costs.itemGain).forEach(id => {
+      const def = ITEM_DB[id] || ITEM_DB[id];
+      maybeLines.push({ text:`${def?.name || id}↑`, type:'gain' });
+    });
+  }
+  if (costs.ingrGain && Object.keys(costs.ingrGain).length > 0) {
+    Object.keys(costs.ingrGain).forEach(id => {
+      const def = INGR_DB[id];
+      maybeLines.push({ text:`${def?.name || id}↑`, type:'gain' });
+    });
+  }
+
+  // ── 拼装HTML ──
+  let html = '';
+  if (hasRequire) {
+    html += `<div style="font-weight:500;margin-bottom:5px;font-size:.68rem;letter-spacing:.05em;">开始需要满足</div>`;
+    html += requireHtml;
+  }
+  if (maybeLines.length > 0) {
+    html += `<div style="font-weight:500;margin-top:${hasRequire?'10px':'0'};margin-bottom:5px;font-size:.68rem;letter-spacing:.05em;">可能产生</div>`;
+    html += maybeLines.map(l => {
+      const color = l.type==='gain'?'var(--gr)':l.type==='cost'?'var(--go)':'var(--dm)';
+      return `<span style="color:${color};margin-right:10px;">${l.text}</span>`;
+    }).join('');
+  }
+  if (!hasRequire && maybeLines.length === 0) {
+    html = `<div style="color:var(--gr);font-size:.72rem;">无消耗，随时可以开始</div>`;
+  }
+
+  costsDiv.innerHTML = html;
+  costsDiv.style.color = 'var(--dk)';
+
+  if (canAfford) {
+    document.getElementById('preview-confirm').disabled = false;
+    document.getElementById('preview-confirm').style.opacity = '1';
+    document.getElementById('preview-confirm').style.cursor = 'pointer';
+  } else {
+    document.getElementById('preview-confirm').disabled = true;
+    document.getElementById('preview-confirm').style.opacity = '0.5';
+    document.getElementById('preview-confirm').style.cursor = 'not-allowed';
+  }
+  
+  // 绑定按钮事件
+  const confirmBtn = document.getElementById('preview-confirm');
+  const cancelBtn = document.getElementById('preview-cancel');
+  
+  // 移除旧事件，防止重复绑定
+  const newConfirm = confirmBtn.cloneNode(true);
+  const newCancel = cancelBtn.cloneNode(true);
+  confirmBtn.parentNode.replaceChild(newConfirm, confirmBtn);
+  cancelBtn.parentNode.replaceChild(newCancel, cancelBtn);
+  
+  newConfirm.onclick = () => {
+    if (!canAfford) {
+      toast('无法开始：资源不足');
+      return;
+    }
+    // 关闭弹窗并开始剧情
+    modal.style.display = 'none';
+    startStoryFull(pendingStory.id);
+    pendingStory = null;
+  };
+  
+  newCancel.onclick = () => {
+    modal.style.display = 'none';
+    pendingStory = null;
+  };
+  
+  // 点击背景关闭
+  modal.onclick = (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      pendingStory = null;
+    }
+  };
+  
+  modal.style.display = 'flex';
+}
+  
 // 根据菜谱ID获取所需食材（精确数量）
 function getRecipeIngredients(recipeId) {
   const recipe = RECIPES.find(r => r.id === recipeId);
@@ -2409,7 +3833,7 @@ function resetExploreCD() {
   toast('🚶 出门冷却已重置，现在可以再次出门了！');
 }
 
-// 右下角点击3次呼出菜单
+// 右下角点击3次呼出菜单（capture阶段监听，穿透所有覆盖层）
 let devPressCount = 0, devTimer = null;
 
 document.addEventListener('click', function(e) {
@@ -2418,8 +3842,8 @@ document.addEventListener('click', function(e) {
   const w = window.innerWidth;
   const h = window.innerHeight;
   
-  // 右下角80x80区域
-  if (x > w - 80 && y > h - 80) {
+  // 右下角2x2cm区域
+  if (x > w - 200 && y > h - 200) {
     devPressCount++;
     clearTimeout(devTimer);
     devTimer = setTimeout(() => { devPressCount = 0; }, 800);
@@ -2429,7 +3853,57 @@ document.addEventListener('click', function(e) {
       devPressCount = 0;
     }
   }
-});
+}, true); // ← true = capture阶段，在任何元素处理之前先捕获，穿透全屏遮罩
 </script>
+<!-- 剧情收录弹窗 -->
+<div id="story-log-modal">
+  <div class="story-log-box">
+    <div class="story-log-header">
+      <span class="story-log-title">📖 剧情收录</span>
+      <span class="story-log-close" onclick="closeStoryLog()">✕</span>
+    </div>
+    <div class="story-log-list" id="story-log-list"></div>
+  </div>
+</div>
+
+<!-- 剧情阅读弹窗 -->
+<div id="story-reader-modal">
+  <div class="reader-box">
+    <div class="reader-header">
+      <span class="reader-title" id="reader-title"></span>
+      <span class="reader-close" onclick="closeStoryReader()">✕</span>
+    </div>
+    <div class="reader-content" id="reader-content"></div>
+    <div class="reader-footer">
+      <button class="reader-nav-btn" onclick="readerPrevPage()">◀ 上一篇</button>
+      <span class="reader-page-info" id="reader-page-info"></span>
+      <button class="reader-nav-btn" onclick="readerNextPage()">下一篇 ▶</button>
+    </div>
+  </div>
+</div>
+
+<!-- 剧情全屏页面 -->
+<div id="story-fullscreen">
+  <div class="story-full-wrap">
+    <div class="story-full-title" id="story-full-title"></div>
+    <div class="story-full-dlg">
+      <div class="story-full-spk" id="story-full-spk"></div>
+      <div class="story-full-txt">
+        <span id="story-full-typed"></span><span class="story-full-cur" id="story-full-cur" style="display:none"></span>
+      </div>
+      <!-- 📌 图片插入区域：在场景数据中设置 image 字段即可在此处显示图片 -->
+      <div class="story-img-area hidden" id="story-full-img-area">
+        <!-- 📌 在这里插入图片：<img src="图片路径" alt="描述" style="max-width:100%;"> -->
+      </div>
+    </div>
+    <div class="story-full-choices" id="story-full-choices"></div>
+    <button class="story-full-next" id="story-full-next" onclick="storyFullNext()">继续 ▶</button>
+    <div class="story-full-end" id="story-full-end">
+      <p>✨ 剧情结束 ✨</p>
+      <div id="story-rewards-summary" style="font-size:.7rem; color:var(--dm); margin-bottom:16px;"></div>
+      <button class="btn btn-s" onclick="closeStoryFullscreen()">关闭</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
