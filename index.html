@@ -497,7 +497,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--f);color:var(--bk);min-he
 <div id="warn-overlay">
   <div class="warn-box">
     <div class="warn-title">在开始或继续之前</div>
-    <div class="warn-sub">请阅读以下注意事项及公告（v 6.9.2)（更新日志：2026.5.26）</div>
+    <div class="warn-sub">请阅读以下注意事项及公告（v 6.9.3)（更新日志：2026.5.28）</div>
     <div class="warn-list">
       <div class="warn-item">
         <span class="warn-num">1</span>
@@ -1031,6 +1031,7 @@ const RECIPES = [
 
 // ══ 更新日志（修改这里就能更新公示板）══════════════════
 const UPDATE_LOGS = [
+  "【2026.5.28】修改了食材出售引擎。",
   "【2026.5.26】增加了做饭前准备按钮，新增菜品酸奶，新增了一个陌生人剧情，增加了图片预加载引擎，现在图片几乎可以做到秒出现！",
   "【2026.5.16】增加了开发者模式的退出按钮，缩小呼出范围。增加地点克拉克的公寓，增加星球日报突发事件。补全了新增菜品的图片。",
   "【2026.5.15】修复了大部分bug，增加了剧情，增加了序幕，增加了超市限量，洗衣液新增的菜谱，没有更新图片，剧情部分没有图片。",
@@ -2684,7 +2685,6 @@ function updateIngrSellHint(qty){
   const totalPrice = (item.pricePerUnit * qty).toFixed(2);
   document.getElementById('ingr-sell-hint').textContent = `预计 +$${totalPrice}`;
 }
-
 function setupIngrQuantityControls(){
   const input = document.getElementById('ingr-qty-input');
   const decBtn = document.getElementById('ingr-dec-btn');
@@ -2698,33 +2698,35 @@ function setupIngrQuantityControls(){
   decBtn.parentNode.replaceChild(newDecBtn, decBtn);
   incBtn.parentNode.replaceChild(newIncBtn, incBtn);
   
+  // 减号逻辑：如果减去步长后小于 0，就直接等于 0
   newDecBtn.onclick = () => {
     let val = parseFloat(input.value) || 0;
     let newVal = val - step;
-    if(newVal >= 0){
-      input.value = newVal;
-      updateIngrSellHint(newVal);
-    }
+    if(newVal < 0) newVal = 0; 
+    input.value = newVal;
+    updateIngrSellHint(newVal);
   };
   
+  // 加号逻辑：如果加上步长后超过最大库存，就直接等于最大库存
   newIncBtn.onclick = () => {
     let val = parseFloat(input.value) || 0;
     let newVal = val + step;
-    if(newVal <= maxQty){
-      input.value = newVal;
-      updateIngrSellHint(newVal);
-    }
+    if(newVal > maxQty) newVal = maxQty; 
+    input.value = newVal;
+    updateIngrSellHint(newVal);
   };
   
+  // 手动输入逻辑：只做上下限拦截，不再强制要求必须是步长的倍数
   input.onchange = () => {
     let val = parseFloat(input.value) || 0;
     if(val < 0) val = 0;
     if(val > maxQty) val = maxQty;
-    val = Math.floor(val / step) * step;
+    val = Math.floor(val); // 仅向下取整，防止玩家输入小数导致显示奇怪
     input.value = val;
     updateIngrSellHint(val);
   };
 }
+
 
 function ingrModalAction(action){
   const input = document.getElementById('ingr-qty-input');
